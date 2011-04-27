@@ -23,12 +23,12 @@ doMolecularData1DPops<-function(distance,pObs,nSamples){
   obj<-list(frame=data.frame(dist=distance,obsFreq=pObs,n=nSamples));
   obj$model.LL <- function(model.func){
     pEst=model.func(obj$frame$dist);
-res<-numeric(length(pEst));
-    for(iter in 1:(length(pEst))){
-      res[[iter]]<-sampleLikelihoodMolecularPop(pEst=pEst[[iter]],
-                                                pObs=obj$frame$obsFreq[[iter]],
-                                                N=obj$frame$n[[iter]]);
-    }
+##res<-numeric(length(pEst));
+  ##  for(iter in 1:(length(pEst))){
+      res<-sampleLikelihoodMolecularPop(pEst=as.numeric(pEst),
+                                        pObs=as.numeric(obj$frame$obsFreq),
+                                        N=as.numeric(obj$frame$n));
+    ##}
                                                 
     result<-sum(res);
     if(is.na(result))
@@ -40,25 +40,26 @@ class(obj)<-"clineSampleData1D";
 }
 
 ##formate of parameter data frame?
-mkParam<-function(name,value,weight,lower,upper,isFixed=FALSE){
+mkParam<-function(name,value,weight,lower,upper,isFixed=FALSE,isRB01=FALSE){
   objCParamC<-list(val=value,w=weight);
   class(objCParamC)<-"clineParameter";
   attr(objCParamC,"param")<-name
   attr(objCParamC,"fixed")<-isFixed;
   attr(objCParamC,"limit.lower")<- lower;
   attr(objCParamC,"limit.upper")<- upper;
+  attr(objCParamC,"realBTWN01")<- isRB01
   return(objCParamC);
 }
 CLINEPARAMETERS<-list(center=mkParam("center",10,1.5,-1e8,1e8),
                       width =mkParam("width", 10,1.5,1e-8,1e8),
-                      pMin  =mkParam("pMin",  0, 1.1,   0,  1),
-                      pMax  =mkParam("pMax",  1, 1.1,   0,  1),
+                      pMin  =mkParam("pMin",  0, 1.1,   0,  1,isRB01=TRUE),
+                      pMax  =mkParam("pMax",  1, 1.1,   0,  1,isRB01=TRUE),
                       deltaL=mkParam("deltaL",1,1.5,  1e-8, 1e8),
                       deltaR=mkParam("deltaR",1,1.5,  1e-8, 1e8),
                       deltaM=mkParam("deltaM",1,1.5,  1e-8, 1e8),
-                      tauL  =mkParam("tauL", 0.5,1.1,  0,   1),
-                      tauR  =mkParam("tauR", 0.5,1.1,  0,   1),
-                      tauM  =mkParam("tauM", 0.5,1.1,  0,   1));
+                      tauL  =mkParam("tauL", 0.5,1.1,  0,   1,isRB01=TRUE),
+                      tauR  =mkParam("tauR", 0.5,1.1,  0,   1,isRB01=TRUE),
+                      tauM  =mkParam("tauM", 0.5,1.1,  0,   1,isRB01=TRUE));
 
 splitParameters<-function(paramList){
   param.fixed=list();
@@ -298,7 +299,9 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
 
 hzar.meta.simple.scaled.ascending =
   list(
-       func=function(center,width,pMin,pMax){
+       prior=function(center,width,pMin,pMax){
+  return(0); },
+      func=function(center,width,pMin,pMax){
          pCline<- function(x) {
            u <- (x - center) * 4/width
            return(pMin+(pMax-pMin)* (1/(1+ exp(-u)))) }
@@ -311,7 +314,9 @@ hzar.meta.simple.scaled.ascending =
        );
 hzar.meta.simple.scaled.descending =
   list(
-       func=function(center,width,pMin,pMax){
+       prior=function(center,width,pMin,pMax){
+  return(0); },
+      func=function(center,width,pMin,pMax){
          pCline<- function(x) {
            u <- (x - center) * -4/width
            return(pMin+(pMax-pMin)* (1/(1+ exp(-u)))) }
@@ -328,11 +333,16 @@ hzar.meta.tailed.scaled.ascending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          return(width>0 & deltaL>=0 & deltaR>=0 &
+               (pMax-pMin)* (deltaL+deltaR)<=width*50 &
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauL>=0 & tauL<=1 &
                 tauR>=0 & tauR<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
+       prior=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR){
+         return(0);
+         ## return(-2*log(width/2)-2*(deltaL+deltaR)/width);
+       },
+      func=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
@@ -351,11 +361,16 @@ hzar.meta.tailed.scaled.descending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          return(width>0 & deltaL>=0 & deltaR>=0 &
+                (pMax-pMin)*(deltaL+deltaR)<=width*50 &
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauL>=0 & tauL<=1 &
                 tauR>=0 & tauR<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
+       prior=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR){
+         return(0);
+         ## return(-2*log(width/2)-2*(deltaL+deltaR)/width);
+       },
+      func=function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaR,tau1=tauR);
@@ -380,7 +395,9 @@ hzar.meta.mtail.scaled.descending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauM>=0 & tauM<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaM,tauM)
+       prior=function(center,width,pMin,pMax,deltaM,tauM){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaM,tauM)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaM,tau1=tauM);
@@ -402,7 +419,9 @@ hzar.meta.mtail.scaled.ascending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauM>=0 & tauM<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaM,tauM)
+       prior=function(center,width,pMin,pMax,deltaM,tauM){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaM,tauM)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaM,tau1=tauM);
@@ -426,7 +445,9 @@ hzar.meta.ltail.scaled.descending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauL>=0 & tauL<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaL,tauL)
+       prior=function(center,width,pMin,pMax,deltaL,tauL){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaL,tauL)
        {
          gamma=4/width;
         # tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
@@ -448,7 +469,9 @@ hzar.meta.ltail.scaled.ascending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauL>=0 & tauL<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaL,tauL)
+       prior=function(center,width,pMin,pMax,deltaL,tauL){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaL,tauL)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
@@ -471,7 +494,9 @@ hzar.meta.rtail.scaled.ascending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauR>=0 & tauR<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaR,tauR)
+       prior=function(center,width,pMin,pMax,deltaR,tauR){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaR,tauR)
        {
          gamma=4/width;
         # tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
@@ -493,7 +518,9 @@ hzar.meta.rtail.scaled.descending =
                 pMin>=0 & pMax<=1 & pMin<pMax & 
                 tauR>=0 & tauR<=1 )
        },
-       func=function(center,width,pMin,pMax,deltaR,tauR)
+       prior=function(center,width,pMin,pMax,deltaR,tauR){
+  return(0); },
+      func=function(center,width,pMin,pMax,deltaR,tauR)
        {
          gamma=4/width;
          tail.LO=meta.tail.lower(gamma=gamma,d1=deltaR,tau1=tauR);
@@ -620,6 +647,31 @@ myMirrorCline<-buildCline1D(data,scaling,direction,
 ## objCFrame$mcmc <- mcmcObj;
 ## class(objCframe)<-"clineModelFrame";
 
+getCredibleCut<-function(clineFrame,rejectionPercent=0.05){
+
+model.LL=clineFrame$allClines$model.LL
+  credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
+
+  credible.LLcut<-min(subset(credibleLLspace,credibleLLspace$percentile>rejectionPercent)$LL);
+return(credible.LLcut)
+}
+
+getCredibleCutG<-function(clineDF,rejectionPercent=0.05){
+
+model.LL=clineDF$model.LL
+  credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
+
+  credible.LLcut<-min(subset(credibleLLspace,credibleLLspace$percentile>rejectionPercent)$LL);
+return(credible.LLcut)
+}
+getCredibleLLspace<-function(clineFrame){
+
+model.LL=clineFrame$allClines$model.LL
+  credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
+
+return(credibleLLspace)
+}
+
 fitClineModel <- function(model,sampleData, verbose=10000,
                           burnin=1000,mcmc=1e6,thin=100,
                           seed=list(NA,1),rejectLL=-1e8){
@@ -641,6 +693,7 @@ fitClineModel <- function(model,sampleData, verbose=10000,
   names(tttFormals)<-names(myParams$init);
   formals(model$func)<-c(tttFormals,myParams$fixed);
   formals(model$req)<-c(tttFormals,myParams$fixed);
+   formals(model$prior)<-c(tttFormals,myParams$fixed);
 ## print(c(tttFormals,myParams$fixed)); 
   myRejectionLL<-rejectLL;
   clineLLFunc <- function(theta,meta.model,obsData){
@@ -648,7 +701,8 @@ fitClineModel <- function(model,sampleData, verbose=10000,
 ##      print(list(theta,meta.model,obsData));
     if(! do.call(meta.model$req,as.list(theta))) return(myRejectionLL);
     model=do.call(meta.model$func,as.list(theta));
-    return(obsData$model.LL(model));
+thetaLL=do.call(meta.model$prior,as.list(theta));
+    return(obsData$model.LL(model)+thetaLL);
   }
   VMATRIX<-NULL;
   pMinS.cssp<-NULL;
@@ -662,9 +716,28 @@ fitClineModel <- function(model,sampleData, verbose=10000,
                      )[,names(myParams$init)];
   if(dim(sampleModels)[[1]]>2){
     sampleModels<-subset(sampleModels,do.call(model$req,as.list(sampleModels[names(myParams$init)])))
+
+ for(iter in seq(dim(sampleModels)[[1]])){
+    sampleModels[iter,"model.LL"] <-
+      clineLLFunc(sampleModels[iter,names(myParams$init)],
+                  model,
+                  sampleData);
+  }
+  ##  print(sampleModels);
+  ##  sampleModels<-subset(sampleModels,sampleModels$model.LL>getCredibleCutG(sampleModels,0.005))
     try(VMATRIX<-cov(sampleModels));
-   
+    if(!identical(is.null(VMATRIX),TRUE)){
+      print(VMATRIX);
+      bounded.param<-lapply(model$parameterTypes[names(myParams$init)],
+                            attr,
+                            "realBTWN01")==TRUE
+      counter.inv<-diag(ifelse(c(bounded.param,FALSE),sign(VMATRIX["model.LL",]),1/(VMATRIX["model.LL",])))
+      ## print(counter.inv);
+      dimnames(counter.inv)<-list(rownames(VMATRIX),colnames(VMATRIX));
+      VMATRIX<-(counter.inv%*%VMATRIX%*%counter.inv)
       
+      VMATRIX<-VMATRIX[names(myParams$init),names(myParams$init)]#/VMATRIX["model.LL","model.LL"];
+    }
   }
   print("C");
    print(VMATRIX);
@@ -754,7 +827,7 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
   if(is.null(thin)) thin<-thin(clineFrame$mcmc);
   for(typeName in names(model$parameterTypes[lapply(model$parameterTypes,attr,"fixed")==FALSE])) #names(clineFrame$maxLL.theta))
     model$parameterTypes[[typeName]]$val<-
-      weighted.mean(clineFrame$allClines[clineFrame$allClines$model.LL>(clineFrame$maxLL-8),typeName],exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>(clineFrame$maxLL-8)]));
+      weighted.mean(clineFrame$allClines[clineFrame$allClines$model.LL>(clineFrame$maxLL-2),typeName],exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>(clineFrame$maxLL-2)]));
 
                                         
 ## clineFrame$maxLL.theta[[typeName]][[1]];
@@ -766,22 +839,46 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
   names(tttFormals)<-names(myParams$init);
   formals(model$func)<-c(tttFormals,myParams$fixed);
   formals(model$req)<-c(tttFormals,myParams$fixed);
+  formals(model$prior)<-c(tttFormals,myParams$fixed);
 
   myRejectionLL<-rejectLL;
   clineLLFunc <- function(theta,meta.model,obsData){
     if(! do.call(meta.model$req,as.list(theta))) return(myRejectionLL);
     model=do.call(meta.model$func,as.list(theta));
-    return(obsData$model.LL(model));
+    
+thetaLL=do.call(meta.model$prior,as.list(theta));
+    return(obsData$model.LL(model)+thetaLL);
   }
   attach(clineFrame$allClines);
   credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
   detach(clineFrame$allClines);
   credible.LLcut<-min(subset(credibleLLspace,credibleLLspace$percentile>0.05)$LL);
-  VMATRIX<-cov.wt(subset(clineFrame$allClines,clineFrame$allClines$model.LL>=clineFrame$maxLL-8)[,c(names(myParams$init),"model.LL")],wt=exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>=(clineFrame$maxLL-8)]))$cov;
-  counter.inv<-diag(1/VMATRIX["model.LL",])
+ ## VMATRIX<-cov.wt(subset(clineFrame$allClines,clineFrame$allClines$model.LL>=clineFrame$maxLL-8)[,c(names(myParams$init),"model.LL")],wt=exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>=(clineFrame$maxLL-8)]))$cov;
+## tan , cos/sinc  etc...
+  tune.clines<-(subset(clineFrame$allClines,
+                      clineFrame$allClines$model.LL>=clineFrame$maxLL-4
+                      )[,c(names(myParams$init),"model.LL")])
+  bounded.param<-lapply(model$parameterTypes[names(myParams$init)],
+                              attr,
+                              "realBTWN01")==TRUE
+  ## tune.clines[,bounded.param]<-tan( (tune.clines[,bounded.param]-0.5))
+  ##VMATRIX<-cov.wt(tune.clines,wt=exp(tune.clines$model.LL))$cov;
+VMATRIX<-cov(tune.clines)
+  print(VMATRIX);
+  ## print(bounded.param)
+  ##VMATRIX<-cov(subset(clineFrame$allClines,clineFrame$allClines$model.LL>=clineFrame$maxLL-8)[,c(names(myParams$init),"model.LL")]);
+  ## counter.inv<-diag(ifelse(c(bounded.param,FALSE),rep(1,nrow(VMATRIX)),(abs(VMATRIX["model.LL",])^0.5)/(VMATRIX["model.LL",])))
+  counter.inv<-diag(ifelse(c(bounded.param,FALSE),sign(VMATRIX["model.LL",]),1/(VMATRIX["model.LL",])))
+  ## print(counter.inv);
   dimnames(counter.inv)<-list(rownames(VMATRIX),colnames(VMATRIX));
   VMATRIX<-(counter.inv%*%VMATRIX%*%counter.inv)
+## print(VMATRIX);
   VMATRIX<-VMATRIX[names(myParams$init),names(myParams$init)]/VMATRIX["model.LL","model.LL"];
+  
+  ##counter.bounds<-diag(VMATRIX["model.LL",])
+## counter.bounds<-diag(ifelse( lapply(model$parameterTypes[rownames(VMATRIX)],attr,"realBTWN01")==TRUE,(0.5+atan(diag(VMATRIX))/3.1)/diag(VMATRIX),1));
+##   dimnames(counter.bounds)<-list(rownames(VMATRIX),colnames(VMATRIX));
+##   VMATRIX<-(counter.bounds%*%VMATRIX%*%counter.bounds)
   print("C");
    print(VMATRIX);
  ##  print(list(fun=clineLLFunc, logfun="TRUE",
