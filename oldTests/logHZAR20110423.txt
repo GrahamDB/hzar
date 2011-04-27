@@ -1,0 +1,1352 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> .help.ESS <- help
+> options(STERM='iESS', editor='emacsclient')
+> 
+> source("hzarMultiModel.R")
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: codetools
+foreach: simple, scalable parallel programming from REvolution Computing
+Use REvolution R for scalability, fault tolerance and more.
+http://www.revolution-computing.com
+Loading required package: MCMCpack
+Loading required package: coda
+Loading required package: lattice
+Loading required package: MASS
+##
+## Markov Chain Monte Carlo Package (MCMCpack)
+## Copyright (C) 2003-2011 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park
+##
+## Support provided by the U.S. National Science Foundation
+## (Grants SES-0350646 and SES-0350613)
+##
+> 
+>  mannequin.data<-read.csv("molecular-data-robb2.csv",header=TRUE)
+> 
+> test.data<-doMolecularData1DPops(distance=mannequin.data$distance,pObs=mannequin.data$L5.b,nSamples=mannequin.data$L5.n)
+> 
+> library(doMC)
+Loading required package: multicore
+
+Attaching package: 'multicore'
+
+
+	The following object(s) are masked from package:lattice :
+
+	 parallel 
+
+>  registerDoMC()
+> 
+> 
+> test.mModel<-makeMultiCline1D(test.data)
+> pairs(cssp(cline.data=test.data,do.tail="both"))
+Error in sort(obsFreq) : object 'obsFreq' not found
+> pairs(cssp(cline.data=test.data$frame,do.tail="both"))
+> xyplot(deltaR+deltaL~width,data=cssp(cline.data=test.data$frame,do.tail="both"))
+> xyplot((deltaR+deltaL)~width,data=cssp(cline.data=test.data$frame,do.tail="both"))
+> xyplot(deltaR/width+deltaL/width~width,data=cssp(cline.data=test.data$frame,do.tail="both"))
+> xyplot((deltaR+deltaL)/width~width,data=cssp(cline.data=test.data$frame,do.tail="both"))
+> xyplot((deltaM)/width~width,data=cssp(cline.data=test.data$frame,do.tail="mirror"))
+> source("hzarMultiModel.R");test.mModel<-makeMultiCline1D(test.data)
+> source("hzarMultiModel.R");test.multiCline<-fitMultipleModels(test.mModel,test.data);
+               center       width    model.LL
+center     158.307996 -3.07816388  -4773.4367
+width       -3.078164  0.07005935     95.3235
+model.LL -4773.436723 95.32349159 154439.8808
+[1] "C"
+             center        width
+center 6.947691e-06 6.764888e-06
+width  6.764888e-06 7.710210e-06
+              center         width          pMin          pMax     model.LL
+center   158.3079965  -3.078163879  2.185438e-01  2.990593e-01   690.568022
+width     -3.0781639   0.070059352 -5.330546e-03 -2.247083e-03   -23.368750
+pMin       0.2185438  -0.005330546  4.485440e-04 -7.058608e-24     2.638806
+pMax       0.2990593  -0.002247083 -7.058608e-24  2.565313e-03    -2.192612
+model.LL 690.5680224 -23.368750159  2.638806e+00 -2.192612e+00 30963.288446
+[1] "C"
+              center         width         pMin          pMax
+center  0.0003319632  1.907435e-04 3.164697e-04 -4.330628e-04
+width   0.0001907435  1.282907e-04 2.281057e-04 -9.615762e-05
+pMin    0.0003164697  2.281057e-04 4.485440e-04  7.058608e-24
+pMax   -0.0004330628 -9.615762e-05 7.058608e-24  2.565313e-03
+               center         width          pMin          pMax        deltaL
+center    36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width      2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin       0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax       0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL    46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL       0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR   -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR       0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+model.LL 440.71833952  19.192185019  6.635373e+00 -1.288620e+00 1248.93285700
+                  tauL        deltaR          tauR      model.LL
+center    2.172840e-02 -6.681679e+01  0.1859379603  4.407183e+02
+width     1.238814e-03 -2.876436e+01  0.2155048084  1.919219e+01
+pMin      7.626777e-05 -4.440556e-02 -0.0004685560  6.635373e+00
+pMax      2.033141e-05 -1.059895e-01  0.0022266228 -1.288620e+00
+deltaL    2.376789e-01 -3.048852e+02  1.3865641296  1.248933e+03
+tauL      5.633976e-04 -9.388453e-02  0.0001922645  7.959674e-01
+deltaR   -9.388453e-02  2.000783e+03 -5.3292312472 -1.324382e+03
+tauR      1.922645e-04 -5.329231e+00  0.0272647003  4.890992e+00
+model.LL  7.959674e-01 -1.324382e+03  4.8909915471  1.776947e+05
+[1] "C"
+              center         width          pMin          pMax        deltaL
+center  1.875989e-04  3.407701e-04  1.007572e-04 -2.404927e-04  8.511891e-05
+width   3.407701e-04  6.860844e-03 -4.235349e-04 -4.701760e-04  5.114231e-04
+pMin    1.007572e-04 -4.235349e-04  4.221591e-04  1.245637e-24  6.463792e-05
+pMax   -2.404927e-04 -4.701760e-04  1.245637e-24  2.414412e-03 -1.348312e-04
+deltaL  8.511891e-05  5.114231e-04  6.463792e-05 -1.348312e-04  1.396018e-04
+tauL    4.930223e-05  6.454784e-05  7.626777e-05 -2.033141e-05  1.903056e-04
+deltaR  1.144751e-04  1.131663e-03  3.352926e-05 -8.002941e-05  1.843249e-04
+tauR    4.218975e-04  1.122878e-02 -4.685560e-04 -2.226623e-03  1.110199e-03
+                tauL        deltaR          tauR
+center  4.930223e-05  1.144751e-04  0.0004218975
+width   6.454784e-05  1.131663e-03  0.0112287792
+pMin    7.626777e-05  3.352926e-05 -0.0004685560
+pMax   -2.033141e-05 -8.002941e-05 -0.0022266228
+deltaL  1.903056e-04  1.843249e-04  0.0011101991
+tauL    5.633976e-04  7.088930e-05  0.0001922645
+deltaR  7.088930e-05  1.140705e-03  0.0040239372
+tauR    1.922645e-04  4.023937e-03  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.45439
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               center         width          pMin          pMax      model.LL
+center    0.354214093  0.1292005663  1.483618e-03 -1.689310e-03  0.4284681790
+width     0.129200566  0.0709731601  5.791842e-04 -7.262870e-04  0.1518343912
+pMin      0.001483618  0.0005791842  1.444362e-04 -7.062679e-06 -0.0001192682
+pMax     -0.001689310 -0.0007262870 -7.062679e-06  1.531643e-04  0.0033917013
+model.LL  0.428468179  0.1518343912 -1.192682e-04  3.391701e-03  0.8827117854
+[1] "C"
+             center        width          pMin          pMax
+center  1.703129277  1.753051264 -3.056486e-03 -3.480245e-03
+width   1.753051264  2.717520086 -3.367173e-03 -4.222377e-03
+pMin   -0.003056486 -0.003367173  1.274956e-04  6.234310e-06
+pMax   -0.003480245 -0.004222377  6.234310e-06  1.352000e-04
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.32922
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                center        width          pMin          pMax        deltaL
+center    2.869821e-01  1.015970028  1.390186e-04 -1.962059e-05  0.0025337714
+width     1.015970e+00  5.411584801 -9.919120e-04  1.595920e-03  0.0757124909
+pMin      1.390186e-04 -0.000991912  6.526821e-05  1.727093e-06  0.0000296357
+pMax     -1.962059e-05  0.001595920  1.727093e-06  1.564815e-04 -0.0001274066
+deltaL    2.533771e-03  0.075712491  2.963570e-05 -1.274066e-04  0.0197843865
+tauL     -2.386442e-03 -0.002513788  5.666145e-05 -6.948172e-05  0.0006420342
+deltaR   -1.648832e-01 -1.480164783  5.826644e-04 -9.783842e-04 -0.0169201367
+tauR     -3.943868e-04  0.015574337  2.875824e-05 -9.057457e-05  0.0006847357
+model.LL  1.718731e-01  0.388226112 -9.755089e-04  3.347287e-03  0.0009715694
+                  tauL        deltaR          tauR      model.LL
+center   -2.386442e-03 -0.1648832170 -3.943868e-04  0.1718730694
+width    -2.513788e-03 -1.4801647835  1.557434e-02  0.3882261117
+pMin      5.666145e-05  0.0005826644  2.875824e-05 -0.0009755089
+pMax     -6.948172e-05 -0.0009783842 -9.057457e-05  0.0033472874
+deltaL    6.420342e-04 -0.0169201367  6.847357e-04  0.0009715694
+tauL      1.636267e-03 -0.0023518657 -1.941117e-04  0.0098169696
+deltaR   -2.351866e-03  0.6883799658 -8.343627e-03  0.0276698281
+tauR     -1.941117e-04 -0.0083436271  3.766328e-03  0.0129882072
+model.LL  9.816970e-03  0.0276698281  1.298821e-02  0.6325652022
+[1] "C"
+              center         width          pMin          pMax        deltaL
+center  6.145319e+00   9.631493110 -5.116471e-04 -7.221204e-05  9.598228e+00
+width   9.631493e+00  22.712256346  1.616195e-03  2.600349e-03  1.269738e+02
+pMin   -5.116471e-04   0.001616195  4.128640e-05 -1.092499e-06 -1.929508e-02
+pMax   -7.221204e-05   0.002600349 -1.092499e-06  9.898473e-05 -8.295135e-02
+deltaL  9.598228e+00 126.973838318 -1.929508e-02 -8.295135e-02  1.325807e+04
+tauL   -8.783109e-03  -0.004095899 -3.584206e-05 -4.395172e-05  4.180128e-01
+deltaR -2.193146e+01 -87.161392630 -1.332040e-02 -2.236703e-02 -3.981336e+02
+tauR   -1.451509e-03   0.025376406 -1.819146e-05 -5.729432e-05  4.458147e-01
+                tauL        deltaR          tauR
+center -8.783109e-03  -21.93145551 -1.451509e-03
+width  -4.095899e-03  -87.16139263  2.537641e-02
+pMin   -3.584206e-05   -0.01332040 -1.819146e-05
+pMax   -4.395172e-05   -0.02236703 -5.729432e-05
+deltaL  4.180128e-01 -398.13362852  4.458147e-01
+tauL    1.035046e-03   -0.05376645 -1.227883e-04
+deltaR -5.376645e-02  568.74893494 -1.907452e-01
+tauR   -1.227883e-04   -0.19074525  2.382448e-03
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.99890
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            center     width  model.LL
+center   0.1639271 0.2110319 0.3620328
+width    0.2110319 0.2964468 0.4732736
+model.LL 0.3620328 0.4732736 0.8020104
+[1] "C"
+          center     width
+center 1.0030786 0.9877973
+width  0.9877973 1.0614562
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.67070
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               center       width          pMin          pMax      model.LL
+center    1.566514854  3.66638110  1.502348e-03  1.153892e-02 -0.3742751993
+width     3.666381097 41.66268151 -3.625861e-02  6.627215e-02 -2.8967095112
+pMin      0.001502348 -0.03625861  3.291132e-04 -3.815307e-05  0.0008272898
+pMax      0.011538921  0.06627215 -3.815307e-05  4.099311e-04 -0.0015752243
+model.LL -0.374275199 -2.89670951  8.272898e-04 -1.575224e-03  1.0269728650
+[1] "C"
+             center      width          pMin         pMax
+center 11.484481309 3.47296637 -4.122289e-03 3.166162e-02
+width   3.472966372 5.09913249  1.285479e-02 2.349552e-02
+pMin   -0.004122289 0.01285479  3.379904e-04 3.918217e-05
+pMax    0.031661618 0.02349552  3.918217e-05 4.209881e-04
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.95323
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.50077
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center      width   model.LL
+center   11.2995478  16.530164 -0.4003893
+width    16.5301640 113.812593 -2.9298325
+model.LL -0.4003893  -2.929833  0.7094853
+[1] "C"
+          center    width
+center 50.007996 9.997588
+width   9.997588 9.406934
+               center         width          pMin          pMax        deltaL
+center    1.087329253   1.106080303  2.758266e-03  1.166545e-03  6.730031e+01
+width     1.106080303   8.397464001 -7.644558e-03  3.869068e-03  3.435235e+02
+pMin      0.002758266  -0.007644558  2.586852e-04 -5.550899e-06  5.440161e-01
+pMax      0.001166545   0.003869068 -5.550899e-06  6.953977e-05  1.162152e-01
+deltaL   67.300310350 343.523458371  5.440161e-01  1.162152e-01  1.597333e+05
+tauL     -0.007969656   0.119276975 -2.259463e-04  1.617446e-04  4.432803e+00
+deltaR    0.433298802   2.133218619 -5.252489e-03 -9.078102e-04  9.195306e+01
+tauR      0.025029691   0.143408389  1.723842e-04  7.778029e-05  7.569392e+00
+model.LL -0.077944459  -1.054756448  7.490600e-04  3.461033e-03 -7.519624e+01
+                  tauL        deltaR          tauR      model.LL
+center   -0.0079696557  0.4332988022  0.0250296912  -0.077944459
+width     0.1192769746  2.1332186190  0.1434083889  -1.054756448
+pMin     -0.0002259463 -0.0052524886  0.0001723842   0.000749060
+pMax      0.0001617446 -0.0009078102  0.0000777803   0.003461033
+deltaL    4.4328033930 91.9530647229  7.5693921977 -75.196239988
+tauL      0.0728571895  0.0495118231  0.0006924655  -0.032419313
+deltaR    0.0495118231  5.3750819467 -0.1754924225  -0.625143433
+tauR      0.0006924655 -0.1754924225  0.0223314535  -0.029125756
+model.LL -0.0324193135 -0.6251434332 -0.0291257562   0.943043102
+[1] "C"
+             center        width          pMin          pMax       deltaL
+center 168.78044215 12.687637586 -3.337201e-02 -1.411392e-02 10.828473473
+width   12.68763759  7.118284062  6.834893e-03 -3.459280e-03  4.084506838
+pMin    -0.03337201  0.006834893  2.439513e-04 -5.234737e-06 -0.006822557
+pMax    -0.01411392 -0.003459280 -5.234737e-06  6.557900e-05 -0.001457465
+deltaL  10.82847347  4.084506838 -6.822557e-03 -1.457465e-03 26.640033863
+tauL    -0.09642416  0.106643888  2.130771e-04 -1.525321e-04  0.055592203
+deltaR   8.38598556  3.050949685  7.923499e-03  1.369452e-03  1.844683878
+tauR     0.30283202  0.128219450 -1.625657e-04 -7.335017e-05  0.094928458
+                tauL       deltaR          tauR
+center -0.0964241579  8.385985560  3.028320e-01
+width   0.1066438876  3.050949685  1.282195e-01
+pMin    0.0002130771  0.007923499 -1.625657e-04
+pMax   -0.0001525321  0.001369452 -7.335017e-05
+deltaL  0.0555922033  1.844683878  9.492846e-02
+tauL    0.0687074699  0.074689712  6.530248e-04
+deltaR  0.0746897124 12.970516942 -2.647343e-01
+tauR    0.0006530248 -0.264734315  2.105952e-02
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.01877
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.10409
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.33082
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                center         width          pMin          pMax        deltaL
+center    1.5384508908   1.649887121  2.146345e-03  4.177209e-04  2.783389e+01
+width     1.6498871214  13.883933041 -2.065430e-02  4.182714e-03  3.321886e+02
+pMin      0.0021463454  -0.020654299  2.828959e-04 -5.316686e-06 -5.849547e-01
+pMax      0.0004177209   0.004182714 -5.316686e-06  8.186151e-05 -1.115015e-01
+deltaL   27.8338855635 332.188589817 -5.849547e-01 -1.115015e-01  1.147582e+05
+tauL     -0.0154114068  -0.102711283  3.945142e-04  8.919696e-05 -7.345796e+00
+deltaR    0.7004585559   3.798703195 -5.591259e-03 -6.340652e-05  9.971838e+01
+tauR      0.0296088165   0.265449165 -4.544582e-04 -3.399691e-06  7.234707e+00
+model.LL -0.1831631642  -1.408154400  1.389132e-03  4.028887e-03 -4.225763e+01
+                  tauL        deltaR          tauR      model.LL
+center   -1.541141e-02  7.004586e-01  2.960882e-02  -0.183163164
+width    -1.027113e-01  3.798703e+00  2.654492e-01  -1.408154400
+pMin      3.945142e-04 -5.591259e-03 -4.544582e-04   0.001389132
+pMax      8.919696e-05 -6.340652e-05 -3.399691e-06   0.004028887
+deltaL   -7.345796e+00  9.971838e+01  7.234707e+00 -42.257629925
+tauL      8.764187e-02 -8.148962e-03 -3.922128e-03   0.007876766
+deltaR   -8.148962e-03  4.979897e+00 -9.053879e-02  -0.715155789
+tauR     -3.922128e-03 -9.053879e-02  2.022261e-02  -0.035974387
+model.LL  7.876766e-03 -7.151558e-01 -3.597439e-02   0.954308398
+[1] "C"
+             center        width          pMin          pMax       deltaL
+center 43.761893856  6.104562777 -1.118279e-02 -2.176391e-03  3.431778982
+width   6.104562777  6.681911250  1.399745e-02 -2.834632e-03  5.327433589
+pMin   -0.011182791  0.013997450  2.699699e-04 -5.073759e-06  0.013210092
+pMax   -0.002176391 -0.002834632 -5.073759e-06  7.812113e-05  0.002518050
+deltaL  3.431778982  5.327433589  1.321009e-02  2.518050e-03 61.328504216
+tauL    0.080295812  0.069607594  3.764882e-04  8.512141e-05  0.165890861
+deltaR  5.103080207  3.599756900  7.461011e-03  8.461006e-05  3.148894953
+tauR    0.154266511  0.179895307  4.336932e-04  3.244354e-06  0.163382135
+               tauL        deltaR          tauR
+center 8.029581e-02  5.103080e+00  1.542665e-01
+width  6.960759e-02  3.599757e+00  1.798953e-01
+pMin   3.764882e-04  7.461011e-03  4.336932e-04
+pMax   8.512141e-05  8.461006e-05  3.244354e-06
+deltaL 1.658909e-01  3.148895e+00  1.633821e-01
+tauL   8.363738e-02  1.087403e-02  3.742920e-03
+deltaR 1.087403e-02  9.291970e+00 -1.208155e-01
+tauR   3.742920e-03 -1.208155e-01  1.929860e-02
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.08181
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                center         width          pMin          pMax        deltaL
+center    1.4575785772   1.549319057  2.373094e-03  4.690059e-04  2.978573e+01
+width     1.5493190570  12.908345552 -1.810350e-02  4.148898e-03  3.088721e+02
+pMin      0.0023730943  -0.018103502  2.781022e-04 -5.464484e-06 -4.340241e-01
+pMax      0.0004690059   0.004148898 -5.464484e-06  7.763612e-05 -7.119866e-02
+deltaL   29.7857270663 308.872123221 -4.340241e-01 -7.119866e-02  1.129058e+05
+tauL     -0.0105163106  -0.082083626  3.507311e-04  6.463746e-05 -5.067205e+00
+deltaR    0.6548434465   3.496320757 -4.926470e-03  1.529405e-04  9.081205e+01
+tauR      0.0280426342   0.245406051 -3.933165e-04 -2.188743e-06  6.468687e+00
+model.LL -0.1590190826  -1.267275474  8.549214e-04  3.742706e-03 -3.534574e+01
+                  tauL        deltaR          tauR      model.LL
+center   -1.051631e-02  0.6548434465  2.804263e-02 -1.590191e-01
+width    -8.208363e-02  3.4963207569  2.454061e-01 -1.267275e+00
+pMin      3.507311e-04 -0.0049264695 -3.933165e-04  8.549214e-04
+pMax      6.463746e-05  0.0001529405 -2.188743e-06  3.742706e-03
+deltaL   -5.067205e+00 90.8120492184  6.468687e+00 -3.534574e+01
+tauL      8.663804e-02 -0.0123970321 -2.692400e-03  6.016425e-03
+deltaR   -1.239703e-02  4.8358592023 -9.889265e-02 -6.384342e-01
+tauR     -2.692400e-03 -0.0988926473  1.989987e-02 -3.278573e-02
+model.LL  6.016425e-03 -0.6384342354 -3.278573e-02  9.094651e-01
+[1] "C"
+             center        width          pMin          pMax       deltaL
+center 52.422716849  6.992083803 -1.357225e-02 -2.682348e-03  4.819566287
+width   6.992083803  7.309952561  1.299205e-02 -2.977472e-03  6.271287045
+pMin   -0.013572248  0.012992048  2.529242e-04 -4.969758e-06  0.011167677
+pMax   -0.002682348 -0.002977472 -4.969758e-06  7.060734e-05  0.001831980
+deltaL  4.819566287  6.271287045  1.116768e-02  1.831980e-03 82.191751060
+tauL    0.060145092  0.058907629  3.189777e-04  5.878551e-05  0.130381947
+deltaR  5.866216809  3.930158873  7.017876e-03 -2.178675e-04  3.659959707
+tauR    0.160381990  0.176116592  3.577076e-04  1.990585e-06  0.166442854
+               tauL        deltaR          tauR
+center 6.014509e-02  5.8662168088  1.603820e-01
+width  5.890763e-02  3.9301588731  1.761166e-01
+pMin   3.189777e-04  0.0070178756  3.577076e-04
+pMax   5.878551e-05 -0.0002178675  1.990585e-06
+deltaL 1.303819e-01  3.6599597071  1.664429e-01
+tauL   7.879427e-02  0.0176598737  2.448644e-03
+deltaR 1.765987e-02 10.7901466766 -1.408750e-01
+tauR   2.448644e-03 -0.1408749812  1.809824e-02
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.10476
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> plot(model.LL,data=test.multiCline$clineFrames[[3]]$allClines)
+Error in x(x) : could not find function "model.func"
+> plot(mcmc(test.multiCline$clineFrames[[3]]$allClines$model.LL))
+> xyplot(deltaL~tauL,data=test.multiCline$clineFrames[[3]]$allClines)
+> xyplot(deltaR~deltaL,data=sample(test.multiCline$clineFrames[[3]]$allClines,size=100))
+Error in `[.data.frame`(x, .Internal(sample(length(x), size, replace,  : 
+  cannot take a sample larger than the population when 'replace = FALSE'
+> ?subset
+> dim(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=5)))
+[1] 1 9
+> dim(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=5))[[1]])
+NULL
+> length(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=5))[[1]])
+[1] 1
+> subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=5))
+         center    width       pMin      pMax   deltaL      tauL   deltaR
+190866 208.6086 15.29102 0.09493721 0.9325304 594.7427 0.0996947 559.2427
+            tauR  model.LL
+190866 0.3247706 -13.78074
+> subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=5))
+        center    width       pMin      pMax   deltaL      tauL   deltaR
+29553 208.5867 10.06577 0.07873703 0.9610309 436.2457 0.7480626 99.47756
+             tauR  model.LL
+29553 0.004632317 -11.78844
+> subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL==sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50))
+         center    width       pMin      pMax    deltaL      tauL    deltaR
+103321 207.7281 11.82645 0.10174404 0.9630740  89.59834 0.7401210  521.0767
+116231 208.4500 12.28852 0.07805976 0.9749687 162.82426 0.5320401 1033.1733
+            tauR  model.LL
+103321 0.6849897 -12.32718
+116231 0.3338213 -12.23832
+> fim(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50)))
+Error: could not find function "fim"
+> dim(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50)))
+[1] 80  9
+> dim(subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50)))
+[1] 55  9
+> subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50))
+         center     width        pMin      pMax       deltaL        tauL
+2038   198.0816 56.378324 0.005974715 0.9755626    0.3767683 0.968243899
+11087  208.9511 20.148019 0.088859403 0.9797320 1800.4251754 0.663690710
+12542  207.9644 15.281663 0.092835131 0.9168490  277.2981138 0.470769646
+13656  208.9602 24.742342 0.063900672 0.9773171 1183.2938835 0.855779142
+13710  209.0887 14.997768 0.072978052 0.9418637  462.6478170 0.164356914
+13733  207.4379 11.076425 0.073894169 0.9979935  837.6474073 0.747947788
+13944  209.6667 20.533636 0.095619985 0.9810304 1360.6105845 0.292922639
+15935  206.6273 15.245412 0.087075560 0.9897897  315.1166883 0.358915143
+35851  208.7850 11.737503 0.118857237 0.9983872  198.9062495 0.690414664
+35852  208.7850 11.737503 0.118857237 0.9983872  198.9062495 0.690414664
+35853  208.7850 11.737503 0.118857237 0.9983872  198.9062495 0.690414664
+35854  208.7850 11.737503 0.118857237 0.9983872  198.9062495 0.690414664
+50734  210.6925 22.293139 0.121651392 0.9916721  488.5262652 0.013469032
+78013  207.4609  9.565122 0.092050993 0.9603064  186.7854776 0.936195151
+80484  209.2877  7.669291 0.097696407 0.9569825  361.9634714 0.843887391
+91762  208.3242 12.071781 0.071814823 0.9408357  285.7313959 0.647999047
+96426  206.9159 26.002959 0.075593202 0.9841767  903.2973411 0.465658261
+105870 207.9026 14.911830 0.076857557 0.9414786   65.3876999 0.086347791
+118636 208.3899 13.648013 0.076662745 0.9536316  582.3739156 0.617483256
+120745 211.1934 31.244057 0.077169715 0.9843010 1721.7849160 0.637140617
+128062 211.6984 37.223095 0.062593044 0.9806576 2497.0540228 0.547535804
+128508 212.0611 32.604724 0.078673651 0.9990627 1506.7576616 0.682575331
+132693 207.2763 10.658774 0.051698906 0.9456177  674.3960962 0.816240314
+135100 208.0301  5.674781 0.082587590 0.9766855  191.7340199 0.260461271
+137864 209.9162 19.500646 0.103838750 0.9789178  838.5310964 0.048509722
+138075 208.3504 22.069069 0.052290721 0.9831599  693.5517243 0.218177306
+140052 213.1590 38.693610 0.067792707 0.9894395 1171.0398961 0.714621177
+142355 208.5428 12.921570 0.085042560 0.9697281  261.3068678 0.360073294
+142780 212.7127 32.744593 0.059902136 0.9907368  400.4231848 0.329472015
+143623 213.5039 28.688433 0.068417384 0.9944871  463.9974497 0.807078957
+146408 208.6483 17.583754 0.065082820 0.9661765  340.2310281 0.772009726
+146409 208.6483 17.583754 0.065082820 0.9661765  340.2310281 0.772009726
+149756 208.5561 12.601565 0.076508689 0.9533980  200.2407541 0.195116487
+153900 209.1098 13.929668 0.093891157 0.9496188  273.0516576 0.210512795
+155972 210.1293 29.758434 0.084560100 0.9895413  683.6636994 0.415752817
+156903 210.9059 24.714882 0.065796421 0.9760932 1037.0930151 0.697249663
+158449 209.1738 25.845312 0.062162008 0.9711432   54.1385373 0.177700197
+166082 210.2008 14.824268 0.117367196 0.9904134  432.8327207 0.721078276
+177085 208.1771 18.176115 0.076762307 0.9463083  610.7678838 0.676551572
+179010 209.7491 15.809138 0.070714095 0.9519851  358.8245452 0.707774543
+187994 208.5817 14.498027 0.077780662 0.9686594  872.2542710 0.275235506
+202437 208.0100 19.771170 0.059294722 0.9539462  310.6254299 0.515877077
+204509 207.8663 20.343871 0.077797852 0.9591838  253.6850474 0.079910541
+206977 206.5358 14.514867 0.061611542 0.9512730  286.9420776 0.770933472
+212853 208.1224 18.316922 0.093039831 0.9525406  888.4925523 0.262474173
+223555 209.3064 23.057781 0.109410822 0.9953080 2207.3911232 0.729031348
+226582 213.2136 30.045731 0.097775788 0.9983529 2337.4470067 0.004716958
+226790 209.8818 24.615996 0.100016053 0.9973320 2371.3801927 0.213309071
+229380 211.6257 28.564033 0.056828057 0.9804470  752.9158053 0.543837468
+231177 207.9650 13.390486 0.081383167 0.9925709  944.4767038 0.904968302
+236008 207.1731 12.250351 0.051287291 0.9563559  687.6080262 0.964988534
+241522 208.8219 26.179472 0.078937638 0.9997908   61.8485117 0.924987939
+243955 211.7586 35.611493 0.084636889 0.9659102 2494.1643613 0.699658128
+264420 208.2596 13.747315 0.079498040 0.9477483  614.9031402 0.905404136
+             deltaR       tauR   model.LL
+2038   4.021567e+00 0.99383799 -40.598925
+11087  6.087172e+00 0.72945287 -11.871799
+12542  9.218268e+02 0.81021908 -14.598985
+13656  2.406990e+02 0.61621613 -14.262978
+13710  3.826400e+01 0.74995167 -13.410480
+13733  8.819668e-02 0.30970076  -6.791607
+13944  4.916673e+02 0.74588019 -14.049464
+15935  8.645341e+00 0.55127091 -14.344408
+35851  3.186696e+00 0.12417659  -7.832422
+35852  3.186696e+00 0.12417659  -7.832422
+35853  3.186696e+00 0.12417659  -7.832422
+35854  3.186696e+00 0.12417659  -7.832422
+50734  6.127287e+02 0.16581929 -16.003379
+78013  5.014168e+02 0.40864097 -12.170436
+80484  4.005222e+02 0.84568558 -12.417671
+91762  5.475580e+02 0.46940512 -12.362904
+96426  5.174399e+02 0.16737807 -16.668360
+105870 4.129116e+02 0.22012813 -12.714283
+118636 7.215605e+02 0.78437963 -12.081984
+120745 9.730945e+02 0.53771797 -14.474619
+128062 6.085780e+02 0.37608736 -16.269959
+128508 6.919326e+02 0.62945996 -13.727055
+132693 1.930978e+01 0.97254146 -13.661799
+135100 1.447663e+02 0.37217034 -15.184651
+137864 8.709725e+02 0.68746440 -14.414378
+138075 9.045009e+02 0.83919913 -14.871082
+140052 9.518404e+02 0.39157080 -15.994015
+142355 8.763499e+02 0.08055511 -12.058134
+142780 1.218065e+03 0.61263494 -14.992817
+143623 9.371099e+02 0.50575724 -14.834100
+146408 1.052952e+03 0.09737341 -13.143708
+146409 1.052952e+03 0.09737341 -13.143708
+149756 1.016833e+03 0.28686929 -12.017649
+153900 1.056133e+03 0.64843040 -12.897521
+155972 1.194597e+03 0.35570668 -14.287748
+156903 1.368665e+03 0.27959194 -14.391179
+158449 1.479466e+03 0.34105696 -14.653848
+166082 5.405826e+00 0.19188576 -10.271086
+177085 1.268674e+02 0.25619387 -13.573490
+179010 2.856870e+02 0.09613292 -13.957484
+187994 5.509314e+02 0.68212414 -12.293606
+202437 2.216081e+02 0.67827210 -14.230422
+204509 3.576819e+02 0.96135629 -14.027327
+206977 8.541984e+02 0.23786052 -13.577846
+212853 5.902205e+02 0.70101969 -13.838177
+223555 6.667151e+00 0.34701466 -11.702092
+226582 2.278424e+02 0.01338528 -14.340115
+226790 1.267205e+01 0.30351397 -12.061623
+229380 9.728682e+01 0.03442466 -15.124285
+231177 3.105999e+00 0.19839227  -6.949245
+236008 1.121747e+01 0.44263374 -13.131653
+241522 3.344028e+02 0.68368046 -14.598295
+243955 6.899897e+02 0.39957220 -17.192277
+264420 1.715259e+02 0.71870118 -12.199164
+> xyplot(deltaL~tauL,data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=50)))
+> xyplot(deltaL~tauL,data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=500)))
+> xyplot(deltaL~tauL|floor(model.LL),data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=500)))
+> xyplot(deltaL~tauL|floor(model.LL/2),data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=500)))
+> xyplot(deltaL~tauL|floor(model.LL/2),data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=1000)))
+> xyplot(deltaR~tauR|floor(model.LL/2),data=subset(test.multiCline$clineFrames[[3]]$allClines,test.multiCline$clineFrames[[3]]$allClines$model.LL %in% sample(test.multiCline$clineFrames[[3]]$allClines$model.LL,size=1000)))
+> attach(test.multiCline$clineFrames[[3]])
+> xyplot(deltaR~tauR|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-12],size=100)))
+> xyplot(deltaR~tauR|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(deltaR~tauR|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(deltaL~tauL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot((center+deltaR)~tauR|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot((center+deltaL)~tauL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(deltaL+deltaR~center|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(deltaL+deltaR~tauL+tauR|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(deltaL+deltaR~width|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(center+deltaR~width|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(center+(center+deltaR)~width|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(center+(center+deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=1000)))
+> xyplot(center+(center+deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=2000)))
+> xyplot(center+(center+deltaR)+(center-deltaL)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=2000)))
+> xyplot((tauR*deltaR)+(tauL*deltaL)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=2000)))
+> xyplot((tauR*deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=2000)))
+> xyplot((center-tauR*deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-11],size=2000)))
+> xyplot((center-tauR*deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((center-deltaL)+center+(center+deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaL)+(deltaR)~model.LL|floor(width/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaL)+(deltaR)~model.LL|floor(ln(deltaR)/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Error in eval(expr, envir, enclos) : could not find function "ln"
+> xyplot((deltaL)+(deltaR)~model.LL|floor(log(deltaR)/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaR*tauR)~model.LL|floor(log(deltaR)/5),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaR*tauR)~model.LL|floor(log(deltaR)/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaL*tauL)~model.LL|floor(log(deltaL)/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaL*tauL)~model.LL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((center-deltaL)~tauL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((center-deltaL)~model.LL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((center-deltaL)~deltaL|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((center+deltaR)~delta|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Error in eval(expr, envir, enclos) : object 'delta' not found
+> xyplot((center+deltaR)~deltaR|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~deltaR|floor(model.LL),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~deltaR|deltaR>100,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~deltaR|deltaL>100,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~deltaL|deltaR>100,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~deltaL|floor(log(deltaR)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~floor(log(deltaR)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~floor(log(deltaR))+floor(log(deltaL)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~floor(log(center+deltaR))+floor(log(deltaL)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|floor(log(deltaR)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|deltaR<10,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|deltaR<10*floor(tauR*10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|(deltaR<10)*floor(tauR*10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|(deltaR<10)*floor(tauR*3),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((model.LL)~pMin+pMax|(deltaR<12)*floor(tauR*3),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+pMax~tauL+tauR|(model.LL<-12)*(model.LL<-10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+pMax~tauL+tauR|(model.LL< -12)*(model.LL< -10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+(1-pMax)~tauL+tauR|(model.LL< -12)*(model.LL< -10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+(1-pMax)~center+width|(model.LL< -12)*(model.LL< -10),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+>
+> xyplot(pMin+(1-pMax)~center+width|((model.LL< -12)+(model.LL< -10)),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+(1-pMax)~center+width|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(pMin+(width/50)~(1-pMax)+(center-mean(center))/var(center)^(0.5)|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> ?standardGeneric
+> normalize<-function(x) { return((x-mean(x))/var(x)^(0.5)); }
+> xyplot(normalize(center)~normalize(width)|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(normalize(center)+normalize(deltaL)+normalize(deltaR)~normalize(width)|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> ?splom
+> splom(~normalize(center)+normalize(deltaL)+normalize(deltaR)+normalize(pMin)+normalize(pMax)+normalize(width)|floor(model.LL/2),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Error in seq_len(nrow(form$right)) : argument must be non-negative
+> splom(~normalize(center)+normalize(deltaL)+normalize(deltaR)+normalize(pMin)+normalize(pMax)+normalize(width),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Error in seq_len(nrow(form$right)) : argument must be non-negative
+> splom(~allClines[,1-8],data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+>   C-c C-c
+> splom(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> prcomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Standard deviations:
+[1] 482.64474110 342.89160337   5.15375351   1.17594938   0.30342096
+[6]   0.27062407   0.01903234   0.01562308
+
+Rotation:
+                 PC1           PC2           PC3           PC4           PC5
+center -1.013472e-03  1.229469e-03 -0.1534353030  9.881432e-01 -1.485275e-03
+width  -7.487977e-03  8.139504e-03 -0.9880733564 -1.534537e-01 -4.616795e-03
+pMin    7.453429e-06 -9.232283e-06  0.0009195894  4.456691e-03 -3.167118e-03
+pMax   -7.039131e-06 -1.087484e-05 -0.0014658682  1.120817e-03 -1.021288e-02
+deltaL -9.988134e-01 -4.817332e-02  0.0071500585  1.456808e-04 -1.382326e-05
+tauL    3.375446e-05 -6.667989e-05  0.0033835141 -2.323723e-04 -9.575037e-01
+deltaR -4.811144e-02  9.988051e-01  0.0085869224  4.091561e-05 -7.480312e-05
+tauR   -7.359847e-05  1.716478e-04 -0.0054174660  1.951092e-03  2.881820e-01
+                 PC6           PC7           PC8
+center  2.392790e-03 -1.857606e-03  4.091520e-03
+width   3.867656e-03 -1.207110e-03 -1.714241e-03
+pMin    2.359962e-03  1.115203e-01 -9.937439e-01
+pMax    1.734533e-02  9.935503e-01  1.115759e-01
+deltaL  2.386772e-05  2.158383e-06  5.689069e-07
+tauL   -2.883520e-01 -5.006007e-03  1.807138e-03
+deltaR  1.121720e-04  2.034369e-05  1.277301e-06
+tauR   -9.573536e-01  1.977432e-02 -9.691383e-04
+> plot(prcomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+> ?prcomp
+> princomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+Call:
+princomp(x = subset(allClines[, 1:8], allClines$model.LL %in% 
+    sample(allClines$model.LL[allClines$model.LL > -15], size = 2000)))
+
+Standard deviations:
+      Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6 
+482.61677414 329.05037595   5.08298185   1.25433192   0.30030829   0.26689341 
+      Comp.7       Comp.8 
+  0.01890503   0.01605709 
+
+ 8  variables and  2909 observations.
+> ?princomp
+> plot(princomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+> biplot(princomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+Warning messages:
+1: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+2: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+3: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+4: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+> biplot(princomp(subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+Warning messages:
+1: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+2: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+3: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+4: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+> biplot(prcomp(subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+Warning messages:
+1: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+2: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+3: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+4: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+> biplot(prcomp(subset(allClines[,1:4],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+> biplot(prcomp(subset(allClines[,c(1,2,6,8)],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+> biplot(prcomp(subset(allClines[,c(3,4,6,8)],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+> biplot(prcomp(subset(allClines[,c(5,6,7,8)],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000))))
+Warning messages:
+1: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+2: In arrows(0, 0, y[, 1L] * 0.8, y[, 2L] * 0.8, col = col[2L], length = arrow.len) :
+  zero-length arrow is of indeterminate angle and so skipped
+> biplot(prcomp(subset(allClines[,c(5,6,7,8)],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)),scale.=TRUE))
+> biplot(prcomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)),scale.=TRUE))
+> biplot(prcomp(subset(allClines[,1:8],allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-10],size=2000)),scale.=TRUE))
+> xyplot((deltaL+deltaR)~width,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-10],size=2000)))
+> xyplot((deltaL+deltaR)*(pMax-pMin)~width,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-10],size=2000)))
+> xyplot((deltaL+deltaR)*(pMax-pMin)~width,data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot((deltaL+deltaR)*(pMax-pMin)~width|floor(model.LL/3),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(deltaL*(pMax-pMin)+deltaR*(pMax-pMin)~width|floor(model.LL/3),data=subset(allClines,allClines$model.LL %in% sample(allClines$model.LL[allClines$model.LL>-15],size=2000)))
+> xyplot(deltaL*(pMax-pMin)+deltaR*(pMax-pMin)~width,data=cssp(test.data$frame,"both"))
+> xyplot((deltaL*(pMax-pMin)+deltaR*(pMax-pMin))~width,data=cssp(test.data$frame,"both"))
+> xyplot((deltaL+deltaR)*(pMax-pMin)+(deltaL+deltaR)~width,data=cssp(test.data$frame,"both"))
+> xyplot((deltaL+deltaR)*(pMax-pMin)/width+(deltaL+deltaR)/width~width,data=cssp(test.data$frame,"both"))
+> source("hzarMultiModel.R")
+> test.mModel<-makeMultiCline1D(test.data)
+> detach(test.multiCline$clineFrames[[3]])
+> test.multiCline<-fitMultipleModels(test.mModel,test.data,mcmc=1e6);save(test.multiCline,test.data,test.mModel,file="hzarFittingTest20110425.zip") 
+               center       width    model.LL
+center     158.307996 -3.07816388  -4773.4367
+width       -3.078164  0.07005935     95.3235
+model.LL -4773.436723 95.32349159 154439.8808
+[1] "C"
+             center        width
+center 6.947691e-06 6.764888e-06
+width  6.764888e-06 7.710210e-06
+              center         width          pMin          pMax     model.LL
+center   158.3079965  -3.078163879  2.185438e-01  2.990593e-01   690.568022
+width     -3.0781639   0.070059352 -5.330546e-03 -2.247083e-03   -23.368750
+pMin       0.2185438  -0.005330546  4.485440e-04 -7.058608e-24     2.638806
+pMax       0.2990593  -0.002247083 -7.058608e-24  2.565313e-03    -2.192612
+model.LL 690.5680224 -23.368750159  2.638806e+00 -2.192612e+00 30963.288446
+[1] "C"
+              center         width         pMin          pMax
+center  0.0003319632  1.907435e-04 3.164697e-04 -4.330628e-04
+width   0.0001907435  1.282907e-04 2.281057e-04 -9.615762e-05
+pMin    0.0003164697  2.281057e-04 4.485440e-04  7.058608e-24
+pMax   -0.0004330628 -9.615762e-05 7.058608e-24  2.565313e-03
+               center         width          pMin          pMax        deltaL
+center    38.35177637   3.801468764  3.750143e-02  1.023407e-01   55.24725909
+width      3.80146876   2.813115698 -8.673846e-03  1.219464e-02   14.02030462
+pMin       0.03750143  -0.008673846  4.198798e-04 -7.630029e-06    0.08970744
+pMax       0.10234066   0.012194640 -7.630029e-06  2.355099e-03    0.20191066
+deltaL    55.24725909  14.020304617  8.970744e-02  2.019107e-01  249.06336228
+tauL       0.03064674   0.001579057  8.259166e-05  4.409569e-05    0.26255680
+deltaR   -93.09506970 -18.526847473 -9.269932e-02 -2.612642e-01 -317.42266613
+tauR       0.26835531   0.217509256 -4.234987e-04  3.061412e-03    1.54358885
+model.LL 359.69162204  18.899116530  6.485071e+00 -9.748392e-01 1319.39992399
+                  tauL        deltaR          tauR      model.LL
+center    3.064674e-02  -93.09506970  0.2683553111  3.596916e+02
+width     1.579057e-03  -18.52684747  0.2175092564  1.889912e+01
+pMin      8.259166e-05   -0.09269932 -0.0004234987  6.485071e+00
+pMax      4.409569e-05   -0.26126425  0.0030614120 -9.748392e-01
+deltaL    2.625568e-01 -317.42266613  1.5435888454  1.319400e+03
+tauL      5.873355e-04   -0.16734322  0.0003554589  7.185856e-01
+deltaR   -1.673432e-01 1123.05941520 -3.1794132179 -7.509144e+02
+tauR      3.554589e-04   -3.17941322  0.0245569404  4.195296e+00
+model.LL  7.185856e-01 -750.91440541  4.1952959774  1.716366e+05
+[1] "C"
+              center         width          pMin          pMax        deltaL
+center  2.964318e-04  0.0005592160  1.042599e-04 -2.845233e-04  0.0001164137
+width   5.592160e-04  0.0078759797 -4.589551e-04 -6.452492e-04  0.0005622630
+pMin    1.042599e-04 -0.0004589551  4.198798e-04  7.630029e-06  0.0000679911
+pMax   -2.845233e-04 -0.0006452492  7.630029e-06  2.355099e-03 -0.0001530322
+deltaL  1.164137e-04  0.0005622630  6.799109e-05 -1.530322e-04  0.0001430728
+tauL    8.520283e-05  0.0000835519  8.259166e-05 -4.409569e-05  0.0001989971
+deltaR  3.446719e-04  0.0013054781  1.234486e-04 -3.479281e-04  0.0003203842
+tauR    7.460705e-04  0.0115089642 -4.234987e-04 -3.061412e-03  0.0011699173
+                tauL        deltaR          tauR
+center  8.520283e-05  0.0003446719  0.0007460705
+width   8.355190e-05  0.0013054781  0.0115089642
+pMin    8.259166e-05  0.0001234486 -0.0004234987
+pMax   -4.409569e-05 -0.0003479281 -0.0030614120
+deltaL  1.989971e-04  0.0003203842  0.0011699173
+tauL    5.873355e-04  0.0002228526  0.0003554589
+deltaR  2.228526e-04  0.0019916905  0.0042340554
+tauR    3.554589e-04  0.0042340554  0.0245569404
+  C-c C-cselect: Interrupted system call
+
+
+
+
+> test.multiCline<-fitMultipleModels(test.mModel,test.data,mcmc=1e6,verbose=5e5);save(test.multiCline,test.data,test.mModel,file="hzarFittingTest20110425.zip") 
+               center       width    model.LL
+center     158.307996 -3.07816388  -4773.4367
+width       -3.078164  0.07005935     95.3235
+model.LL -4773.436723 95.32349159 154439.8808
+[1] "C"
+             center        width
+center 6.947691e-06 6.764888e-06
+width  6.764888e-06 7.710210e-06
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -47.17950
+theta = 
+ 198.49898
+  64.74880
+Metropolis acceptance rate = 1.00000
+
+              center         width          pMin          pMax     model.LL
+center   158.3079965  -3.078163879  2.185438e-01  2.990593e-01   690.568022
+width     -3.0781639   0.070059352 -5.330546e-03 -2.247083e-03   -23.368750
+pMin       0.2185438  -0.005330546  4.485440e-04 -7.058608e-24     2.638806
+pMax       0.2990593  -0.002247083 -7.058608e-24  2.565313e-03    -2.192612
+model.LL 690.5680224 -23.368750159  2.638806e+00 -2.192612e+00 30963.288446
+[1] "C"
+              center         width         pMin          pMax
+center  0.0003319632  1.907435e-04 3.164697e-04 -4.330628e-04
+width   0.0001907435  1.282907e-04 2.281057e-04 -9.615762e-05
+pMin    0.0003164697  2.281057e-04 4.485440e-04  7.058608e-24
+pMax   -0.0004330628 -9.615762e-05 7.058608e-24  2.565313e-03
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -47.17719
+theta = 
+ 198.50000
+  64.75000
+   0.00000
+   1.00000
+Metropolis acceptance rate = 0.00000
+
+               center         width          pMin          pMax        deltaL
+center    38.35177637   3.801468764  3.750143e-02  1.023407e-01   55.24725909
+width      3.80146876   2.813115698 -8.673846e-03  1.219464e-02   14.02030462
+pMin       0.03750143  -0.008673846  4.198798e-04 -7.630029e-06    0.08970744
+pMax       0.10234066   0.012194640 -7.630029e-06  2.355099e-03    0.20191066
+deltaL    55.24725909  14.020304617  8.970744e-02  2.019107e-01  249.06336228
+tauL       0.03064674   0.001579057  8.259166e-05  4.409569e-05    0.26255680
+deltaR   -93.09506970 -18.526847473 -9.269932e-02 -2.612642e-01 -317.42266613
+tauR       0.26835531   0.217509256 -4.234987e-04  3.061412e-03    1.54358885
+model.LL 359.69162204  18.899116530  6.485071e+00 -9.748392e-01 1319.39992399
+                  tauL        deltaR          tauR      model.LL
+center    3.064674e-02  -93.09506970  0.2683553111  3.596916e+02
+width     1.579057e-03  -18.52684747  0.2175092564  1.889912e+01
+pMin      8.259166e-05   -0.09269932 -0.0004234987  6.485071e+00
+pMax      4.409569e-05   -0.26126425  0.0030614120 -9.748392e-01
+deltaL    2.625568e-01 -317.42266613  1.5435888454  1.319400e+03
+tauL      5.873355e-04   -0.16734322  0.0003554589  7.185856e-01
+deltaR   -1.673432e-01 1123.05941520 -3.1794132179 -7.509144e+02
+tauR      3.554589e-04   -3.17941322  0.0245569404  4.195296e+00
+model.LL  7.185856e-01 -750.91440541  4.1952959774  1.716366e+05
+[1] "C"
+              center         width          pMin          pMax        deltaL
+center  2.964318e-04  0.0005592160  1.042599e-04 -2.845233e-04  0.0001164137
+width   5.592160e-04  0.0078759797 -4.589551e-04 -6.452492e-04  0.0005622630
+pMin    1.042599e-04 -0.0004589551  4.198798e-04  7.630029e-06  0.0000679911
+pMax   -2.845233e-04 -0.0006452492  7.630029e-06  2.355099e-03 -0.0001530322
+deltaL  1.164137e-04  0.0005622630  6.799109e-05 -1.530322e-04  0.0001430728
+tauL    8.520283e-05  0.0000835519  8.259166e-05 -4.409569e-05  0.0001989971
+deltaR  3.446719e-04  0.0013054781  1.234486e-04 -3.479281e-04  0.0003203842
+tauR    7.460705e-04  0.0115089642 -4.234987e-04 -3.061412e-03  0.0011699173
+                tauL        deltaR          tauR
+center  8.520283e-05  0.0003446719  0.0007460705
+width   8.355190e-05  0.0013054781  0.0115089642
+pMin    8.259166e-05  0.0001234486 -0.0004234987
+pMax   -4.409569e-05 -0.0003479281 -0.0030614120
+deltaL  1.989971e-04  0.0003203842  0.0011699173
+tauL    5.873355e-04  0.0002228526  0.0003554589
+deltaR  2.228526e-04  0.0019916905  0.0042340554
+tauR    3.554589e-04  0.0042340554  0.0245569404
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -55.83846
+theta = 
+ 198.50000
+  64.75000
+   0.00000
+   1.00000
+   1.00000
+   0.50000
+   1.00000
+   0.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 501000 
+function value =  -33.00232
+theta = 
+ 202.04335
+  66.15988
+   0.01048
+   0.99945
+Metropolis acceptance rate = 0.45442
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.45439
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+MCMCmetrop1R iteration 500001 of 501000 
+function value =  -35.81469
+theta = 
+ 203.37154
+  68.38676
+   0.01293
+   0.97548
+   2.15262
+   0.80655
+   7.15428
+   0.98370
+Metropolis acceptance rate = 0.32227
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.32214
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               center         width          pMin          pMax      model.LL
+center    0.354214093  0.1292005663  1.483618e-03 -1.689310e-03  0.4284681790
+width     0.129200566  0.0709731601  5.791842e-04 -7.262870e-04  0.1518343912
+pMin      0.001483618  0.0005791842  1.444362e-04 -7.062679e-06 -0.0001192682
+pMax     -0.001689310 -0.0007262870 -7.062679e-06  1.531643e-04  0.0033917013
+model.LL  0.428468179  0.1518343912 -1.192682e-04  3.391701e-03  0.8827117854
+[1] "C"
+             center        width          pMin          pMax
+center  1.703129277  1.753051264 -3.056486e-03 -3.480245e-03
+width   1.753051264  2.717520086 -3.367173e-03 -4.222377e-03
+pMin   -0.003056486 -0.003367173  1.274956e-04  6.234310e-06
+pMax   -0.003480245 -0.004222377  6.234310e-06  1.352000e-04
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -32.90018
+theta = 
+ 201.71371
+  66.42258
+   0.02866
+   0.99481
+Metropolis acceptance rate = 1.00000
+
+                center         width          pMin          pMax        deltaL
+center    0.5238800823  6.129063e-01  8.941785e-04 -1.160758e-03  0.0569989231
+width     0.6129062668  1.677657e+00  4.437964e-04 -8.467496e-05  0.1040581608
+pMin      0.0008941785  4.437964e-04  7.388018e-05  6.530755e-07  0.0001057832
+pMax     -0.0011607584 -8.467496e-05  6.530755e-07  1.004891e-04 -0.0001646258
+deltaL    0.0569989231  1.040582e-01  1.057832e-04 -1.646258e-04  0.0190504054
+tauL     -0.0062520855 -4.634836e-03  5.354537e-05 -2.341568e-05 -0.0003305876
+deltaR    0.3438690647 -4.436075e-01  9.835385e-04 -1.726442e-03  0.0382234291
+tauR     -0.0134250239 -3.652319e-03 -2.057187e-05 -4.937335e-05 -0.0015673711
+model.LL  0.3497199001  2.107109e-01 -8.161139e-04  2.371885e-03  0.0332793079
+                  tauL        deltaR          tauR      model.LL
+center   -6.252086e-03  0.3438690647 -1.342502e-02  0.3497199001
+width    -4.634836e-03 -0.4436074866 -3.652319e-03  0.2107109162
+pMin      5.354537e-05  0.0009835385 -2.057187e-05 -0.0008161139
+pMax     -2.341568e-05 -0.0017264425 -4.937335e-05  0.0023718846
+deltaL   -3.305876e-04  0.0382234291 -1.567371e-03  0.0332793079
+tauL      1.621539e-03 -0.0069920788 -3.355610e-05  0.0078850926
+deltaR   -6.992079e-03  1.3110464997 -1.945183e-02  0.4640831548
+tauR     -3.355610e-05 -0.0194518331  5.474682e-03  0.0077348986
+model.LL  7.885093e-03  0.4640831548  7.734899e-03  0.8365015005
+[1] "C"
+             center         width          pMin          pMax       deltaL
+center  3.583091677  6.9575030455 -2.138802e-03 -2.776440e-03  4.096743216
+width   6.957503045 31.6079124118 -1.761828e-03 -3.361512e-04 12.413137002
+pMin   -0.002138802 -0.0017618277  6.180088e-05 -5.462986e-07 -0.002658943
+pMax   -0.002776440 -0.0003361512 -5.462986e-07  8.405931e-05 -0.004137998
+deltaL  4.096743216 12.4131370022 -2.658943e-03 -4.137998e-03 14.388727037
+tauL   -0.014954479 -0.0183998422 -4.479079e-05 -1.958726e-05 -0.008309577
+deltaR  1.772326297 -3.7947463426 -1.772810e-03 -3.111881e-03  2.070266621
+tauR   -0.032111563 -0.0144993444  1.720840e-05 -4.130088e-05 -0.039397102
+                tauL       deltaR          tauR
+center -1.495448e-02  1.772326297 -3.211156e-02
+width  -1.839984e-02 -3.794746343 -1.449934e-02
+pMin   -4.479079e-05 -0.001772810  1.720840e-05
+pMax   -1.958726e-05 -0.003111881 -4.130088e-05
+deltaL -8.309577e-03  2.070266621 -3.939710e-02
+tauL    1.356420e-03 -0.012603096 -2.806973e-05
+deltaR -1.260310e-02  5.092056458 -3.506158e-02
+tauR   -2.806973e-05 -0.035061578  4.579580e-03
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -33.31434
+theta = 
+ 202.75623
+  67.23787
+   0.01056
+   0.99693
+   1.46723
+   0.95861
+   5.90229
+   0.99742
+Metropolis acceptance rate = 1.00000
+
+MCMCmetrop1R iteration 500001 of 501000 
+function value =  -44.95769
+theta = 
+ 199.50740
+  66.19017
+Metropolis acceptance rate = 0.99890
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.99890
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            center     width  model.LL
+center   0.1639271 0.2110319 0.3620328
+width    0.2110319 0.2964468 0.4732736
+model.LL 0.3620328 0.4732736 0.8020104
+[1] "C"
+          center     width
+center 1.0030786 0.9877973
+width  0.9877973 1.0614562
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -44.70009
+theta = 
+ 199.68740
+  66.08251
+Metropolis acceptance rate = 1.00000
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -13.18651
+theta = 
+ 209.48293
+  16.29992
+   0.07704
+   0.97103
+Metropolis acceptance rate = 0.67097
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -34.70153
+theta = 
+ 212.65955
+  91.78633
+Metropolis acceptance rate = 0.95442
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -18.80544
+theta = 
+ 213.51320
+  47.18281
+   0.09631
+   0.99355
+ 997.89952
+   0.90554
+ 339.59114
+   0.35658
+Metropolis acceptance rate = 0.54713
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.67070
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               center       width          pMin          pMax      model.LL
+center    1.566514854  3.66638110  1.502348e-03  1.153892e-02 -0.3742751993
+width     3.666381097 41.66268151 -3.625861e-02  6.627215e-02 -2.8967095112
+pMin      0.001502348 -0.03625861  3.291132e-04 -3.815307e-05  0.0008272898
+pMax      0.011538921  0.06627215 -3.815307e-05  4.099311e-04 -0.0015752243
+model.LL -0.374275199 -2.89670951  8.272898e-04 -1.575224e-03  1.0269728650
+[1] "C"
+             center      width          pMin         pMax
+center 11.484481309 3.47296637 -4.122289e-03 3.166162e-02
+width   3.472966372 5.09913249  1.285479e-02 2.349552e-02
+pMin   -0.004122289 0.01285479  3.379904e-04 3.918217e-05
+pMax    0.031661618 0.02349552  3.918217e-05 4.209881e-04
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -11.57393
+theta = 
+ 208.26565
+  10.60235
+   0.08680
+   0.95574
+Metropolis acceptance rate = 0.00000
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.95323
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center      width   model.LL
+center   11.2995478  16.530164 -0.4003893
+width    16.5301640 113.812593 -2.9298325
+model.LL -0.4003893  -2.929833  0.7094853
+[1] "C"
+          center    width
+center 50.007996 9.997588
+width   9.997588 9.406934
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -34.60278
+theta = 
+ 211.92388
+  88.16000
+Metropolis acceptance rate = 0.00000
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.55257
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                center         width          pMin          pMax        deltaL
+center    2.530671e+00    8.56049255 -9.074106e-04  2.134735e-02   219.9553686
+width     8.560493e+00   61.00615246 -4.235091e-02  1.170238e-01  1525.5921695
+pMin     -9.074106e-04   -0.04235091  3.166701e-04 -7.027477e-05    -0.8474121
+pMax      2.134735e-02    0.11702379 -7.027477e-05  4.863458e-04     2.9360909
+deltaL    2.199554e+02 1525.59216951 -8.474121e-01  2.936091e+00 94231.1058653
+tauL     -6.474157e-03   -0.05023104  1.724405e-04 -1.434282e-04    -2.0109298
+deltaR    5.061786e+01  320.37977735 -1.483400e-01  6.425470e-01 18173.0886976
+tauR     -1.492282e-02   -0.05230891  1.319941e-04 -6.929024e-05     0.3215496
+model.LL -6.832089e-01   -4.85638528  1.607705e-03 -6.071344e-03  -130.7956087
+                  tauL        deltaR          tauR      model.LL
+center   -0.0064741573    50.6178571 -1.492282e-02 -6.832089e-01
+width    -0.0502310359   320.3797773 -5.230891e-02 -4.856385e+00
+pMin      0.0001724405    -0.1483400  1.319941e-04  1.607705e-03
+pMax     -0.0001434282     0.6425470 -6.929024e-05 -6.071344e-03
+deltaL   -2.0109298121 18173.0886976  3.215496e-01 -1.307956e+02
+tauL      0.0840611790    -0.9004240 -1.062150e-03  4.864989e-03
+deltaR   -0.9004240060  5813.2822654  2.724296e-01 -2.765407e+01
+tauR     -0.0010621501     0.2724296  8.526437e-02  3.621534e-03
+model.LL  0.0048649894   -27.6540717  3.621534e-03  1.060930e+00
+[1] "C"
+            center      width         pMin         pMax       deltaL
+center 5.751955347 2.73727868 1.409085e-03 3.314953e-02  2.611408408
+width  2.737278678 2.74431710 9.252020e-03 2.556513e-02  2.548115311
+pMin   0.001409085 0.00925202 3.359650e-04 7.455665e-05  0.006873666
+pMax   0.033149534 0.02556513 7.455665e-05 5.159790e-04  0.023815695
+deltaL 2.611408408 2.54811531 6.873666e-03 2.381569e-02  5.843793822
+tauL   0.010053485 0.01097352 1.829473e-04 1.521673e-04  0.016311379
+deltaR 2.842353344 2.53092806 5.690967e-03 2.465090e-02  5.330444454
+tauR   0.023173104 0.01142745 1.400365e-04 7.351212e-05 -0.002608205
+                tauL       deltaR          tauR
+center  0.0100534852  2.842353344  2.317310e-02
+width   0.0109735191  2.530928059  1.142745e-02
+pMin    0.0001829473  0.005690967  1.400365e-04
+pMax    0.0001521673  0.024650897  7.351212e-05
+deltaL  0.0163113788  5.330444454 -2.608205e-03
+tauL    0.0891830664  0.034544181 -1.126867e-03
+deltaR  0.0345441813  8.064736188 -1.045159e-02
+tauR   -0.0011268674 -0.010451586  9.045957e-02
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -11.60218
+theta = 
+ 208.22849
+  11.31020
+   0.08529
+   0.95603
+ 187.47681
+   0.50505
+ 157.05365
+   0.49976
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -12.96871
+theta = 
+ 208.73639
+  17.43800
+   0.07338
+   0.96070
+Metropolis acceptance rate = 0.10279
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -16.69891
+theta = 
+ 211.91685
+  44.60361
+   0.04383
+   0.99198
+  30.42475
+   0.37277
+ 886.22157
+   0.24014
+Metropolis acceptance rate = 0.06329
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -34.81683
+theta = 
+ 213.96843
+  88.79197
+Metropolis acceptance rate = 0.33157
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.06307
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.10332
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                center         width          pMin          pMax        deltaL
+center    3.015525e+00   10.59664781 -5.864000e-04  2.549756e-02   145.8755513
+width     1.059665e+01   69.02591752 -3.971699e-02  1.365641e-01   935.6981149
+pMin     -5.864000e-04   -0.03971699  2.963197e-04 -6.587693e-05    -0.4083823
+pMax      2.549756e-02    0.13656409 -6.587693e-05  4.968192e-04     1.8562551
+deltaL    1.458756e+02  935.69811485 -4.083823e-01  1.856255e+00 65328.4966346
+tauL      3.638235e-04   -0.02229571  1.836024e-04 -3.830253e-05    -1.0527304
+deltaR    2.784731e+02 1744.83250223 -7.905055e-01  3.408882e+00   899.8361914
+tauR     -1.213106e-02   -0.01966837  4.482073e-05 -5.077732e-05    -0.3786552
+model.LL -7.866884e-01   -5.29016355  1.679958e-03 -7.223612e-03   -77.6715743
+                  tauL        deltaR          tauR      model.LL
+center    3.638235e-04  2.784731e+02 -1.213106e-02 -7.866884e-01
+width    -2.229571e-02  1.744833e+03 -1.966837e-02 -5.290164e+00
+pMin      1.836024e-04 -7.905055e-01  4.482073e-05  1.679958e-03
+pMax     -3.830253e-05  3.408882e+00 -5.077732e-05 -7.223612e-03
+deltaL   -1.052730e+00  8.998362e+02 -3.786552e-01 -7.767157e+01
+tauL      8.455329e-02  6.077265e-01  6.162310e-05  2.989839e-03
+deltaR    6.077265e-01  1.237068e+05  8.616086e-01 -1.334868e+02
+tauR      6.162310e-05  8.616086e-01  8.414672e-02  9.076608e-04
+model.LL  2.989839e-03 -1.334868e+02  9.076608e-04  9.996544e-01
+[1] "C"
+              center       width         pMin         pMax       deltaL
+center  4.8708781488 2.545344189 7.451455e-04 3.240005e-02  2.386533411
+width   2.5453441889 2.465607085 7.505111e-03 2.580580e-02  2.276430664
+pMin    0.0007451455 0.007505111 2.962173e-04 6.585416e-05  0.005255991
+pMax    0.0324000497 0.025805799 6.585416e-05 4.966475e-04  0.023890510
+deltaL  2.3865334106 2.276430664 5.255991e-03 2.389051e-02 10.825010540
+tauL   -0.0004623149 0.004213104 1.835390e-04 3.828929e-05  0.013548928
+deltaR  2.6508917805 2.469995342 5.919928e-03 2.552839e-02  0.086758661
+tauR    0.0154150778 0.003716629 4.480524e-05 5.075977e-05  0.004873396
+                tauL       deltaR          tauR
+center -4.623149e-04  2.650891780  1.541508e-02
+width   4.213104e-03  2.469995342  3.716629e-03
+pMin    1.835390e-04  0.005919928  4.480524e-05
+pMax    3.828929e-05  0.025528392  5.075977e-05
+deltaL  1.354893e-02  0.086758661  4.873396e-03
+tauL    8.452407e-02 -0.004551135  6.160180e-05
+deltaR -4.551135e-03  6.940114671 -6.452404e-03
+tauR    6.160180e-05 -0.006452404  8.411764e-02
+MCMCmetrop1R iteration 1 of 2000000 
+function value =  -11.64888
+theta = 
+ 208.23032
+  11.80877
+   0.08451
+   0.95648
+ 160.97525
+   0.50281
+ 254.79949
+   0.50196
+Metropolis acceptance rate = 0.00000
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.33094
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+MCMCmetrop1R iteration 500001 of 2000000 
+function value =  -13.36710
+theta = 
+ 210.61311
+  14.85125
+   0.10074
+   0.98149
+ 223.70441
+   0.06712
+   6.25266
+   0.61483
+Metropolis acceptance rate = 0.14244
+
+MCMCmetrop1R iteration 1000001 of 2000000 
+function value =  -17.60675
+theta = 
+ 210.90171
+  26.66462
+   0.07732
+   0.93290
+ 102.67906
+   0.43171
+ 297.18789
+   0.25539
+Metropolis acceptance rate = 0.13501
+
+MCMCmetrop1R iteration 1500001 of 2000000 
+function value =  -16.72990
+theta = 
+ 209.26963
+  21.91476
+   0.11458
+   0.94129
+1133.34638
+   0.61225
+  13.40508
+   0.93123
+Metropolis acceptance rate = 0.13284
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.13210
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               center         width          pMin         pMax        deltaL
+center    1.089848874   1.302119423  1.517964e-03 1.420577e-03    43.8356350
+width     1.302119423  11.443745115 -1.291957e-02 5.627392e-03   339.5021301
+pMin      0.001517964  -0.012919573  2.568379e-04 1.803035e-06    -0.1719813
+pMax      0.001420577   0.005627392  1.803035e-06 7.052546e-05     0.2292146
+deltaL   43.835635040 339.502130054 -1.719813e-01 2.292146e-01 48705.8827314
+tauL      0.003333131   0.021916770  2.895239e-04 1.205313e-04     1.2315388
+deltaR    0.468745273   2.750817507 -4.689484e-03 3.324443e-04    79.2287904
+tauR      0.028611634   0.225742159 -2.139805e-04 5.569576e-05     6.3307272
+model.LL -0.100400099  -1.413026938  7.284227e-04 3.177410e-03   -35.2009724
+                  tauL        deltaR          tauR      model.LL
+center    0.0033331305  0.4687452725  2.861163e-02 -1.004001e-01
+width     0.0219167699  2.7508175067  2.257422e-01 -1.413027e+00
+pMin      0.0002895239 -0.0046894838 -2.139805e-04  7.284227e-04
+pMax      0.0001205313  0.0003324443  5.569576e-05  3.177410e-03
+deltaL    1.2315388222 79.2287903891  6.330727e+00 -3.520097e+01
+tauL      0.0838716227  0.0151926156 -3.471523e-04  2.826021e-03
+deltaR    0.0151926156  4.6682791694 -1.262294e-01 -5.959491e-01
+tauR     -0.0003471523 -0.1262293772  2.136902e-02 -3.827567e-02
+model.LL  0.0028260210 -0.5959491441 -3.827567e-02  9.328349e-01
+[1] "C"
+             center        width          pMin          pMax       deltaL
+center 100.85624008  8.561916981 -1.410367e-02 -1.319883e-02 11.570264261
+width    8.56191698  5.346530798  8.529086e-03 -3.715023e-03  6.367107471
+pMin    -0.01410367  0.008529086  2.395874e-04  1.681934e-06  0.004557548
+pMax    -0.01319883 -0.003715023  1.681934e-06  6.578861e-05 -0.006074248
+deltaL  11.57026426  6.367107471  4.557548e-03 -6.074248e-03 36.667126450
+tauL    -0.03096870 -0.014468746  2.700780e-04  1.124358e-04 -0.032636098
+deltaR   7.30799661  3.047241801  7.340415e-03 -5.203726e-04  3.523091670
+tauR     0.26583570  0.149027704  1.996084e-04 -5.195495e-05  0.167765910
+                tauL        deltaR          tauR
+center -0.0309686986  7.3079966066  2.658357e-01
+width  -0.0144687458  3.0472418011  1.490277e-01
+pMin    0.0002700780  0.0073404151  1.996084e-04
+pMax    0.0001124358 -0.0005203726 -5.195495e-05
+deltaL -0.0326360977  3.5230916695  1.677659e-01
+tauL    0.0782383756 -0.0237808913  3.238358e-04
+deltaR -0.0237808913 12.2614885846 -1.975859e-01
+tauR    0.0003238358 -0.1975859313  1.993377e-02
+MCMCmetrop1R iteration 1 of 2000000 
+function value =   -6.40449
+theta = 
+ 208.14704
+  11.29314
+   0.08581
+   0.99524
+ 346.08389
+   0.49620
+   1.94770
+   0.22885
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 2000000 
+function value =  -13.11017
+theta = 
+ 209.17543
+  10.46138
+   0.09812
+   0.93742
+  16.52250
+   0.89591
+   7.91392
+   0.89966
+Metropolis acceptance rate = 0.07359
+
+MCMCmetrop1R iteration 1000001 of 2000000 
+function value =  -13.89995
+theta = 
+ 209.96561
+  30.71856
+   0.06456
+   0.99946
+ 525.49547
+   0.82324
+ 139.65435
+   0.54886
+Metropolis acceptance rate = 0.06998
+
+MCMCmetrop1R iteration 1500001 of 2000000 
+function value =  -16.98195
+theta = 
+ 214.49569
+  29.99486
+   0.09805
+   0.97761
+ 418.82442
+   0.80903
+ 240.76606
+   0.97809
+Metropolis acceptance rate = 0.07362
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.07629
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> q()
+Save workspace image? [y/n/c]: n
+
+Process R:2 finished at Mon Apr 25 10:24:04 2011

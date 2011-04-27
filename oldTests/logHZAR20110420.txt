@@ -1,0 +1,1257 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> .help.ESS <- help
+> options(STERM='iESS', editor='emacsclient')
+> 
+> sampleLikelihoodMolecularPop=function(pEst,pObs,N) {
++   p1=N*log(pEst);
++   p0=N*log(1-pEst);
++   lP=((1-pObs)*log((1-pEst)/(1-pObs))+pObs*log(pEst/pObs))*N;
++   tmp=ifelse(pObs==1,p1,lP);
++   res=ifelse(pObs==0,p0,tmp);
++   return(res);
++ }
+> ?foreach
+> library(foreach)
+Loading required package: iterators
+Loading required package: codetools
+foreach: simple, scalable parallel programming from REvolution Computing
+Use REvolution R for scalability, fault tolerance and more.
+http://www.revolution-computing.com
+> ?foreach
+> ?seq
+> source("hzarMultiModel.R")
+Loading required package: MCMCpack
+Loading required package: coda
+Loading required package: lattice
+Loading required package: MASS
+##
+## Markov Chain Monte Carlo Package (MCMCpack)
+## Copyright (C) 2003-2011 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park
+##
+## Support provided by the U.S. National Science Foundation
+## (Grants SES-0350646 and SES-0350613)
+##
+> mannequin.data<-read.csv("molecular-data-robb2.csv",header=TRUE)
+> names(mannequin.data)
+ [1] "distance" "p.ada.A"  "p.ada.B"  "ada.N"    "p.ak2.A"  "p.ak2.B" 
+ [7] "ak2.N"    "p.gsr.A"  "p.gsr.B"  "p.gsr.C"  "p.gsr.D"  "p.gsr.E" 
+[13] "gsr.N"    "pgm2.a"   "pgm2.b"   "pgm2.c"   "pgm2.d"   "pgm2.n"  
+[19] "L5.a"     "L5.b"     "L5.n"     "pscn3.a"  "pscn3.b"  "pscn3.n" 
+[25] "mtDNA.a"  "mtDNA.b"  "mtDNA.n"  "mlghi.mu" "mlghi.sd"
+> test.data<-doMolecularData1DPops(distance=mannequin.data$distance,pObs=mannequin.data$L5.b,nSamples=mannequin.data$L5.n)
+> test.mModel<-makeMultiCline1D(test.data)
+Error in { : task 1 failed - "$ operator is invalid for atomic vectors"
+> library(doMC)
+Loading required package: multicore
+
+Attaching package: 'multicore'
+
+
+	The following object(s) are masked from package:lattice :
+
+	 parallel 
+
+> registerDoMC()
+> source("hzarMultiModel.R")
+> test.mModel<-makeMultiCline1D(test.data)
+Error in { : task 1 failed - "$ operator is invalid for atomic vectors"
+> source("hzarMultiModel.R")
+> test.mModel<-makeMultiCline1D(test.data)
+Error in { : task 1 failed - "subscript out of bounds"
+> source("hzarMultiModel.R")
+> test.mModel<-makeMultiCline1D(test.data)
+Error in class(clineMuliModel) <- "clineMultiModel" : 
+  object 'clineMuliModel' not found
+> test.mModel<-makeMultiCline1D(test.data)
+Error in class(clineMuliModel) <- "clineMultiModel" : 
+  object 'clineMuliModel' not found
+> source("hzarMultiModel.R")
+> test.mModel<-makeMultiCline1D(test.data)
+> names(test.mModel)
+NULL
+> names(test.mModel[[1]])
+[1] "func"           "req"            "parameterTypes"
+> length(test.mModel)
+[1] 3
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+Error in eval(expr, envir, enclos) : object 'multimodel' not found
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+Error in eval(expr, envir, enclos) : object 'multimodel' not found
+> source("hzarMultiModel.R")
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04027
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04555
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.16527
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04027
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04555
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.16527
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in fitClineModel(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  element 1 is empty;
+   the part of the args list of 'list' being evaluated was:
+   (data = sampleData)
+  C-c C-c
+> source("hzarMultiModel.R")
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+[1] "C"
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04027
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in reFitClineFunc(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  unused argument(s) (burnin = 0)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04555
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in reFitClineFunc(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  unused argument(s) (burnin = 0)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.16527
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in reFitClineFunc(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  unused argument(s) (burnin = 0)
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04027
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in reFitClineFunc(clineFrame.A, verbose = verbose, burnin = 0, mcmc = mcmcB2,  : 
+  unused argument(s) (burnin = 0)
+  C-c C-c
+select: Interrupted system call
+
+
+> source("hzarMultiModel.R")
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plotClineFunc(test.multiCline$clineFrames[[1]])
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04027
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+          center     width      pMin      pMax
+center 23.867053 -9.148122 -8.110962  2.243983
+width  -9.148122 94.035979 18.669932  1.146687
+pMin   -8.110962 18.669932 16.334494 -0.388656
+pMax    2.243983  1.146687 -0.388656  2.557676
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.04555
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+           center      width       pMin       pMax    deltaL       tauL
+center 130.833439  7.1003810   0.782307 17.4563143 1.3477000  4.6113730
+width    7.100381  1.9025417   2.425147 -1.0142832 1.1298022  1.7643876
+pMin     0.782307  2.4251468  16.801022 -6.2314482 1.0186515  1.6516470
+pMax    17.456314 -1.0142832  -6.231448 30.3259203 0.1740427 -1.4986215
+deltaL   1.347700  1.1298022   1.018652  0.1740427 1.8065167  1.4789663
+tauL     4.611373  1.7643876   1.651647 -1.4986215 1.4789663  2.5881731
+deltaR -25.476443 -7.5849257 -18.816197 32.8134556 2.1379241 -7.8227092
+tauR     1.254981  0.5061999  -1.622567  3.3195610 0.9551974  0.2464395
+           deltaR       tauR
+center -25.476443  1.2549811
+width   -7.584926  0.5061999
+pMin   -18.816197 -1.6225672
+pMax    32.813456  3.3195610
+deltaL   2.137924  0.9551974
+tauL    -7.822709  0.2464395
+deltaR 141.594771 11.4313855
+tauR    11.431385  2.9425905
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.16527
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+          center     width
+center 9.3619978 0.3759725
+width  0.3759725 1.2118692
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00002
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+          center    width      pMin      pMax
+center 1.3689989 1.024047 0.9731689 1.2801233
+width  1.0240471 1.009933 1.0032961 1.0597429
+pMin   0.9731689 1.003296 1.0376636 0.8282143
+pMax   1.2801233 1.059743 0.8282143 2.4417092
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+            center      width        pMin       pMax    deltaL       tauL
+center 144.3765108  7.8353687   0.8632866 19.2632845 1.4872057  5.0887140
+width    7.8353687  2.0994812   2.6761830 -1.1192756 1.2467524  1.9470261
+pMin     0.8632866  2.6761830  18.5401605 -6.8764893 1.1240961  1.8226154
+pMax    19.2632845 -1.1192756  -6.8764893 33.4650729 0.1920586 -1.6537495
+deltaL   1.4872057  1.2467524   1.1240961  0.1920586 1.9935162  1.6320597
+tauL     5.0887140  1.9470261   1.8226154 -1.6537495 1.6320597  2.8560848
+deltaR -28.1136080 -8.3700705 -20.7639334 36.2101026 2.3592288 -8.6324680
+tauR     1.3848890  0.5585986  -1.7905254  3.6631815 1.0540736  0.2719494
+           deltaR       tauR
+center -28.113608  1.3848890
+width   -8.370071  0.5585986
+pMin   -20.763933 -1.7905254
+pMax    36.210103  3.6631815
+deltaL   2.359229  1.0540736
+tauL    -8.632468  0.2719494
+deltaR 156.251790 12.6146922
+tauR    12.614692  3.2471893
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00016
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.59377
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+          center    width
+center 450.64914 82.72478
+width   82.72478 59.86548
+  C-c C-cselect: Interrupted system call
+
+
+> source("hzarMultiModel.R")
+> test.multiCline<-fitMultipleModels(test.mModel,test.data); plot(test.multiCline$clineFrames[[1]]$mcmc)
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03591
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+            center        width        pMin        pMax
+center 186.0199793   0.99184980  214.175728 -1.06725163
+width    0.9918498   2.61245082  -11.900796  0.02485423
+pMin   214.1757283 -11.90079628 2184.795527 -2.98638946
+pMax    -1.0672516   0.02485423   -2.986389  3.24257226
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03867
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+            center       width       pMin       pMax    deltaL       tauL
+center  12.8268457 -14.4032402  8.0386180  0.4635443  1.588664  1.1828748
+width  -14.4032402 870.3242879 39.9113145 13.0705896 44.643040  1.3897600
+pMin     8.0386180  39.9113145 21.2490085  1.5833591  2.928394  0.5162020
+pMax     0.4635443  13.0705896  1.5833591  1.5458883  1.511908  0.6344957
+deltaL   1.5886636  44.6430403  2.9283941  1.5119083 43.724869 -4.3550854
+tauL     1.1828748   1.3897600  0.5162020  0.6344957 -4.355085  5.0402815
+deltaR   0.8605901   5.8096258  1.1619055  1.1553431  2.028696  1.1661804
+tauR     0.8559332   0.6590591  0.6473118  1.1457518  1.761929  0.4524136
+          deltaR      tauR
+center 0.8605901 0.8559332
+width  5.8096258 0.6590591
+pMin   1.1619055 0.6473118
+pMax   1.1553431 1.1457518
+deltaL 2.0286959 1.7619288
+tauL   1.1661804 0.4524136
+deltaR 1.8996178 0.9356773
+tauR   0.9356773 2.2429754
+[1] "C"
+           center        width        pMin        pMax
+center 235.133582   1.25372122  270.723103 -1.34903089
+width    1.253721   3.30219862  -15.042883  0.03141632
+pMin   270.723103 -15.04288338 2761.632378 -3.77486576
+pMax    -1.349031   0.03141632   -3.774866  4.09868678
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+            center       width      pMin       pMax    deltaL       tauL
+center  27.0247410  -30.346029 16.936476  0.9766364  3.347138  2.4921860
+width  -30.3460294 1833.676728 84.088712 27.5382823 94.057934  2.9280701
+pMin    16.9364763   84.088712 44.769304  3.3359621  6.169802  1.0875804
+pMax     0.9766364   27.538282  3.335962  3.2570151  3.185423  1.3368121
+deltaL   3.3471381   94.057934  6.169802  3.1854230 92.123449 -9.1756819
+tauL     2.4921860    2.928070  1.087580  1.3368121 -9.175682 10.6193140
+deltaR   1.8131679   12.240237  2.448006  2.4341797  4.274237  2.4570128
+tauR     1.8033564    1.388564  1.363814  2.4139720  3.712189  0.9531852
+          deltaR      tauR
+center  1.813168 1.8033564
+width  12.240237 1.3885645
+pMin    2.448006 1.3638141
+pMax    2.434180 2.4139720
+deltaL  4.274237 3.7121885
+tauL    2.457013 0.9531852
+deltaR  4.002284 1.9713683
+tauR    1.971368 4.7257003
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.21048
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[1] "C"
+          center    width
+center 29.164439 5.351942
+width   5.351942 5.440455
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  C-c C-cselect: Interrupted system call
+
+
+
+
+> source("hzarMultiModel.R")
+> test.multiCline<-fitMultipleModels(test.mModel,test.data,verbose=1e5); plot(test.multiCline$clineFrames[[1]]$mcmc)
+[1] "C"
+           center       width
+center 158.307996 -3.07816388
+width   -3.078164  0.07005935
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -47.17719
+theta = 
+ 198.50000
+  64.75000
+Metropolis acceptance rate = 0.00000
+
+[1] "C"
+            center        width          pMin          pMax
+center 158.3079965 -3.078163879  2.185438e-01  2.990593e-01
+width   -3.0781639  0.070059352 -5.330546e-03 -2.247083e-03
+pMin     0.2185438 -0.005330546  4.485440e-04 -7.058608e-24
+pMax     0.2990593 -0.002247083 -7.058608e-24  2.565313e-03
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -47.17719
+theta = 
+ 198.50000
+  64.75000
+   0.00000
+   1.00000
+Metropolis acceptance rate = 0.00000
+
+[1] "C"
+             center         width          pMin          pMax        deltaL
+center  36.43783415   2.882352365  4.440556e-02  1.059895e-01   46.85179691
+width    2.88235237   2.527122861 -8.128561e-03  9.023706e-03   12.25868316
+pMin     0.04440556  -0.008128561  4.221591e-04 -1.245637e-24    0.08072842
+pMax     0.10598953   0.009023706 -1.245637e-24  2.414412e-03    0.16839511
+deltaL  46.85179691  12.258683161  8.072842e-02  1.683951e-01  217.75560029
+tauL     0.02172840   0.001238814  7.626777e-05  2.033141e-05    0.23767894
+deltaR -66.81678979 -28.764363568 -4.440556e-02 -1.059895e-01 -304.88523941
+tauR     0.18593796   0.215504808 -4.685560e-04  2.226623e-03    1.38656413
+                tauL        deltaR          tauR
+center  2.172840e-02  -66.81678979  0.1859379603
+width   1.238814e-03  -28.76436357  0.2155048084
+pMin    7.626777e-05   -0.04440556 -0.0004685560
+pMax    2.033141e-05   -0.10598953  0.0022266228
+deltaL  2.376789e-01 -304.88523941  1.3865641296
+tauL    5.633976e-04   -0.09388453  0.0001922645
+deltaR -9.388453e-02 2000.78300033 -5.3292312472
+tauR    1.922645e-04   -5.32923125  0.0272647003
+MCMCmetrop1R iteration 1 of 501000 
+function value =  -55.83846
+theta = 
+ 198.50000
+  64.75000
+   0.00000
+   1.00000
+   1.00000
+   0.50000
+   1.00000
+   0.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 501000 
+function value =  -23.50918
+theta = 
+ 212.47782
+  63.40134
+   0.05960
+   0.98562
+Metropolis acceptance rate = 0.03827
+
+MCMCmetrop1R iteration 100001 of 501000 
+function value =  -14.82673
+theta = 
+ 212.32670
+  25.19534
+   0.10465
+   0.99153
+ 479.06704
+   0.13486
+ 981.66562
+   0.92854
+Metropolis acceptance rate = 0.03845
+
+MCMCmetrop1R iteration 100001 of 501000 
+function value =  -35.91504
+theta = 
+ 208.90823
+  97.74607
+Metropolis acceptance rate = 0.19472
+
+MCMCmetrop1R iteration 200001 of 501000 
+function value =  -20.51274
+theta = 
+ 216.61256
+  55.80335
+   0.07408
+   0.99932
+Metropolis acceptance rate = 0.03726
+
+MCMCmetrop1R iteration 200001 of 501000 
+function value =  -14.58086
+theta = 
+ 207.79719
+   6.26876
+   0.11864
+   0.95275
+ 269.53116
+   0.57517
+ 712.76650
+   0.46334
+Metropolis acceptance rate = 0.03962
+
+MCMCmetrop1R iteration 300001 of 501000 
+function value =  -22.85438
+theta = 
+ 215.60470
+  58.87906
+   0.04054
+   0.98981
+Metropolis acceptance rate = 0.03643
+
+MCMCmetrop1R iteration 200001 of 501000 
+function value =  -37.25759
+theta = 
+ 213.52582
+ 115.57971
+Metropolis acceptance rate = 0.20564
+
+MCMCmetrop1R iteration 300001 of 501000 
+function value =  -13.83870
+theta = 
+ 208.41934
+  17.43698
+   0.06763
+   0.93895
+ 237.98663
+   0.34908
+1054.26853
+   0.30440
+Metropolis acceptance rate = 0.04018
+
+MCMCmetrop1R iteration 400001 of 501000 
+function value =  -24.13645
+theta = 
+ 210.54132
+  58.18360
+   0.05609
+   0.96688
+Metropolis acceptance rate = 0.03650
+
+MCMCmetrop1R iteration 400001 of 501000 
+function value =  -12.19220
+theta = 
+ 207.07411
+  12.28782
+   0.07654
+   0.95689
+ 679.04850
+   0.71981
+1374.91219
+   0.17254
+Metropolis acceptance rate = 0.03925
+
+MCMCmetrop1R iteration 500001 of 501000 
+function value =  -23.28509
+theta = 
+ 219.95833
+  54.97969
+   0.05684
+   0.99850
+Metropolis acceptance rate = 0.03595
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03591
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+MCMCmetrop1R iteration 300001 of 501000 
+function value =  -36.08501
+theta = 
+ 217.87554
+  93.05191
+Metropolis acceptance rate = 0.21003
+
+[1] "C"
+            center        width        pMin        pMax
+center 186.0199793   0.99184980  214.175728 -1.06725163
+width    0.9918498   2.61245082  -11.900796  0.02485423
+pMin   214.1757283 -11.90079628 2184.795527 -2.98638946
+pMax    -1.0672516   0.02485423   -2.986389  3.24257226
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 200001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 300001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 400001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 600001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 700001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 800001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 501000 
+function value =  -13.99658
+theta = 
+ 209.57326
+  20.82927
+   0.06651
+   0.98809
+ 842.15555
+   0.83255
+1726.65737
+   0.17955
+Metropolis acceptance rate = 0.03866
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03867
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+MCMCmetrop1R iteration 900001 of 1000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Error in plot.new() : 
+  X11 fatal IO error: please save work and shut down R
+[1] "C"
+            center       width       pMin       pMax    deltaL       tauL
+center  12.8268457 -14.4032402  8.0386180  0.4635443  1.588664  1.1828748
+width  -14.4032402 870.3242879 39.9113145 13.0705896 44.643040  1.3897600
+pMin     8.0386180  39.9113145 21.2490085  1.5833591  2.928394  0.5162020
+pMax     0.4635443  13.0705896  1.5833591  1.5458883  1.511908  0.6344957
+deltaL   1.5886636  44.6430403  2.9283941  1.5119083 43.724869 -4.3550854
+tauL     1.1828748   1.3897600  0.5162020  0.6344957 -4.355085  5.0402815
+deltaR   0.8605901   5.8096258  1.1619055  1.1553431  2.028696  1.1661804
+tauR     0.8559332   0.6590591  0.6473118  1.1457518  1.761929  0.4524136
+          deltaR      tauR
+center 0.8605901 0.8559332
+width  5.8096258 0.6590591
+pMin   1.1619055 0.6473118
+pMax   1.1553431 1.1457518
+deltaL 2.0286959 1.7619288
+tauL   1.1661804 0.4524136
+deltaR 1.8996178 0.9356773
+tauR   0.9356773 2.2429754
+MCMCmetrop1R iteration 1 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 200001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 300001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+Error in plot.new() : 
+  X11 fatal IO error: please save work and shut down R
+[1] "C"
+           center        width        pMin        pMax
+center 235.133582   1.25372122  270.723103 -1.34903089
+width    1.253721   3.30219862  -15.042883  0.03141632
+pMin   270.723103 -15.04288338 2761.632378 -3.77486576
+pMax    -1.349031   0.03141632   -3.774866  4.09868678
+MCMCmetrop1R iteration 1 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 400001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 200001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 600001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 300001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 400001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 700001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 500001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 800001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 600001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 900001 of 1000000 
+function value =  -13.79270
+theta = 
+ 208.09332
+  12.98234
+   0.07876
+   0.98628
+ 345.66825
+   0.56987
+ 117.82828
+   0.17950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 700001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00000
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+MCMCmetrop1R iteration 800001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 400001 of 501000 
+function value =  -34.95718
+theta = 
+ 214.19536
+  86.14808
+Metropolis acceptance rate = 0.21154
+
+MCMCmetrop1R iteration 900001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1000001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1100001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1200001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1300001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1400001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1500001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1600001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1700001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1800001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 1900001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 2000001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 2100001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 2200001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 2300001 of 5000000 
+function value =  -20.70732
+theta = 
+ 213.76623
+  57.27050
+   0.06366
+   0.99493
+Metropolis acceptance rate = 0.00000
+
+  C-c C-c
+select: Interrupted system call
+
+
+> R: xcb_io.c:221: poll_for_event: Assertion `(((long) (event_sequence) - (long) (dpy->request)) <= 0)' failed.
+
+Process R aborted at Wed Apr 20 18:46:09 2011
