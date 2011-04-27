@@ -3,6 +3,22 @@
 require(foreach);
 source("hzarClasses.R")
 
+getCredibleCut<-function(clineFrame,rejectPercent=0.05){
+
+model.LL=clineFrame$allClines$model.LL
+  credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
+
+  credible.LLcut<-min(subset(credibleLLspace,credibleLLspace$percentile>rejectionPercent)$LL);
+return(credible.LLcut)
+}
+getCredibleLLspace<-function(clineFrame){
+
+model.LL=clineFrame$allClines$model.LL
+  credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
+
+return(credibleLLspace)
+}
+
 makeMultiCline1D<-function(data=NULL,scaling=c("fixed","free","free"),tails=c("none","none","both"),direction=NULL){
   if((!identical(is.null(direction),FALSE))&&
      (!identical(is.null(data),FALSE))) {

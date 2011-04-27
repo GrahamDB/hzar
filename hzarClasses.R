@@ -55,8 +55,10 @@ CLINEPARAMETERS<-list(center=mkParam("center",10,1.5,-1e8,1e8),
                       pMax  =mkParam("pMax",  1, 1.1,   0,  1),
                       deltaL=mkParam("deltaL",1,1.5,  1e-8, 1e8),
                       deltaR=mkParam("deltaR",1,1.5,  1e-8, 1e8),
+                      deltaM=mkParam("deltaM",1,1.5,  1e-8, 1e8),
                       tauL  =mkParam("tauL", 0.5,1.1,  0,   1),
-                      tauR  =mkParam("tauR", 0.5,1.1,  0,   1));
+                      tauR  =mkParam("tauR", 0.5,1.1,  0,   1),
+                      tauM  =mkParam("tauM", 0.5,1.1,  0,   1));
 
 splitParameters<-function(paramList){
   param.fixed=list();
@@ -177,7 +179,7 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
     do.right<-TRUE;
     do.mirror<-TRUE;
     result<-expand.grid(pMin=pMinS,pMax=pMaxS,dist.left=bothDist[[1]],dist.right=bothDist[[2]]);
-    keyValues=c(keyValues,"deltaL","tauL");
+    keyValues=c(keyValues,"deltaM","tauM");
   } else if (identical(tolower(do.tail),"both")) {
     do.left<-TRUE;
     do.right<-TRUE;
@@ -202,6 +204,8 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
   result$tauL <-numeric(nThetas);
   result$deltaR <-numeric(nThetas);
   result$tauR <-numeric(nThetas);
+  result$deltaM <-numeric(nThetas);
+  result$tauM <-numeric(nThetas);
   for(iter in 1:nThetas){
     tPMin<- result$pMin[[iter]];
     tPMax<- result$pMax[[iter]];
@@ -236,10 +240,13 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
     lambda=lmEst$coefficients[[2]]
     result$width[[iter]]<- abs(0.25/lambda);
     result$center[[iter]]<- -lmEst$coefficients[[1]]/lmEst$coefficients[[2]];
+   
     if(do.mirror){
       result$center[[iter]]<- ( result$dist.left[[iter]]+ result$dist.right[[iter]])/2;
     }
     if(do.left){
+       if(result$center[[iter]]< result$dist.left[[iter]])
+      result$center[[iter]]=result$dist.left[[iter]];
       lmEst<-NULL;
       try(lmEst<-lm(obsFreq~dist,data=myLeftData));
       if(is.null(lmEst)) {
@@ -256,6 +263,10 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
       result$deltaL[[iter]]<- result$center[[iter]]- result$dist.left[[iter]];
     }
     if(do.right){
+      
+    if(result$center[[iter]]> result$dist.right[[iter]])
+      result$center[[iter]]=result$dist.right[[iter]];
+    
       lmEst<-NULL;
       try(lmEst<-lm(obsFreq~dist,data=myRightData));
       if(is.null(lmEst)) {
@@ -274,6 +285,8 @@ cssp<-function(cline.data,do.tail="none",pMinS=NULL,pMaxS=NULL){
       tau.mirror=( result$tauL[[iter]]+ result$tauR[[iter]])/2;
       result$tauR[[iter]]<-tau.mirror;
       result$tauL[[iter]]<-tau.mirror;
+      result$tauM[[iter]]<-tau.mirror;
+      result$deltaM[[iter]]<- result$deltaL[[iter]]
     }
     
   }
@@ -359,6 +372,143 @@ hzar.meta.tailed.scaled.descending =
        );
 class(hzar.meta.tailed.scaled.ascending)<-"clineMetaModel";
 class(hzar.meta.tailed.scaled.descending)<-"clineMetaModel";
+
+hzar.meta.mtail.scaled.descending =
+  list(req= function(center,width,pMin,pMax,deltaM,tauM)
+       {
+         return(width>0 & deltaM>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauM>=0 & tauM<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaM,tauM)
+       {
+         gamma=4/width;
+         tail.LO=meta.tail.lower(gamma=gamma,d1=deltaM,tau1=tauM);
+         tail.HI=meta.tail.upper(gamma=gamma,d2=deltaM,tau2=tauM);
+         clineComposite=
+           meta.cline.func.stepBoth(center=center,
+                                    direction=-1,
+                                    gamma=gamma,
+                                   lowerTail=tail.LO,
+                                    upperTail=tail.HI);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaM","tauM")]
+       );
+hzar.meta.mtail.scaled.ascending =
+  list(req= function(center,width,pMin,pMax,deltaM,tauM)
+       {
+         return(width>0 & deltaM>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauM>=0 & tauM<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaM,tauM)
+       {
+         gamma=4/width;
+         tail.LO=meta.tail.lower(gamma=gamma,d1=deltaM,tau1=tauM);
+        tail.HI=meta.tail.upper(gamma=gamma,d2=deltaM,tau2=tauM);
+         clineComposite=
+           meta.cline.func.stepBoth(center=center,
+                                    direction=1,
+                                    gamma=gamma,
+                                    lowerTail=tail.LO,
+                                    upperTail=tail.HI);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaM","tauM")]
+       );
+class(hzar.meta.mtail.scaled.ascending)<-"clineMetaModel";
+class(hzar.meta.mtail.scaled.descending)<-"clineMetaModel";
+hzar.meta.ltail.scaled.descending =
+  list(req= function(center,width,pMin,pMax,deltaL,tauL)
+       {
+         return(width>0 & deltaL>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauL>=0 & tauL<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaL,tauL)
+       {
+         gamma=4/width;
+        # tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
+         tail.HI=meta.tail.upper(gamma=gamma,d2=deltaL,tau2=tauL);
+         clineComposite=
+           meta.cline.func.upStep(center=center,
+                                    direction=-1,
+                                    gamma=gamma,
+                              #      lowerTail=tail.LO,
+                                    upperTail=tail.HI);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL")]
+       );
+hzar.meta.ltail.scaled.ascending =
+  list(req= function(center,width,pMin,pMax,deltaL,tauL)
+       {
+         return(width>0 & deltaL>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauL>=0 & tauL<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaL,tauL)
+       {
+         gamma=4/width;
+         tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
+        # tail.HI=meta.tail.upper(gamma=gamma,d2=deltaL,tau2=tauL);
+         clineComposite=
+           meta.cline.func.lowStep(center=center,
+                                    direction=1,
+                                    gamma=gamma,
+                                    lowerTail=tail.LO);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL")]
+       );
+class(hzar.meta.ltail.scaled.ascending)<-"clineMetaModel";
+class(hzar.meta.ltail.scaled.descending)<-"clineMetaModel";
+hzar.meta.rtail.scaled.ascending =
+  list(req= function(center,width,pMin,pMax,deltaR,tauR)
+       {
+         return(width>0 & deltaR>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauR>=0 & tauR<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaR,tauR)
+       {
+         gamma=4/width;
+        # tail.LO=meta.tail.lower(gamma=gamma,d1=deltaL,tau1=tauL);
+         tail.HI=meta.tail.upper(gamma=gamma,d2=deltaR,tau2=tauR);
+         clineComposite=
+           meta.cline.func.upStep(center=center,
+                                    direction=1,
+                                    gamma=gamma,
+                              #      lowerTail=tail.LO,
+                                    upperTail=tail.HI);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaR","tauR")]
+       );
+hzar.meta.rtail.scaled.descending =
+  list(req= function(center,width,pMin,pMax,deltaR,tauR)
+       {
+         return(width>0 & deltaR>=0 &
+                pMin>=0 & pMax<=1 & pMin<pMax & 
+                tauR>=0 & tauR<=1 )
+       },
+       func=function(center,width,pMin,pMax,deltaR,tauR)
+       {
+         gamma=4/width;
+         tail.LO=meta.tail.lower(gamma=gamma,d1=deltaR,tau1=tauR);
+        # tail.HI=meta.tail.upper(gamma=gamma,d2=deltaL,tau2=tauL);
+         clineComposite=
+           meta.cline.func.lowStep(center=center,
+                                    direction=-1,
+                                    gamma=gamma,
+                                    lowerTail=tail.LO);
+         return(meta.cline.func.pScale(pMin,pMax,clineComposite));
+       },
+       parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaR","tauR")]
+       );
+class(hzar.meta.rtail.scaled.ascending)<-"clineMetaModel";
+class(hzar.meta.rtail.scaled.descending)<-"clineMetaModel";
 setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
   if(scaling=="none"){
     attr(myModel$parameterTypes$pMin,"fixed")<-TRUE;
@@ -440,6 +590,24 @@ makeCline1D<- function(data=NULL,scaling="none",tails="none",direction=NULL){
     return(makeSimpleCline1D(data,scaling,direction));
   }else if(identical(tolower(tails),"both")) {
     return(makeTailedCline1D(data,scaling,direction));
+  }else if(identical(tolower(tails),"right")) {
+myRightCline<-buildCline1D(data,scaling,direction,
+                              hzar.meta.rtail.scaled.ascending,
+                              hzar.meta.rtail.scaled.descending);
+  attr(myRightCline,"tails")<-"right";
+    return(myRightCline);
+  }else if(identical(tolower(tails),"left")) {
+myLeftCline<-buildCline1D(data,scaling,direction,
+                              hzar.meta.ltail.scaled.ascending,
+                              hzar.meta.ltail.scaled.descending);
+  attr(myLeftCline,"tails")<-"left";
+    return(myLeftCline);
+  }else if(identical(tolower(tails),"mirror")) {
+myMirrorCline<-buildCline1D(data,scaling,direction,
+                              hzar.meta.mtail.scaled.ascending,
+                              hzar.meta.mtail.scaled.descending);
+  attr(myMirrorCline,"tails")<-"mirror";
+    return(myMirrorCline);
   }
   stop(paste("Cline with",tails,"tail(s) not available.")); 
 }
@@ -457,6 +625,13 @@ fitClineModel <- function(model,sampleData, verbose=10000,
                           seed=list(NA,1),rejectLL=-1e8){
   myClineFrame=list(data=sampleData);
 ##  myModel<-model;
+  attr(myClineFrame,"mcmc.count")<-0;
+  if(identical(is.null(seed),TRUE)){
+    seed=list(NA, attr(clineFrame,"mcmc.count")+1)
+  }
+  if(is.list(seed)&&length(seed)>1)
+    attr(myClineFrame,"mcmc.count")<-seed[[2]];
+  
   myParams<-splitParameters(model$parameterTypes);
 ##   param<-list(init=param.free.init,tune=param.free.weight,
 ##               lower=param.free.lower,upper=param.free.upper,
@@ -552,7 +727,7 @@ fitClineModel <- function(model,sampleData, verbose=10000,
   myClineFrame$model=model;
   myClineFrame$allClines=model.info;
   myClineFrame$maxLL=max(model.info$model.LL);
-  myClineFrame$maxLL.theta=subset(model.info,model.info$model.LL==max(model.info$model.LL));
+  myClineFrame$maxLL.theta=subset(model.info,model.info$model.LL==max(model.info$model.LL))[1,];
    myClineFrame$maxLL.theta<-myClineFrame$maxLL.theta[names( formals(model$func))];
   myClineFrame$maxLL.cline=do.call(model$func,as.list( myClineFrame$maxLL.theta))
   class(myClineFrame)<-"clineModelFrame";
@@ -561,13 +736,28 @@ fitClineModel <- function(model,sampleData, verbose=10000,
 
 
 reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
-                         seed=list(NA,1),rejectLL=-1e8){
+                         seed=NULL,rejectLL=-1e8){
   myClineFrame=list(data=clineFrame$data);
   model<-clineFrame$model;
   sampleData<-clineFrame$data;
+  attr(myClineFrame,"mcmc.count")<-0; 
+  if(identical(is.null(seed),TRUE)){
+    if(is.numeric(attr(clineFrame,"mcmc.count"))&&
+       length(attr(clineFrame,"mcmc.count")==1)){
+      seed=list(NA, attr(clineFrame,"mcmc.count")+1)
+    } else {
+      seed=list(NA, attr(myClineFrame,"mcmc.count")+1)
+    }
+  }
+  if(is.list(seed)&&length(seed)>1)
+    attr(myClineFrame,"mcmc.count")<-seed[[2]];
   if(is.null(thin)) thin<-thin(clineFrame$mcmc);
-  for(typeName in names(clineFrame$maxLL.theta))
-    model$parameterTypes[[typeName]]$val<-clineFrame$maxLL.theta[[typeName]][[1]];
+  for(typeName in names(model$parameterTypes[lapply(model$parameterTypes,attr,"fixed")==FALSE])) #names(clineFrame$maxLL.theta))
+    model$parameterTypes[[typeName]]$val<-
+      weighted.mean(clineFrame$allClines[clineFrame$allClines$model.LL>(clineFrame$maxLL-8),typeName],exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>(clineFrame$maxLL-8)]));
+
+                                        
+## clineFrame$maxLL.theta[[typeName]][[1]];
   
   myParams<-splitParameters(model$parameterTypes);
 
@@ -587,8 +777,11 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
   credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));
   detach(clineFrame$allClines);
   credible.LLcut<-min(subset(credibleLLspace,credibleLLspace$percentile>0.05)$LL);
-  VMATRIX<-cov(subset(clineFrame$allClines,clineFrame$allClines$model.LL>=credible.LLcut)[,names(myParams$init)]);
-  
+  VMATRIX<-cov.wt(subset(clineFrame$allClines,clineFrame$allClines$model.LL>=clineFrame$maxLL-8)[,c(names(myParams$init),"model.LL")],wt=exp(clineFrame$allClines$model.LL[clineFrame$allClines$model.LL>=(clineFrame$maxLL-8)]))$cov;
+  counter.inv<-diag(1/VMATRIX["model.LL",])
+  dimnames(counter.inv)<-list(rownames(VMATRIX),colnames(VMATRIX));
+  VMATRIX<-(counter.inv%*%VMATRIX%*%counter.inv)
+  VMATRIX<-VMATRIX[names(myParams$init),names(myParams$init)]/VMATRIX["model.LL","model.LL"];
   print("C");
    print(VMATRIX);
  ##  print(list(fun=clineLLFunc, logfun="TRUE",
@@ -638,6 +831,9 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
                   model,
                   myClineFrame$data);
   }
+  myClineFrame$mcmc.old=clineFrame$mcmc;
+  myClineFrame$mcmc.new=myClineFrame$mcmc;
+  
   if((thin( myClineFrame$mcmc)==thin(clineFrame$mcmc))&
      (dim( myClineFrame$mcmc)[[2]]==dim(clineFrame$mcmc)[[2]])){
     myClineFrame$mcmc<-mcmc(rbind(clineFrame$mcmc, myClineFrame$mcmc),
@@ -651,9 +847,11 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
                             thin(myClineFrame$mcmc));
   }
   myClineFrame$model=model;
+  myClineFrame$allClines.old=clineFrame$allClines;
+  myClineFrame$allClines.new=model.info;
   myClineFrame$allClines=rbind(clineFrame$allClines,model.info);
-  myClineFrame$maxLL=max(model.info$model.LL);
-  myClineFrame$maxLL.theta=subset(model.info,model.info$model.LL==max(model.info$model.LL));
+  myClineFrame$maxLL=max( myClineFrame$allClines$model.LL);
+  myClineFrame$maxLL.theta=subset( myClineFrame$allClines, myClineFrame$allClines$model.LL==max( myClineFrame$allClines$model.LL))[1,];
    myClineFrame$maxLL.theta<-myClineFrame$maxLL.theta[names( formals(model$func))];
   myClineFrame$maxLL.cline=do.call(model$func,as.list( myClineFrame$maxLL.theta))
   class(myClineFrame)<-"clineModelFrame";
