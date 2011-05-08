@@ -729,4 +729,1302 @@ deltaR    NaN   NaN  NaN  NaN    NaN  NaN
 tauR      NaN   NaN  NaN  NaN    NaN  NaN
 Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
   missing value where TRUE/FALSE needed
-> 
+> xyplot(p.Obs~dist,data=obs.p.139K$frame)
+Error in eval(expr, envir, enclos) : object 'p.Obs' not found
+> xyplot(obsFreq~dist,data=obs.p.139K$frame)
+> test.clineFunc<-do.call(model3.cline.p.139K$func,as.list(cssp(obs.p.139K$frame)[1,]))
+Error in meta.tail.upper(gamma = gamma, d2 = deltaR, tau2 = tauR) : 
+  element 2 is empty;
+   the part of the args list of '*' being evaluated was:
+   (gamma, d2)
+> cssp(obs.p.139K$frame)[1,]
+    center    width pMin pMax
+1 3.331969 1.568656    0    1
+> test.clineFunc<-do.call(model3.cline.p.139K$func,as.list(cssp(obs.p.139K$frame,do.tail="right")[1,]))
+> xyplot(obsFreq+test.clineFunc(dist)~dist,data=obs.p.139K$frame)
+> test.clineFunc(dist)
+Error in x - center : non-numeric argument to binary operator
+> test.clineFunc(obs.p.139K$frame$dist)
+ [1] 3.379061e-18 4.925130e-13 4.253788e-11 1.624003e-08 9.999840e-01
+ [6] 9.999992e-01 9.999998e-01 9.999999e-01 1.000000e+00 1.000000e+00
+[11] 1.000000e+00
+> test.clineFunc<-do.call(model3.cline.p.139K$func,as.list(cssp(obs.p.139K$frame,do.tail="right")[51,]))
+> test.clineFunc(obs.p.139K$frame$dist)
+ [1] 0.07894737 0.07894737 0.07894737 0.07894737 0.99999821 1.00000000
+ [7] 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000
+> xyplot(obsFreq+test.clineFunc(dist)~dist,data=obs.p.139K$frame)
+> obs.p.139K$model.LL(test.clineFunc)
+[1] -Inf
+> obs.p.139K$model.LL
+function(model.func){
+    pEst=model.func(obj$frame$dist);
+##res<-numeric(length(pEst));
+  ##  for(iter in 1:(length(pEst))){
+      res<-sampleLikelihoodMolecularPop(pEst=as.numeric(pEst),
+                                        pObs=as.numeric(obj$frame$obsFreq),
+                                        N=as.numeric(obj$frame$n));
+    ##}
+                                                
+    result<-sum(res);
+    if(is.na(result))
+      return(-1e8);
+    return(result);
+  }
+<environment: 0x2946d68>
+> sampleLikelihoodMolecularPop(pEst=as.numeric(test.clineFunc(obs.p.139K$frame$dist)), pObs=as.numeric(obs.p.139K$frame$obsFreq),N=as.numeric(obs.p.139K$frame$n))
+ [1]    0.0000000   -0.5607875   -0.5607875   -8.8585399 -105.3416171
+ [6]  -49.8916096 -189.2411103  -86.4306907         -Inf    0.0000000
+[11]    0.0000000
+> obs.p.139K$frame
+   dist    obsFreq  n
+1   0.0 0.07894737 38
+2   1.6 0.15000000 20
+3   2.2 0.15000000 20
+4   3.0 0.28000000 50
+5   6.9 0.55000000 20
+6   7.3 0.85000000 20
+7   7.5 0.55000000 20
+8   7.6 0.80000000 20
+9   8.6 0.95000000 20
+10 30.0 1.00000000 20
+11 75.0 1.00000000 20
+> sampleLikelihoodMolecularPop(pEst=1,pObs=0.95,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=1,pObs=0.98,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=0.9,pObs=0.98,N=1)
+[1] -0.05126589
+> sampleLikelihoodMolecularPop(pEst=0.98,pObs=0.98,N=1)
+[1] 0
+> sampleLikelihoodMolecularPop(pEst=0.99,pObs=0.98,N=1)
+[1] -0.003913620
+> sampleLikelihoodMolecularPop(pEst=0.9999,pObs=0.98,N=1)
+[1] -0.0862657
+> sampleLikelihoodMolecularPop(pEst=0.9999,pObs=0.95,N=1)
+[1] -0.2620968
+> sampleLikelihoodMolecularPop(pEst=0.999999,pObs=0.95,N=1)
+[1] -0.4922612
+> sampleLikelihoodMolecularPop(pEst=0.99999999,pObs=0.95,N=1)
+[1] -0.7225188
+> sampleLikelihoodMolecularPop(pEst=0.9999999999999999,pObs=0.95,N=1)
+[1] -1.638325
+> sampleLikelihoodMolecularPop(pEst=1-1e-16,pObs=0.95,N=1)
+[1] -1.638325
+> sampleLikelihoodMolecularPop(pEst=1-1e-24,pObs=0.95,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=1-1e-20,pObs=0.95,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=1-1e-18,pObs=0.95,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=1-1e-17,pObs=0.95,N=1)
+[1] -Inf
+> sampleLikelihoodMolecularPop(pEst=1-1e-16,pObs=0.95,N=1)
+[1] -1.638325
+> sampleLikelihoodMolecularPop
+function(pEst,pObs,N) {
+  p1=N*log(pEst);
+  p0=N*log(1-pEst);
+  lP=((1-pObs)*log((1-pEst)/(1-pObs))+pObs*log(pEst/pObs))*N;
+  tmp=ifelse(pObs==1,p1,lP);
+  res=ifelse(pObs==0,p0,tmp);
+  return(res);
+}
+> log(test.clineFunc(obs.p.139K$frame$dist))
+ [1] -2.538974e+00 -2.538974e+00 -2.538974e+00 -2.538974e+00 -1.789063e-06
+ [6] -3.577516e-09 -1.599776e-10 -3.382961e-11  0.000000e+00  0.000000e+00
+[11]  0.000000e+00
+> log(1-test.clineFunc(obs.p.139K$frame$dist))
+ [1]  -0.0822381  -0.0822381  -0.0822381  -0.0822381 -13.2338193 -19.4485971
+ [7] -22.5559874 -24.1096848        -Inf        -Inf        -Inf
+> ?is.finite
+> source("hzarTEST20100508-OTDB.R")
+                center         width          pMin          pMax        deltaR
+center    7.825497e-01 -9.108033e-03  3.167718e-02  2.668688e-03  3.200388e+00
+width    -9.108033e-03  2.036838e-02 -4.494920e-03  1.084778e-04  9.663805e-01
+pMin      3.167718e-02 -4.494920e-03  2.426828e-03 -1.114517e-24 -3.167718e-02
+pMax      2.668688e-03  1.084778e-04 -1.114517e-24  2.980263e-04 -2.668688e-03
+deltaR    3.200388e+00  9.663805e-01 -3.167718e-02 -2.668688e-03  8.381646e+01
+tauR     -2.610931e-02 -1.178561e-03 -1.183719e-03  1.886499e-04 -3.872119e-01
+model.LL -5.620634e+05  5.511129e+05 -1.302335e+05 -1.026329e+05  2.150972e+07
+                  tauR      model.LL
+center   -2.610931e-02 -5.620634e+05
+width    -1.178561e-03  5.511129e+05
+pMin     -1.183719e-03 -1.302335e+05
+pMax      1.886499e-04 -1.026329e+05
+deltaR   -3.872119e-01  2.150972e+07
+tauR      3.277250e-03 -1.781501e+04
+model.LL -1.781501e+04  4.035073e+14
+[1] "C"
+              center         width          pMin          pMax        deltaR
+center  2.477087e-12  2.940348e-14  5.635873e-08  4.748020e-09 -2.647175e-13
+width   2.940348e-14  6.706182e-14  8.156079e-09 -1.968341e-10  8.152164e-14
+pMin    5.635873e-08  8.156079e-09  2.426828e-03 -1.114517e-24  1.472692e-09
+pMax    4.748020e-09 -1.968341e-10 -1.114517e-24  2.980263e-04  1.240690e-10
+deltaR -2.647175e-13  8.152164e-14  1.472692e-09  1.240690e-10  1.811590e-13
+tauR   -4.645261e-08  2.138511e-09 -1.183719e-03  1.886499e-04  1.800172e-08
+                tauR
+center -4.645261e-08
+width   2.138511e-09
+pMin   -1.183719e-03
+pMax    1.886499e-04
+deltaR  1.800172e-08
+tauR    3.277250e-03
+MCMCmetrop1R iteration 1 of 1001000 
+function value =  -15.56431
+theta = 
+   7.30000
+   5.50000
+   0.07895
+   1.00000
+   1.00000
+   0.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 10001 of 1001000 
+function value =  -11.26527
+theta = 
+   7.29993
+   5.50002
+   0.22934
+   0.99022
+   1.00003
+   0.87094
+Metropolis acceptance rate = 0.27307
+
+MCMCmetrop1R iteration 20001 of 1001000 
+function value =  -10.45758
+theta = 
+   7.29988
+   5.50001
+   0.20443
+   0.99834
+   1.00001
+   0.47551
+Metropolis acceptance rate = 0.27669
+
+MCMCmetrop1R iteration 30001 of 1001000 
+function value =  -11.36208
+theta = 
+   7.29973
+   5.50005
+   0.22242
+   0.98597
+   1.00006
+   0.87172
+Metropolis acceptance rate = 0.28102
+
+MCMCmetrop1R iteration 40001 of 1001000 
+function value =  -11.90398
+theta = 
+   7.29987
+   5.50004
+   0.19807
+   0.97294
+   1.00004
+   0.83188
+Metropolis acceptance rate = 0.28392
+
+MCMCmetrop1R iteration 50001 of 1001000 
+function value =  -10.04693
+theta = 
+   7.29985
+   5.50003
+   0.16825
+   0.99979
+   1.00002
+   0.74186
+Metropolis acceptance rate = 0.28561
+
+MCMCmetrop1R iteration 60001 of 1001000 
+function value =  -11.66986
+theta = 
+   7.29977
+   5.50003
+   0.18675
+   0.97885
+   1.00003
+   0.51865
+Metropolis acceptance rate = 0.28705
+
+MCMCmetrop1R iteration 70001 of 1001000 
+function value =  -10.46141
+theta = 
+   7.29980
+   5.50003
+   0.14614
+   0.99975
+   1.00003
+   0.80046
+Metropolis acceptance rate = 0.28628
+
+MCMCmetrop1R iteration 80001 of 1001000 
+function value =  -10.49533
+theta = 
+   7.29984
+   5.50003
+   0.17699
+   0.99039
+   1.00003
+   0.96695
+Metropolis acceptance rate = 0.28727
+
+MCMCmetrop1R iteration 90001 of 1001000 
+function value =  -10.68159
+theta = 
+   7.29972
+   5.50005
+   0.18045
+   0.98997
+   1.00005
+   0.73390
+Metropolis acceptance rate = 0.28773
+
+MCMCmetrop1R iteration 100001 of 1001000 
+function value =  -11.98301
+theta = 
+   7.29972
+   5.50005
+   0.15848
+   0.97717
+   1.00005
+   0.63904
+Metropolis acceptance rate = 0.28773
+
+MCMCmetrop1R iteration 110001 of 1001000 
+function value =  -10.99263
+theta = 
+   7.29967
+   5.50006
+   0.19549
+   0.98756
+   1.00007
+   0.60712
+Metropolis acceptance rate = 0.28864
+
+MCMCmetrop1R iteration 120001 of 1001000 
+function value =  -13.60812
+theta = 
+   7.29984
+   5.50003
+   0.23193
+   0.96679
+   1.00004
+   0.28553
+Metropolis acceptance rate = 0.28824
+
+MCMCmetrop1R iteration 130001 of 1001000 
+function value =  -10.55141
+theta = 
+   7.29965
+   5.50006
+   0.17097
+   0.99212
+   1.00007
+   0.77501
+Metropolis acceptance rate = 0.28877
+
+MCMCmetrop1R iteration 140001 of 1001000 
+function value =  -15.72183
+theta = 
+   7.29972
+   5.50004
+   0.12590
+   0.94463
+   1.00006
+   0.86128
+Metropolis acceptance rate = 0.28767
+
+MCMCmetrop1R iteration 150001 of 1001000 
+function value =  -12.42299
+theta = 
+   7.29974
+   5.50005
+   0.17789
+   0.96447
+   1.00007
+   0.97414
+Metropolis acceptance rate = 0.28758
+
+MCMCmetrop1R iteration 160001 of 1001000 
+function value =  -11.80035
+theta = 
+   7.29977
+   5.50004
+   0.25750
+   0.99872
+   1.00004
+   0.86133
+Metropolis acceptance rate = 0.28814
+
+MCMCmetrop1R iteration 170001 of 1001000 
+function value =  -11.87785
+theta = 
+   7.29972
+   5.50004
+   0.19146
+   0.97713
+   1.00006
+   0.45253
+Metropolis acceptance rate = 0.28779
+
+MCMCmetrop1R iteration 180001 of 1001000 
+function value =  -12.26056
+theta = 
+   7.29972
+   5.50004
+   0.25215
+   0.99887
+   1.00005
+   0.25855
+Metropolis acceptance rate = 0.28789
+
+MCMCmetrop1R iteration 190001 of 1001000 
+function value =  -11.51048
+theta = 
+   7.29976
+   5.50003
+   0.14365
+   0.98984
+   1.00003
+   0.54875
+Metropolis acceptance rate = 0.28780
+
+MCMCmetrop1R iteration 200001 of 1001000 
+function value =  -15.61807
+theta = 
+   7.29987
+   5.50001
+   0.21314
+   0.93102
+   1.00000
+   0.40574
+Metropolis acceptance rate = 0.28776
+
+MCMCmetrop1R iteration 210001 of 1001000 
+function value =  -10.48707
+theta = 
+   7.29994
+   5.49999
+   0.22173
+   0.99823
+   0.99998
+   0.90784
+Metropolis acceptance rate = 0.28802
+
+MCMCmetrop1R iteration 220001 of 1001000 
+function value =   -9.97665
+theta = 
+   7.29999
+   5.49998
+   0.17289
+   0.99984
+   0.99998
+   0.77424
+Metropolis acceptance rate = 0.28840
+
+MCMCmetrop1R iteration 230001 of 1001000 
+function value =  -13.46466
+theta = 
+   7.30016
+   5.49995
+   0.27312
+   0.99152
+   0.99993
+   0.36178
+Metropolis acceptance rate = 0.28850
+
+MCMCmetrop1R iteration 240001 of 1001000 
+function value =  -10.02854
+theta = 
+   7.30000
+   5.49996
+   0.16336
+   0.99946
+   0.99996
+   0.88593
+Metropolis acceptance rate = 0.28823
+
+MCMCmetrop1R iteration 250001 of 1001000 
+function value =  -12.66750
+theta = 
+   7.29993
+   5.49998
+   0.25857
+   0.98848
+   0.99998
+   0.61786
+Metropolis acceptance rate = 0.28851
+
+MCMCmetrop1R iteration 260001 of 1001000 
+function value =  -10.36303
+theta = 
+   7.29994
+   5.49998
+   0.21984
+   0.99956
+   0.99999
+   0.88639
+Metropolis acceptance rate = 0.28871
+
+MCMCmetrop1R iteration 270001 of 1001000 
+function value =  -11.33764
+theta = 
+   7.29996
+   5.49998
+   0.24178
+   0.99788
+   1.00000
+   0.63572
+Metropolis acceptance rate = 0.28851
+
+MCMCmetrop1R iteration 280001 of 1001000 
+function value =  -11.32845
+theta = 
+   7.30000
+   5.49996
+   0.15617
+   0.99033
+   0.99997
+   0.38410
+Metropolis acceptance rate = 0.28853
+
+MCMCmetrop1R iteration 290001 of 1001000 
+function value =  -13.64984
+theta = 
+   7.30000
+   5.49998
+   0.12226
+   0.97855
+   0.99999
+   0.36937
+Metropolis acceptance rate = 0.28831
+
+MCMCmetrop1R iteration 300001 of 1001000 
+function value =  -11.19707
+theta = 
+   7.29987
+   5.49999
+   0.18503
+   0.98397
+   1.00001
+   0.62723
+Metropolis acceptance rate = 0.28847
+
+MCMCmetrop1R iteration 310001 of 1001000 
+function value =  -10.03307
+theta = 
+   7.29989
+   5.49999
+   0.17501
+   0.99970
+   1.00001
+   0.69373
+Metropolis acceptance rate = 0.28873
+
+MCMCmetrop1R iteration 320001 of 1001000 
+function value =  -12.32580
+theta = 
+   7.29986
+   5.49999
+   0.26062
+   0.99302
+   1.00000
+   0.83907
+Metropolis acceptance rate = 0.28888
+
+MCMCmetrop1R iteration 330001 of 1001000 
+function value =  -10.31453
+theta = 
+   7.29983
+   5.49999
+   0.16903
+   0.99628
+   0.99999
+   0.71493
+Metropolis acceptance rate = 0.28875
+
+MCMCmetrop1R iteration 340001 of 1001000 
+function value =  -14.50047
+theta = 
+   7.29993
+   5.49997
+   0.09207
+   0.99073
+   0.99997
+   0.85734
+Metropolis acceptance rate = 0.28878
+
+MCMCmetrop1R iteration 350001 of 1001000 
+function value =  -11.94996
+theta = 
+   7.29998
+   5.49996
+   0.18271
+   0.97692
+   0.99996
+   0.41058
+Metropolis acceptance rate = 0.28883
+
+MCMCmetrop1R iteration 360001 of 1001000 
+function value =  -12.27430
+theta = 
+   7.29990
+   5.49998
+   0.25640
+   0.99092
+   0.99998
+   0.82210
+Metropolis acceptance rate = 0.28892
+
+MCMCmetrop1R iteration 370001 of 1001000 
+function value =  -13.54803
+theta = 
+   7.29980
+   5.49999
+   0.25331
+   0.96917
+   1.00000
+   0.88178
+Metropolis acceptance rate = 0.28876
+
+MCMCmetrop1R iteration 380001 of 1001000 
+function value =  -11.26136
+theta = 
+   7.29969
+   5.50000
+   0.18659
+   0.98589
+   1.00001
+   0.42582
+Metropolis acceptance rate = 0.28866
+
+MCMCmetrop1R iteration 390001 of 1001000 
+function value =  -12.57402
+theta = 
+   7.29968
+   5.50000
+   0.23107
+   0.97699
+   1.00002
+   0.42996
+Metropolis acceptance rate = 0.28865
+
+MCMCmetrop1R iteration 400001 of 1001000 
+function value =  -11.02266
+theta = 
+   7.29969
+   5.50000
+   0.19235
+   0.98307
+   1.00002
+   0.97919
+Metropolis acceptance rate = 0.28853
+
+MCMCmetrop1R iteration 410001 of 1001000 
+function value =  -11.98363
+theta = 
+   7.29965
+   5.50000
+   0.19130
+   0.97169
+   1.00001
+   0.79274
+Metropolis acceptance rate = 0.28875
+
+MCMCmetrop1R iteration 420001 of 1001000 
+function value =  -12.71577
+theta = 
+   7.29970
+   5.49999
+   0.23364
+   0.97400
+   1.00000
+   0.57484
+Metropolis acceptance rate = 0.28879
+
+MCMCmetrop1R iteration 430001 of 1001000 
+function value =  -12.41722
+theta = 
+   7.29961
+   5.49999
+   0.22445
+   0.97519
+   1.00000
+   0.52752
+Metropolis acceptance rate = 0.28856
+
+MCMCmetrop1R iteration 440001 of 1001000 
+function value =  -11.45870
+theta = 
+   7.29969
+   5.49998
+   0.20925
+   0.98132
+   0.99999
+   0.80063
+Metropolis acceptance rate = 0.28878
+
+MCMCmetrop1R iteration 450001 of 1001000 
+function value =  -14.36834
+theta = 
+   7.29976
+   5.49996
+   0.09423
+   0.99919
+   0.99997
+   0.29058
+Metropolis acceptance rate = 0.28880
+
+MCMCmetrop1R iteration 460001 of 1001000 
+function value =  -10.92530
+theta = 
+   7.29968
+   5.49997
+   0.21557
+   0.99486
+   0.99997
+   0.45046
+Metropolis acceptance rate = 0.28900
+
+MCMCmetrop1R iteration 470001 of 1001000 
+function value =  -12.48537
+theta = 
+   7.29970
+   5.49997
+   0.24073
+   0.97757
+   0.99998
+   0.88813
+Metropolis acceptance rate = 0.28903
+
+MCMCmetrop1R iteration 480001 of 1001000 
+function value =  -10.62412
+theta = 
+   7.29976
+   5.49995
+   0.19098
+   0.98856
+   0.99995
+   0.97306
+Metropolis acceptance rate = 0.28916
+
+MCMCmetrop1R iteration 490001 of 1001000 
+function value =  -11.65406
+theta = 
+   7.29982
+   5.49995
+   0.23891
+   0.99220
+   0.99994
+   0.57251
+Metropolis acceptance rate = 0.28938
+
+MCMCmetrop1R iteration 500001 of 1001000 
+function value =  -11.95768
+theta = 
+   7.29982
+   5.49993
+   0.19380
+   0.97220
+   0.99993
+   0.79293
+Metropolis acceptance rate = 0.28963
+
+MCMCmetrop1R iteration 510001 of 1001000 
+function value =  -10.37269
+theta = 
+   7.29972
+   5.49995
+   0.20259
+   0.99868
+   0.99993
+   0.50963
+Metropolis acceptance rate = 0.28945
+
+MCMCmetrop1R iteration 520001 of 1001000 
+function value =  -10.54285
+theta = 
+   7.29972
+   5.49992
+   0.15609
+   0.99476
+   0.99991
+   0.83895
+Metropolis acceptance rate = 0.28944
+
+MCMCmetrop1R iteration 530001 of 1001000 
+function value =  -11.20263
+theta = 
+   7.29973
+   5.49992
+   0.17704
+   0.99157
+   0.99989
+   0.28099
+Metropolis acceptance rate = 0.28977
+
+MCMCmetrop1R iteration 540001 of 1001000 
+function value =  -11.58608
+theta = 
+   7.29975
+   5.49991
+   0.20495
+   0.98974
+   0.99988
+   0.24668
+Metropolis acceptance rate = 0.28979
+
+MCMCmetrop1R iteration 550001 of 1001000 
+function value =  -11.22507
+theta = 
+   7.29969
+   5.49991
+   0.17997
+   0.99101
+   0.99988
+   0.28180
+Metropolis acceptance rate = 0.28960
+
+MCMCmetrop1R iteration 560001 of 1001000 
+function value =  -11.89167
+theta = 
+   7.29964
+   5.49993
+   0.18553
+   0.97085
+   0.99990
+   0.99967
+Metropolis acceptance rate = 0.28960
+
+MCMCmetrop1R iteration 570001 of 1001000 
+function value =  -12.40944
+theta = 
+   7.29970
+   5.49992
+   0.12891
+   0.98204
+   0.99989
+   0.94372
+Metropolis acceptance rate = 0.28965
+
+MCMCmetrop1R iteration 580001 of 1001000 
+function value =  -10.20397
+theta = 
+   7.29971
+   5.49990
+   0.19402
+   0.99934
+   0.99988
+   0.54270
+Metropolis acceptance rate = 0.28966
+
+MCMCmetrop1R iteration 590001 of 1001000 
+function value =  -13.63382
+theta = 
+   7.29978
+   5.49987
+   0.15197
+   0.96402
+   0.99984
+   0.31642
+Metropolis acceptance rate = 0.28975
+
+MCMCmetrop1R iteration 600001 of 1001000 
+function value =  -10.67031
+theta = 
+   7.29962
+   5.49989
+   0.19888
+   0.98911
+   0.99988
+   0.93783
+Metropolis acceptance rate = 0.28980
+
+MCMCmetrop1R iteration 610001 of 1001000 
+function value =   -9.98199
+theta = 
+   7.29967
+   5.49989
+   0.18076
+   0.99742
+   0.99987
+   0.95561
+Metropolis acceptance rate = 0.28978
+
+MCMCmetrop1R iteration 620001 of 1001000 
+function value =   -9.98413
+theta = 
+   7.29964
+   5.49988
+   0.17290
+   0.99841
+   0.99987
+   0.90069
+Metropolis acceptance rate = 0.28976
+
+MCMCmetrop1R iteration 630001 of 1001000 
+function value =  -11.04501
+theta = 
+   7.29964
+   5.49988
+   0.21609
+   0.98853
+   0.99987
+   0.85820
+Metropolis acceptance rate = 0.28975
+
+MCMCmetrop1R iteration 640001 of 1001000 
+function value =  -11.26151
+theta = 
+   7.29973
+   5.49989
+   0.17381
+   0.98286
+   0.99989
+   0.70915
+Metropolis acceptance rate = 0.28979
+
+MCMCmetrop1R iteration 650001 of 1001000 
+function value =  -10.26353
+theta = 
+   7.29980
+   5.49987
+   0.19649
+   0.99614
+   0.99987
+   0.77830
+Metropolis acceptance rate = 0.28970
+
+MCMCmetrop1R iteration 660001 of 1001000 
+function value =  -11.22876
+theta = 
+   7.29973
+   5.49987
+   0.17239
+   0.98853
+   0.99987
+   0.36679
+Metropolis acceptance rate = 0.28976
+
+MCMCmetrop1R iteration 670001 of 1001000 
+function value =  -10.74510
+theta = 
+   7.29960
+   5.49988
+   0.15208
+   0.99395
+   0.99989
+   0.77864
+Metropolis acceptance rate = 0.28968
+
+MCMCmetrop1R iteration 680001 of 1001000 
+function value =  -11.52144
+theta = 
+   7.29967
+   5.49986
+   0.20360
+   0.99545
+   0.99986
+   0.19238
+Metropolis acceptance rate = 0.28960
+
+MCMCmetrop1R iteration 690001 of 1001000 
+function value =  -11.32007
+theta = 
+   7.29981
+   5.49985
+   0.18773
+   0.98811
+   0.99984
+   0.31475
+Metropolis acceptance rate = 0.28980
+
+MCMCmetrop1R iteration 700001 of 1001000 
+function value =  -10.77080
+theta = 
+   7.29986
+   5.49983
+   0.20498
+   0.99185
+   0.99981
+   0.63889
+Metropolis acceptance rate = 0.28978
+
+MCMCmetrop1R iteration 710001 of 1001000 
+function value =  -10.46591
+theta = 
+   7.29989
+   5.49981
+   0.17955
+   0.99517
+   0.99979
+   0.54439
+Metropolis acceptance rate = 0.28986
+
+MCMCmetrop1R iteration 720001 of 1001000 
+function value =  -10.27084
+theta = 
+   7.29999
+   5.49979
+   0.20655
+   0.99948
+   0.99977
+   0.63346
+Metropolis acceptance rate = 0.28987
+
+MCMCmetrop1R iteration 730001 of 1001000 
+function value =  -12.01234
+theta = 
+   7.29991
+   5.49980
+   0.16276
+   0.97306
+   0.99979
+   0.89557
+Metropolis acceptance rate = 0.28996
+
+MCMCmetrop1R iteration 740001 of 1001000 
+function value =  -10.59462
+theta = 
+   7.29975
+   5.49982
+   0.17845
+   0.99486
+   0.99982
+   0.44862
+Metropolis acceptance rate = 0.29009
+
+MCMCmetrop1R iteration 750001 of 1001000 
+function value =  -18.86366
+theta = 
+   7.29961
+   5.49984
+   0.12815
+   0.90795
+   0.99984
+   0.80260
+Metropolis acceptance rate = 0.29000
+
+MCMCmetrop1R iteration 760001 of 1001000 
+function value =  -12.69569
+theta = 
+   7.29971
+   5.49983
+   0.17879
+   0.96433
+   0.99982
+   0.61945
+Metropolis acceptance rate = 0.29000
+
+MCMCmetrop1R iteration 770001 of 1001000 
+function value =  -10.66900
+theta = 
+   7.29962
+   5.49985
+   0.21097
+   0.99286
+   0.99985
+   0.81703
+Metropolis acceptance rate = 0.28994
+
+MCMCmetrop1R iteration 780001 of 1001000 
+function value =  -14.21183
+theta = 
+   7.29962
+   5.49984
+   0.28682
+   0.98760
+   0.99983
+   0.65988
+Metropolis acceptance rate = 0.28995
+
+MCMCmetrop1R iteration 790001 of 1001000 
+function value =  -12.11631
+theta = 
+   7.29968
+   5.49982
+   0.11484
+   0.99964
+   0.99981
+   0.60805
+Metropolis acceptance rate = 0.28999
+
+MCMCmetrop1R iteration 800001 of 1001000 
+function value =  -11.83457
+theta = 
+   7.29968
+   5.49982
+   0.15456
+   0.97792
+   0.99980
+   0.86843
+Metropolis acceptance rate = 0.28998
+
+MCMCmetrop1R iteration 810001 of 1001000 
+function value =  -11.70069
+theta = 
+   7.29977
+   5.49982
+   0.17486
+   0.97687
+   0.99979
+   0.70947
+Metropolis acceptance rate = 0.29002
+
+MCMCmetrop1R iteration 820001 of 1001000 
+function value =  -11.33301
+theta = 
+   7.29980
+   5.49981
+   0.21354
+   0.98764
+   0.99978
+   0.49708
+Metropolis acceptance rate = 0.29006
+
+MCMCmetrop1R iteration 830001 of 1001000 
+function value =  -10.71986
+theta = 
+   7.29979
+   5.49982
+   0.21018
+   0.99360
+   0.99979
+   0.65638
+Metropolis acceptance rate = 0.29015
+
+MCMCmetrop1R iteration 840001 of 1001000 
+function value =  -10.63565
+theta = 
+   7.29978
+   5.49983
+   0.17074
+   0.98977
+   0.99981
+   0.89949
+Metropolis acceptance rate = 0.29006
+
+MCMCmetrop1R iteration 850001 of 1001000 
+function value =  -12.02699
+theta = 
+   7.29974
+   5.49984
+   0.20090
+   0.97527
+   0.99982
+   0.49761
+Metropolis acceptance rate = 0.29007
+
+MCMCmetrop1R iteration 860001 of 1001000 
+function value =  -14.61216
+theta = 
+   7.29960
+   5.49986
+   0.20853
+   0.94382
+   0.99985
+   0.37934
+Metropolis acceptance rate = 0.29026
+
+MCMCmetrop1R iteration 870001 of 1001000 
+function value =  -10.62856
+theta = 
+   7.29957
+   5.49986
+   0.21819
+   0.99475
+   0.99985
+   0.91250
+Metropolis acceptance rate = 0.29018
+
+MCMCmetrop1R iteration 880001 of 1001000 
+function value =  -11.86914
+theta = 
+   7.29962
+   5.49984
+   0.13800
+   0.99070
+   0.99982
+   0.38551
+Metropolis acceptance rate = 0.29015
+
+MCMCmetrop1R iteration 890001 of 1001000 
+function value =  -12.93503
+theta = 
+   7.29961
+   5.49986
+   0.17206
+   0.99999
+   0.99983
+   0.09158
+Metropolis acceptance rate = 0.29014
+
+MCMCmetrop1R iteration 900001 of 1001000 
+function value =  -10.58855
+theta = 
+   7.29962
+   5.49985
+   0.21937
+   0.99642
+   0.99983
+   0.84581
+Metropolis acceptance rate = 0.29021
+
+MCMCmetrop1R iteration 910001 of 1001000 
+function value =  -11.58390
+theta = 
+   7.29970
+   5.49983
+   0.21273
+   0.97977
+   0.99981
+   0.86799
+Metropolis acceptance rate = 0.29019
+
+MCMCmetrop1R iteration 920001 of 1001000 
+function value =  -12.03381
+theta = 
+   7.29976
+   5.49980
+   0.14711
+   0.97984
+   0.99978
+   0.69867
+Metropolis acceptance rate = 0.29018
+
+MCMCmetrop1R iteration 930001 of 1001000 
+function value =  -10.39463
+theta = 
+   7.29981
+   5.49978
+   0.17102
+   0.99907
+   0.99975
+   0.41064
+Metropolis acceptance rate = 0.29014
+
+MCMCmetrop1R iteration 940001 of 1001000 
+function value =  -13.76346
+theta = 
+   7.29984
+   5.49978
+   0.18354
+   0.95712
+   0.99974
+   0.27818
+Metropolis acceptance rate = 0.29021
+
+MCMCmetrop1R iteration 950001 of 1001000 
+function value =  -12.57638
+theta = 
+   7.29974
+   5.49979
+   0.20621
+   0.99628
+   0.99975
+   0.11492
+Metropolis acceptance rate = 0.29022
+
+MCMCmetrop1R iteration 960001 of 1001000 
+function value =  -10.84156
+theta = 
+   7.29971
+   5.49979
+   0.14270
+   0.99975
+   0.99975
+   0.49868
+Metropolis acceptance rate = 0.29023
+
+MCMCmetrop1R iteration 970001 of 1001000 
+function value =  -14.54368
+theta = 
+   7.29973
+   5.49978
+   0.08903
+   0.99705
+   0.99974
+   0.58234
+Metropolis acceptance rate = 0.29026
+
+MCMCmetrop1R iteration 980001 of 1001000 
+function value =  -10.59676
+theta = 
+   7.29976
+   5.49977
+   0.20167
+   0.99884
+   0.99972
+   0.33945
+Metropolis acceptance rate = 0.29045
+
+MCMCmetrop1R iteration 990001 of 1001000 
+function value =  -11.33346
+theta = 
+   7.29990
+   5.49977
+   0.23941
+   0.99847
+   0.99972
+   0.48831
+Metropolis acceptance rate = 0.29047
+
+MCMCmetrop1R iteration 1000001 of 1001000 
+function value =  -12.78544
+theta = 
+   7.30000
+   5.49976
+   0.11481
+   0.99702
+   0.99970
+   0.31373
+Metropolis acceptance rate = 0.29052
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.29049
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> plotClineFunc(model3.fit.cline.p.139K)
+> plotClineFunc(fitClineModel(makeCline1D(obs.p.139K,scaling="none",tail="right"),obs.p.139K,mcmc=1e6,verbose=0))
+                center         width        deltaR          tauR     model.LL
+center    7.825497e-01 -9.108033e-03  3.200388e+00 -2.610931e-02 7.045260e+06
+width    -9.108033e-03  2.036838e-02  9.663805e-01 -1.178561e-03 2.336689e+06
+deltaR    3.200388e+00  9.663805e-01  8.381646e+01 -3.872119e-01 9.769223e+07
+tauR     -2.610931e-02 -1.178561e-03 -3.872119e-01  3.277250e-03 1.196998e+05
+model.LL  7.045260e+06  2.336689e+06  9.769223e+07  1.196998e+05 1.666623e+15
+[1] "C"
+              center         width        deltaR          tauR
+center  1.576587e-14 -5.532567e-16  4.649921e-15 -3.705940e-09
+width  -5.532567e-16  3.730395e-15  4.233381e-15 -5.043723e-10
+deltaR  4.649921e-15  4.233381e-15  8.782321e-15 -3.963589e-09
+tauR   -3.705940e-09 -5.043723e-10 -3.963589e-09  3.277250e-03
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.90897
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> xyplot(log(obsFreq/(1-obsFreq))~dist,data=obs.p.139K$frame)
+> xyplot(log((obsFreq+0.001)/(1.001-obsFreq))~dist,data=obs.p.139K$frame)
+> logit.func<-function(p) return(log(p/(1-p)))
+> xyplot(logit.func(p.139K)~distance,data=railData)
+Error in eval(expr, envir, enclos) : object 'distance' not found
+> xyplot(logit.func(p.139K)~dist,data=railData)
+> railData[1,]
+  site dist     p.139K    p.139C p.139.N    p.472K    p.472C p.472.N p.1166K
+1    1    0 0.07894737 0.9210526      38 0.3333333 0.6666667      38       0
+  p.1166C p.1166.N p.1766K p.1766C p.1766.N p.ND2K p.ND2C p.ND2.N mean.sal
+1       1       38       0       1       38      0      1      19     30.5
+     stdev sal.N p.F p.S p.sal.N
+1 2.380476     4   0   1       4
+> xyplot(logit.func(p.139K)+logit.func(p.472K)+logit.func(p.1766K)+logit.func(p.1166K)~dist,data=railData)
+> xyplot(logit.func(p.139K)+logit.func(p.472K)+logit.func(p.1766K)+logit.func(p.1166K)~dist,data=railData,legend=TRUE)
+Error in legend[[i]]$fun : $ operator is invalid for atomic vectors
+> ?xyplot
+> xyplot(logit.func(p.139K)+logit.func(p.472K)+logit.func(p.1766K)+logit.func(p.1166K)~dist,data=railData,outer=TRUE)
+> xyplot(logit.func(p.139K)+logit.func(p.472K)+logit.func(p.1766K)+logit.func(p.1166K)+logit.func(p.ND2K)~dist,data=railData,outer=TRUE)
+> xyplot(logit.func(p.139K)+logit.func(p.472K)+logit.func(p.1766K)+logit.func(p.1166K)+logit.func(p.ND2K)~dist,data=railData,pch="+")
+> q()
+Save workspace image? [y/n/c]: n
+
+Process R finished at Sun May  8 19:24:03 2011

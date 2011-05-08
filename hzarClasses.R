@@ -702,7 +702,10 @@ fitClineModel <- function(model,sampleData, verbose=10000,
     if(! do.call(meta.model$req,as.list(theta))) return(myRejectionLL);
     model=do.call(meta.model$func,as.list(theta));
 thetaLL=do.call(meta.model$prior,as.list(theta));
-    return(obsData$model.LL(model)+thetaLL);
+    result<-obsData$model.LL(model)+thetaLL;
+    if(identical(is.finite(result),TRUE))
+      return(result);
+    return(myRejectionLL);
   }
   VMATRIX<-NULL;
   pMinS.cssp<-NULL;
@@ -725,7 +728,7 @@ thetaLL=do.call(meta.model$prior,as.list(theta));
                     sampleData);
     }
     ## print(sampleModels);
-    print(xyplot(pMin+pMax+tauR~pMin+pMax+tauR|model.LL>-1e9,data=sampleModels))
+    ## print(xyplot(pMin+pMax+tauR~pMin+pMax+tauR|model.LL>-1e9,data=sampleModels))
     ##  sampleModels<-subset(sampleModels,sampleModels$model.LL>getCredibleCutG(sampleModels,0.005))
     try(VMATRIX<-cov(sampleModels));
     if(!identical(is.null(VMATRIX),TRUE)){
@@ -849,7 +852,12 @@ reFitClineFunc<-function(clineFrame,mcmc=1e6, verbose=10000,thin=NULL,
     model=do.call(meta.model$func,as.list(theta));
     
 thetaLL=do.call(meta.model$prior,as.list(theta));
-    return(obsData$model.LL(model)+thetaLL);
+##    return(obsData$model.LL(model)+thetaLL);
+    
+    result<-obsData$model.LL(model)+thetaLL;
+    if(identical(is.finite(result),TRUE))
+      return(result);
+    return(myRejectionLL);
   }
   attach(clineFrame$allClines);
   credibleLLspace<-data.frame(LL=sort(model.LL), percentile=cumsum(exp(sort(model.LL)))/sum(exp(sort(model.LL))));

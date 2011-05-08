@@ -32,3 +32,12 @@ model3.fit.cline.p.139K <- fitClineModel(model3.cline.p.139K, obs.p.139K, mcmc=1
 ## tauR      NaN   NaN    NaN  NaN
 ## Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) :
 ##  missing value where TRUE/FALSE needed
+
+
+
+## something odd                          
+##      center     width       pMin   pMax    deltaR         tauR   model.LL
+## 51 6.053529 0.2574508 0.07894737 1.0000  2.546471 8.226173e-02       -Inf
+## 52 6.294688 0.2379888 0.12868421 1.0000  2.305312 7.608287e-02       -Inf
+## 53 6.154532 0.2504819 0.10381579 1.0000  2.445468 8.005530e-02       -Inf
+## 54 6.383559 0.2282365 0.13868421 1.0000  2.216441 7.297337e-02       -Inf
