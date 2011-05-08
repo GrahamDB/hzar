@@ -715,16 +715,17 @@ thetaLL=do.call(meta.model$prior,as.list(theta));
                      pMaxS=NULL
                      )[,names(myParams$init)];
   if(dim(sampleModels)[[1]]>2){
+    print(sampleModels); #Diagnostics
     sampleModels<-subset(sampleModels,do.call(model$req,as.list(sampleModels[names(myParams$init)])))
-
- for(iter in seq(dim(sampleModels)[[1]])){
-    sampleModels[iter,"model.LL"] <-
-      clineLLFunc(sampleModels[iter,names(myParams$init)],
-                  model,
-                  sampleData);
-  }
-  ##  print(sampleModels);
-  ##  sampleModels<-subset(sampleModels,sampleModels$model.LL>getCredibleCutG(sampleModels,0.005))
+    print(sampleModels); #Diagnostics
+    for(iter in seq(dim(sampleModels)[[1]])){
+      sampleModels[iter,"model.LL"] <-
+        clineLLFunc(sampleModels[iter,names(myParams$init)],
+                    model,
+                    sampleData);
+    }
+    print(sampleModels);
+    ##  sampleModels<-subset(sampleModels,sampleModels$model.LL>getCredibleCutG(sampleModels,0.005))
     try(VMATRIX<-cov(sampleModels));
     if(!identical(is.null(VMATRIX),TRUE)){
       print(VMATRIX);

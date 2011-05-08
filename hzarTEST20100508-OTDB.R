@@ -5,11 +5,11 @@ source("hzarClasses.R");
                                             
 railData<-read.csv("RailGenData.csv",header=TRUE)
 
-railData
+## railData
 
 obs.p.139K <- doMolecularData1DPops(railData$dist, railData$p.139K, railData$p.139.N)
 
-obs.p.139K
+## obs.p.139K
 
 
 model3.cline.p.139K <- makeCline1D(obs.p.139K, scaling="free", tail="right")
