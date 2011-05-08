@@ -616,4 +616,117 @@ tauR      NaN   NaN  NaN  NaN    NaN  NaN
 Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
   missing value where TRUE/FALSE needed
 > # adding: xyplot(pMin+pMax+width+tauR~center+deltaR|model.LL>-1e4,data=)
+> source("hzarTEST20100508-OTDB.R")
+Error in model.LL > -10000 : 
+  comparison (6) is possible only for atomic and list types
+> #oops
+> source("hzarTEST20100508-OTDB.R")
+               center         width          pMin          pMax       deltaR
+center    0.782549718 -0.0091080331  3.167718e-02  2.668688e-03  3.200387906
+width    -0.009108033  0.0203683788 -4.494920e-03  1.084778e-04  0.966380524
+pMin      0.031677179 -0.0044949204  2.426828e-03 -1.114517e-24 -0.031677179
+pMax      0.002668688  0.0001084778 -1.114517e-24  2.980263e-04 -0.002668688
+deltaR    3.200387906  0.9663805238 -3.167718e-02 -2.668688e-03 83.816463943
+tauR     -0.026109313 -0.0011785611 -1.183719e-03  1.886499e-04 -0.387211881
+model.LL          NaN           NaN           NaN           NaN          NaN
+                  tauR model.LL
+center   -0.0261093135      NaN
+width    -0.0011785611      NaN
+pMin     -0.0011837195      NaN
+pMax      0.0001886499      NaN
+deltaR   -0.3872118812      NaN
+tauR      0.0032772500      NaN
+model.LL           NaN      NaN
+[1] "C"
+       center width pMin pMax deltaR tauR
+center    NaN   NaN  NaN  NaN    NaN  NaN
+width     NaN   NaN  NaN  NaN    NaN  NaN
+pMin      NaN   NaN  NaN  NaN    NaN  NaN
+pMax      NaN   NaN  NaN  NaN    NaN  NaN
+deltaR    NaN   NaN  NaN  NaN    NaN  NaN
+tauR      NaN   NaN  NaN  NaN    NaN  NaN
+Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
+  missing value where TRUE/FALSE needed
+>
+> source("hzarTEST20100508-OTDB.R")
+               center         width          pMin          pMax       deltaR
+center    0.782549718 -0.0091080331  3.167718e-02  2.668688e-03  3.200387906
+width    -0.009108033  0.0203683788 -4.494920e-03  1.084778e-04  0.966380524
+pMin      0.031677179 -0.0044949204  2.426828e-03 -1.114517e-24 -0.031677179
+pMax      0.002668688  0.0001084778 -1.114517e-24  2.980263e-04 -0.002668688
+deltaR    3.200387906  0.9663805238 -3.167718e-02 -2.668688e-03 83.816463943
+tauR     -0.026109313 -0.0011785611 -1.183719e-03  1.886499e-04 -0.387211881
+model.LL          NaN           NaN           NaN           NaN          NaN
+                  tauR model.LL
+center   -0.0261093135      NaN
+width    -0.0011785611      NaN
+pMin     -0.0011837195      NaN
+pMax      0.0001886499      NaN
+deltaR   -0.3872118812      NaN
+tauR      0.0032772500      NaN
+model.LL           NaN      NaN
+[1] "C"
+       center width pMin pMax deltaR tauR
+center    NaN   NaN  NaN  NaN    NaN  NaN
+width     NaN   NaN  NaN  NaN    NaN  NaN
+pMin      NaN   NaN  NaN  NaN    NaN  NaN
+pMax      NaN   NaN  NaN  NaN    NaN  NaN
+deltaR    NaN   NaN  NaN  NaN    NaN  NaN
+tauR      NaN   NaN  NaN  NaN    NaN  NaN
+Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
+  missing value where TRUE/FALSE needed
+> source("hzarTEST20100508-OTDB.R")
+               center         width          pMin          pMax       deltaR
+center    0.782549718 -0.0091080331  3.167718e-02  2.668688e-03  3.200387906
+width    -0.009108033  0.0203683788 -4.494920e-03  1.084778e-04  0.966380524
+pMin      0.031677179 -0.0044949204  2.426828e-03 -1.114517e-24 -0.031677179
+pMax      0.002668688  0.0001084778 -1.114517e-24  2.980263e-04 -0.002668688
+deltaR    3.200387906  0.9663805238 -3.167718e-02 -2.668688e-03 83.816463943
+tauR     -0.026109313 -0.0011785611 -1.183719e-03  1.886499e-04 -0.387211881
+model.LL          NaN           NaN           NaN           NaN          NaN
+                  tauR model.LL
+center   -0.0261093135      NaN
+width    -0.0011785611      NaN
+pMin     -0.0011837195      NaN
+pMax      0.0001886499      NaN
+deltaR   -0.3872118812      NaN
+tauR      0.0032772500      NaN
+model.LL           NaN      NaN
+[1] "C"
+       center width pMin pMax deltaR tauR
+center    NaN   NaN  NaN  NaN    NaN  NaN
+width     NaN   NaN  NaN  NaN    NaN  NaN
+pMin      NaN   NaN  NaN  NaN    NaN  NaN
+pMax      NaN   NaN  NaN  NaN    NaN  NaN
+deltaR    NaN   NaN  NaN  NaN    NaN  NaN
+tauR      NaN   NaN  NaN  NaN    NaN  NaN
+Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
+  missing value where TRUE/FALSE needed
+> source("hzarTEST20100508-OTDB.R")
+               center         width          pMin          pMax       deltaR
+center    0.782549718 -0.0091080331  3.167718e-02  2.668688e-03  3.200387906
+width    -0.009108033  0.0203683788 -4.494920e-03  1.084778e-04  0.966380524
+pMin      0.031677179 -0.0044949204  2.426828e-03 -1.114517e-24 -0.031677179
+pMax      0.002668688  0.0001084778 -1.114517e-24  2.980263e-04 -0.002668688
+deltaR    3.200387906  0.9663805238 -3.167718e-02 -2.668688e-03 83.816463943
+tauR     -0.026109313 -0.0011785611 -1.183719e-03  1.886499e-04 -0.387211881
+model.LL          NaN           NaN           NaN           NaN          NaN
+                  tauR model.LL
+center   -0.0261093135      NaN
+width    -0.0011785611      NaN
+pMin     -0.0011837195      NaN
+pMax      0.0001886499      NaN
+deltaR   -0.3872118812      NaN
+tauR      0.0032772500      NaN
+model.LL           NaN      NaN
+[1] "C"
+       center width pMin pMax deltaR tauR
+center    NaN   NaN  NaN  NaN    NaN  NaN
+width     NaN   NaN  NaN  NaN    NaN  NaN
+pMin      NaN   NaN  NaN  NaN    NaN  NaN
+pMax      NaN   NaN  NaN  NaN    NaN  NaN
+deltaR    NaN   NaN  NaN  NaN    NaN  NaN
+tauR      NaN   NaN  NaN  NaN    NaN  NaN
+Error in if (!do.call(meta.model$req, as.list(theta))) return(myRejectionLL) : 
+  missing value where TRUE/FALSE needed
 > 
