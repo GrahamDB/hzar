@@ -30,7 +30,7 @@ source("hzarPrep.R");
 ## +->buildCline1D
 
 #### fitting functions and their helpers
-
+source("hzarClasses.R")
 ## helper functions for fitCline
 ## getCredibleLLspace
 ## getCredibleCutG
