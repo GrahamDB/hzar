@@ -9,7 +9,7 @@
 ## plotClineFunc
 
 #### prep work functions
-
+source("hzarPrep.R");
 ## setup transect with molecular data.
 ## sampleLikelihoodMolecularPop
 ## doMolecularData1DPops
