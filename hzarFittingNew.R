@@ -76,7 +76,104 @@ hzar.make.mcmcParam <-
 
 
 
-## I need a method to make clineLLfunc.
+## I need a method to make clineLLfunc.  I will start with the
+## original cline log likelihood function, wrapped with a basic method
+## call.
+
+## I need two llFuncs, one for Maximum Likelihood and one for Bayesian
+## analysis. Also, I need to recognize that under the old process, the
+## fixed parameters are magically inserted during engine startup to
+## simplify the method calls.
+hzar.make.clineLLfunc.old.ML <-
+  function(param.free.names, param.fixed, #lists made by splitParam
+           param.check.func,              #func to check parameters
+           meta.cline.func,               #func to generate cline func
+           model.LL,                      #returns LL of cline func
+           LLrejectedModel=-1E8           #when rejecting, return this
+           ){
+    ## First, assign references locally.
+    model.req<-param.check.func;
+    model.gen<-meta.cline.func;
+    eval.clineLL<- model.LL;
+    myRejectionLL<-LLrejectedModel;
+    ## Second, modify function signitures to account for fixed
+    ## parameters.
+    old.formals<-formals(model.gen);
+    if(length(old.formals)!=(length(param.free.names)+
+                             length(param.fixed))){
+      warning("The length of the method formals does not match the length of the parameters supplied.");
+    }
+    ttt.formals<-old.formals[param.free.names];
+    names(ttt.formals)<-param.free.names;
+    new.formals<-c(ttt.formals,param.fixed);
+    formals(model.req)<-new.formals;
+    formals(model.gen)<-new.formals;
+    
+    ## references: theta, meta.model, obsData, myRejectionLL
+    ##
+    ## in-depth:  theta, meta.model$req, myRejectionLL, meta.model$func, 
+    ## obsData$model.LL
+    
+    llFunc<-function(theta){
+      if(! do.call(model.req,as.list(theta))) return(myRejectionLL);
+      model=do.call(model.gen,as.list(theta));
+      result<-eval.clineLL(model);
+      if(identical(is.finite(result),TRUE))
+        return(result);
+      return(myRejectionLL);
+    }
+    
+    return(llFunc);
+  }
+
+hzar.make.clineLLfunc.old.bayes <-
+  function(param.free.names, param.fixed, #lists made by splitParam
+           param.check.func,              #func to check parameters
+           meta.cline.func,               #func to generate cline func
+           model.LL,                      #returns LL of cline func
+           prior.LL,                      #returns LL of priors
+           LLrejectedModel=-1E8           #when rejecting, return this
+           ){
+
+    ## First, assign references locally.
+    model.req<-param.check.func;
+    model.gen<-meta.cline.func;
+    eval.priorLL<-prior.LL;
+    eval.clineLL<- model.LL;
+    myRejectionLL<-LLrejectedModel;
+    ## Second, modify function signitures to account for fixed
+    ## parameters.
+    old.formals<-formals(model.gen);
+    if(length(old.formals)!=(length(param.free.names)+
+                             length(param.fixed))){
+      warning("The length of the method formals does not match the length of the parameters supplied.");
+    }
+    
+    ttt.formals<-old.formals[param.free.names];
+    names(ttt.formals)<-param.free.names;
+    new.formals<-c(ttt.formals,param.fixed);
+    formals(model.req)<-new.formals;
+    formals(model.gen)<-new.formals;
+    formals(eval.priorLL)<-new.formals;
+    
+    ## references: theta, meta.model, obsData, myRejectionLL
+    ##
+    ## in-depth: theta, meta.model$req, myRejectionLL, meta.model$func,
+    ## meta.model$prior, obsData$model.LL
+    llFunc<-function(theta){
+      if(! do.call(model.req,as.list(theta))) return(myRejectionLL);
+      model=do.call(model.gen,as.list(theta));
+      thetaLL=do.call(eval.priorLL,as.list(theta));
+      
+      result<-eval.clineLL(model)+thetaLL;
+      if(identical(is.finite(result),TRUE))
+        return(result);
+      return(myRejectionLL);
+    }
+    
+    return(llFunc);
+  }
+
 
 ## I need method(s) to generate covMatrix.
 
