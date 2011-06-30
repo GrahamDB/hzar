@@ -1,0 +1,59 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> .help.ESS <- help
+> options(STERM='iESS', editor='emacsclient')
+> source("hzarPrep.R");
+> source("hzarFitting.R");
+Loading required package: MCMCpack
+Loading required package: coda
+Loading required package: lattice
+Loading required package: MASS
+##
+## Markov Chain Monte Carlo Package (MCMCpack)
+## Copyright (C) 2003-2011 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park
+##
+## Support provided by the U.S. National Science Foundation
+## (Grants SES-0350646 and SES-0350613)
+##
+> ls()
+ [1] "CLINEPARAMETERS"                    "buildCline1D"                      
+ [3] "cline.logit"                        "cline.pCenter"                     
+ [5] "cline.pLower"                       "cline.pUpper"                      
+ [7] "cline.samp.dist"                    "cline.unscale"                     
+ [9] "cssp"                               "doMolecularData1DPops"             
+[11] "eval.gamma"                         "eval.gammaStep"                    
+[13] "eval.intercept"                     "eval.kappa"                        
+[15] "eval.lambda"                        "fitClineModel"                     
+[17] "getCredibleCut"                     "getCredibleCutG"                   
+[19] "getCredibleLLspace"                 "helper.lowerU"                     
+[21] "helper.u"                           "helper.upperU"                     
+[23] "hzar.meta.ltail.scaled.ascending"   "hzar.meta.ltail.scaled.descending" 
+[25] "hzar.meta.mtail.scaled.ascending"   "hzar.meta.mtail.scaled.descending" 
+[27] "hzar.meta.rtail.scaled.ascending"   "hzar.meta.rtail.scaled.descending" 
+[29] "hzar.meta.simple.scaled.ascending"  "hzar.meta.simple.scaled.descending"
+[31] "hzar.meta.tailed.scaled.ascending"  "hzar.meta.tailed.scaled.descending"
+[33] "makeCline1D"                        "makeSimpleCline1D"                 
+[35] "makeTailedCline1D"                  "meta.cline.func.lowStep"           
+[37] "meta.cline.func.noStep"             "meta.cline.func.pScale"            
+[39] "meta.cline.func.stepBoth"           "meta.cline.func.upStep"            
+[41] "meta.tail.lower"                    "meta.tail.mirror"                  
+[43] "meta.tail.upper"                    "mkParam"                           
+[45] "reFitClineFunc"                     "sampleLikelihoodMolecularPop"      
+[47] "setupMoleCenterClineParameters"     "splitParameters"                   
+> ?MCMCmetrop1R
+> 
