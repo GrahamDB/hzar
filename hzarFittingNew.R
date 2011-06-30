@@ -177,5 +177,26 @@ hzar.make.clineLLfunc.old.bayes <-
 
 ## I need method(s) to generate covMatrix.
 
+## I will need helper functions, specifically one to generate a vector
+## of likelihood values given a data frame of parameter values. I want
+## this to be capable of executing in parallel.
 
+require(foreach);
+
+hzar.eval.clineLL <- function(data, llFunc){
+  result<-foreach(ttt=iter(data,by='row'),.combine=c) %dopar% { llFunc(ttt); };
+  return(result);
+}
            
+hzar.gen.rParam.uniform<-function(param.lower,param.upper,count=1000){
+  raw<-foreach(low=param.lower,
+               high=param.upper,
+               .combine=cbind) %dopar% {runif(count,low,high)};
+  result<-as.data.frame(raw);
+  colnames(result)<-names(param.lower);
+  names(result)<-names(param.lower);
+  return(result);
+}
+
+## So, what do I need to know to generate the matrix?
+## Work backwards?

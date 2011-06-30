@@ -56,4 +56,100 @@ Loading required package: MASS
 [45] "reFitClineFunc"                     "sampleLikelihoodMolecularPop"      
 [47] "setupMoleCenterClineParameters"     "splitParameters"                   
 > ?MCMCmetrop1R
+> ?foreach
+> library(foreach)
+Loading required package: iterators
+Loading required package: codetools
+foreach: simple, scalable parallel programming from REvolution Computing
+Use REvolution R for scalability, fault tolerance and more.
+http://www.revolution-computing.com
+> ?foreach
+> ?iter
+> i2 <- iter(data.frame(x=1:3, y=10, z=c('a', 'b', 'c')))
+> nextElem(i2)
+[1] 1 2 3
+> as.list(nextElem(i2))
+[[1]]
+[1] 10
+
+[[2]]
+[1] 10
+
+[[3]]
+[1] 10
+i3 <- iter(data.frame(x=1:3, y=10), by='row')
+> i3 <- iter(data.frame(x=1:3, y=10), by='row')
+> nextElem(i3)
+  x  y
+1 1 10
+> nextElem(i3)
+  x  y
+2 2 10
+> nextElem(i3)
+  x  y
+3 3 10
+> nextElem(i3)
+Error: StopIteration
+> ?runif
+> 
+> require(foreach);
+> 
+> hzar.eval.clineLL <- function(data, llFunc){
++   result<-foreach(ttt=iter(data,by='row'),.combine=c) %dopar% { llFunc(ttt); };
++   return(result);
++ }
+>            
+> hzar.gen.rParam.uniform<-function(param.lower,param.upper,count=1000){
++   raw<-foreach(low=param.lower,
++                high=param.upper,
++                .combine=cbind) %dopar% {runif(count,low,high)};
++   result<-as.data.frame(raw);
++   colnames(result)<-names(param.lower);
++   names(result)<-names(param.lower);
++   return(result);
++ }
+> library(doMC)
+Loading required package: multicore
+
+Attaching package: 'multicore'
+
+
+	The following object(s) are masked from package:lattice :
+
+	 parallel 
+
+> registerDoMC()
+> hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75),10)
+     center    width
+1  141.7073 73.57907
+2  146.2833 24.88454
+3  141.9125 36.24603
+4  115.0940 58.85506
+5  115.5650 63.07668
+6  127.3244 12.70880
+7  124.5178 16.78300
+8  140.4106 45.86686
+9  133.8585 40.01142
+10 120.5333 49.09810
+> xyplot(center~width,data=hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75)))
+> cov(hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75)))
+          center     width
+center 215.10398   4.34537
+width    4.34537 421.04945
+> cor(hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75)))
+             center        width
+center  1.000000000 -0.005240869
+width  -0.005240869  1.000000000
+> cov(hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75)))
+            center       width
+center 207.4215560   0.6389979
+width    0.6389979 412.0462737
+> cov(hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75)))
+          center     width
+center 223.66119  22.14182
+width   22.14182 400.53536
+> cov(hzar.gen.rParam.uniform(list(center=100,width=5),list(center=150,width=75),1E6))
+            center       width
+center 208.2321007  -0.5517784
+width   -0.5517784 408.1375120
 > 
