@@ -31,6 +31,7 @@ source("hzarPrep.R");
 
 #### fitting functions and their helpers
 source("hzarFitting.R")
+source("hzarFittingNew.R")
 ## helper functions for fitCline
 ## getCredibleLLspace
 ## getCredibleCutG

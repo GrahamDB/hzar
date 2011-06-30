@@ -1,0 +1,84 @@
+## This is the new way of fitting the cline model, in an attempt to
+## streamline the process. I want to break the code into smaller
+## chunks by taking advantage of internal methods.  That way I can
+## provide complex behavior to the end user with minimal code.
+## Although technically the code will be more complex in structure,
+## each method should have a clear meaning.
+
+## In writing this, I plan on starting with biggest atomic slice of
+## the fitting process, the call to MCMCmetrop1R.
+
+hzar.doFit <- function(fitRequest){
+  result<-NULL;                        
+  useParam=fitRequest$mcmcParam;
+  mdlParam=fitRequest$modelParam;
+  try(result<-
+    MCMCmetrop1R(fun=fitRequest$llFunc, logfun="true", force.samp=TRUE,
+                 mcmc=useParam$chainLength, burnin=useParam$burnin,
+                 verbose=useParam$verbosity, thin=useParam$thin,
+                 theta.init=mdlParam$init, tune=mdlParam$tune,
+                 V=fitRequest$cM, seed=useParam$seed,
+                 optim.control=list(fnscale=-1,trace=0,REPORT=10,maxit=5000),
+                 optim.method="L-BFGS-B",
+                 optim.lower=useParam$lower,
+                 optim.upper=useParam$upper )
+      )
+                 
+  fitRequest$mcmcRaw<-result;
+  attr(fitRequest,"fit.run")<-TRUE;
+  attr(fitRequest,"fit.success")<-FALSE;
+  if(identical(is.null(result),TRUE)){
+    warning("Fitting failed.");
+  } else {
+    attr(fitRequest,"fit.success")<-TRUE;
+  }
+  return(fitRequest);
+}
+
+## fitRequest has the following base structure:
+hzar.make.fitRequest <-
+  function(modelParameters,             #output of splitParameters
+           covMatrix,                   #covariance matrix to use
+           clineLLfunc,                 #method to get LL given theta
+           mcmcParameters,              #mcmc attributes & controls
+           mcmcRaw=NULL,                #what MCMCmetrop1R returns
+           fit.run=FALSE,               #has this request been run?
+           fit.success=FALSE            #has the run succeeded?
+           ){
+    fitRequest<-list(modelParam=modelParameters,cM=covMatrix,
+                     llFunc=clineLLfunc,mcmcParam=mcmcParameters,
+                     mcmcRaw=mcmcRaw);
+    class(fitRequest)<-"hzar.fitRequest";
+    attr(fitRequest,"fit.run")<-fit.run;
+    attr(fitRequest,"fit.success")<-fit.success;
+    return(fitRequest);
+  }
+
+## I already have splitParameters to make modelParameters.
+
+## mcmcParameters should have a simple structure:
+##
+## chainLength, burnin, verbosity, thin, seed(seedStreamChannel,
+## useSeedStream, mersenneSeed, lecuyerSeed)
+hzar.make.mcmcParam <-
+  function(chainLength, burnin, verbosity, thin,
+           seedStreamChannel=1, useSeedStream=TRUE,
+           mersenneSeed=12345,
+           lecuyerSeed=rep(12345,6)){
+    mcmcParam<-list(chainLength=chainLength,burnin=burnin,
+                    verbosity=verbosity,thin=thin);
+    mcmcParam$seed<-mersenneSeed;
+    if(useSeedStream){
+      mcmcParam$seed<-list(lecuyerSeed,seedStreamChannel)
+    }
+    return(mcmcParam);
+  }
+
+
+
+## I need a method to make clineLLfunc.
+
+## I need method(s) to generate covMatrix.
+
+
+           
