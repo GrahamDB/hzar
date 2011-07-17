@@ -152,4 +152,459 @@ width   22.14182 400.53536
             center       width
 center 208.2321007  -0.5517784
 width   -0.5517784 408.1375120
+> ls()
+ [1] "CLINEPARAMETERS"                    "buildCline1D"                      
+ [3] "cline.logit"                        "cline.pCenter"                     
+ [5] "cline.pLower"                       "cline.pUpper"                      
+ [7] "cline.samp.dist"                    "cline.unscale"                     
+ [9] "cssp"                               "doMolecularData1DPops"             
+[11] "eval.gamma"                         "eval.gammaStep"                    
+[13] "eval.intercept"                     "eval.kappa"                        
+[15] "eval.lambda"                        "fitClineModel"                     
+[17] "getCredibleCut"                     "getCredibleCutG"                   
+[19] "getCredibleLLspace"                 "helper.lowerU"                     
+[21] "helper.u"                           "helper.upperU"                     
+[23] "hzar.eval.clineLL"                  "hzar.gen.rParam.uniform"           
+[25] "hzar.meta.ltail.scaled.ascending"   "hzar.meta.ltail.scaled.descending" 
+[27] "hzar.meta.mtail.scaled.ascending"   "hzar.meta.mtail.scaled.descending" 
+[29] "hzar.meta.rtail.scaled.ascending"   "hzar.meta.rtail.scaled.descending" 
+[31] "hzar.meta.simple.scaled.ascending"  "hzar.meta.simple.scaled.descending"
+[33] "hzar.meta.tailed.scaled.ascending"  "hzar.meta.tailed.scaled.descending"
+[35] "i2"                                 "i3"                                
+[37] "makeCline1D"                        "makeSimpleCline1D"                 
+[39] "makeTailedCline1D"                  "meta.cline.func.lowStep"           
+[41] "meta.cline.func.noStep"             "meta.cline.func.pScale"            
+[43] "meta.cline.func.stepBoth"           "meta.cline.func.upStep"            
+[45] "meta.tail.lower"                    "meta.tail.mirror"                  
+[47] "meta.tail.upper"                    "mkParam"                           
+[49] "reFitClineFunc"                     "sampleLikelihoodMolecularPop"      
+[51] "setupMoleCenterClineParameters"     "splitParameters"                   
+> source("hzarFittingNew.R")
+> library(doMC); 
+> registerDoMC()
+> formals(hzar.make.fitRequest)
+$modelParameters
+
+
+$covMatrix
+
+
+$clineLLfunc
+
+
+$mcmcParameters
+
+
+$mcmcRaw
+NULL
+
+$fit.run
+[1] FALSE
+
+$fit.success
+[1] FALSE
+
+> ?cov.wt
+> (xy <- cbind(x = 1:10, y = c(1:3, 8:5, 8:10)))
+       x  y
+ [1,]  1  1
+ [2,]  2  2
+ [3,]  3  3
+ [4,]  4  8
+ [5,]  5  7
+ [6,]  6  6
+ [7,]  7  5
+ [8,]  8  8
+ [9,]  9  9
+[10,] 10 10
+> w1 <- c(0,0,0,1,1,1,1,1,0,0)
+> cov.wt(xy, wt = w1)
+$cov
+     x    y
+x  2.5 -0.5
+y -0.5  1.7
+
+$center
+  x   y 
+6.0 6.8 
+
+$n.obs
+[1] 10
+
+$wt
+ [1] 0.0 0.0 0.0 0.2 0.2 0.2 0.2 0.2 0.0 0.0
+
+> cov.wt(xy)
+$cov
+         x        y
+x 9.166667 8.055556
+y 8.055556 9.433333
+
+$center
+  x   y 
+5.5 5.9 
+
+$n.obs
+[1] 10
+
+> cov(xy)
+         x        y
+x 9.166667 8.055556
+y 8.055556 9.433333
+> cov.wt(xy,method="ML")$cov
+     x    y
+x 8.25 7.25
+y 7.25 8.49
+> cov.wt(xy,method="ML",wt=w1)$cov
+     x     y
+x  2.0 -0.40
+y -0.4  1.36
+> v1<-list(x1=10,x2=3,x3=1)
+> v2<-list(x1=25,x2=10,x3=100)
+> (v2-v1)/(10)
+Error in v2 - v1 : non-numeric argument to binary operator
+> (as.data.frame(v2)-as.data.frame(v1))/(10)
+   x1  x2  x3
+1 1.5 0.7 9.9
+> ((as.data.frame(v2)-as.data.frame(v1))/(10))*(0:10)
+  x1  x2   x3
+1  0 0.7 19.8
+> ((as.data.frame(v2)-as.data.frame(v1))/(10))*(0:10)+as.data.frame(v1)
+  x1  x2   x3
+1 10 3.7 20.8
+> ((as.data.frame(v2)-as.data.frame(v1))/(10))*(t(0:10))+as.data.frame(v1)
+  x1  x2   x3
+1 10 3.7 20.8
+> matrix(nrow=11,ncol=3,data=0:10)
+      [,1] [,2] [,3]
+ [1,]    0    0    0
+ [2,]    1    1    1
+ [3,]    2    2    2
+ [4,]    3    3    3
+ [5,]    4    4    4
+ [6,]    5    5    5
+ [7,]    6    6    6
+ [8,]    7    7    7
+ [9,]    8    8    8
+[10,]    9    9    9
+[11,]   10   10   10
+> ((as.data.frame(v2)-as.data.frame(v1))/(10))*(matrix(nrow=11,ncol=3,data=0:10))+as.data.frame(v1)
+  x1  x2   x3
+1 10 3.7 20.8
+> ((as.data.frame(v2)-as.data.frame(v1))/(10))*(matrix(nrow=11,ncol=3,data=0:10))
+  x1  x2   x3
+1  0 0.7 19.8
+> as.numeric(v1)
+[1] 10  3  1
+> as.numeric(v2)- as.numeric(v1)
+[1] 15  7 99
+> ((as.numeric(v2)- as.numeric(v1))/10)*(0:10
++ )
+ [1]  0.0  0.7 19.8  4.5  2.8 49.5  9.0  4.9 79.2 13.5  7.0
+Warning message:
+In ((as.numeric(v2) - as.numeric(v1))/10) * (0:10) :
+  longer object length is not a multiple of shorter object length
+> ((as.numeric(v2)- as.numeric(v1))/10)*matrix(nrow=11,ncol=3,data=0:10)
+      [,1] [,2] [,3]
+ [1,]  0.0  0.0  0.0
+ [2,]  0.7  1.5  9.9
+ [3,] 19.8  1.4  3.0
+ [4,]  4.5 29.7  2.1
+ [5,]  2.8  6.0 39.6
+ [6,] 49.5  3.5  7.5
+ [7,]  9.0 59.4  4.2
+ [8,]  4.9 10.5 69.3
+ [9,] 79.2  5.6 12.0
+[10,] 13.5 89.1  6.3
+[11,]  7.0 15.0 99.0
+> t((as.numeric(v2)- as.numeric(v1))/10)*matrix(nrow=11,ncol=3,data=0:10)
+Error in t((as.numeric(v2) - as.numeric(v1))/10) * matrix(nrow = 11, ncol = 3,  : 
+  non-conformable arrays
+> matrix(nrow=1,ncol=3,((as.numeric(v2)- as.numeric(v1))/10))*matrix(nrow=11,ncol=3,data=0:10)
+Error in matrix(nrow = 1, ncol = 3, ((as.numeric(v2) - as.numeric(v1))/10)) *  : 
+  non-conformable arrays
+>  matrix(nrow=1,ncol=3,((as.numeric(v2)- as.numeric(v1))/10)
++ )
+     [,1] [,2] [,3]
+[1,]  1.5  0.7  9.9
+>  matrix(nrow=1,ncol=3,((as.numeric(v2)- as.numeric(v1))/10))*1
+     [,1] [,2] [,3]
+[1,]  1.5  0.7  9.9
+>  matrix(nrow=1,ncol=3,((as.numeric(v2)- as.numeric(v1))/10))*c(1,2,3)
+     [,1] [,2] [,3]
+[1,]  1.5  1.4 29.7
+>  matrix(nrow=1,ncol=3,((as.numeric(v2)- as.numeric(v1))/10))*rep(c(1,2,3),3)
+Error: dims [product 3] do not match the length of object [9]
+>  matrix(nrow=3,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,3))*rep(c(1,2,3),3)
+     [,1] [,2] [,3]
+[1,]  1.5  1.5  1.5
+[2,]  1.4  1.4  1.4
+[3,] 29.7 29.7 29.7
+>  matrix(nrow=3,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=3))*rep(c(1,2,3),each=3)
+     [,1] [,2] [,3]
+[1,]  1.5  1.4 29.7
+[2,]  1.5  1.4 29.7
+[3,]  1.5  1.4 29.7
+>  matrix(nrow=3,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=3))*rep(c(1,2,3),3)
+     [,1] [,2] [,3]
+[1,]  1.5  0.7  9.9
+[2,]  3.0  1.4 19.8
+[3,]  4.5  2.1 29.7
+>  matrix(nrow=11,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=11))*rep(0:10,3)
+      [,1] [,2] [,3]
+ [1,]  0.0  0.0  0.0
+ [2,]  1.5  0.7  9.9
+ [3,]  3.0  1.4 19.8
+ [4,]  4.5  2.1 29.7
+ [5,]  6.0  2.8 39.6
+ [6,]  7.5  3.5 49.5
+ [7,]  9.0  4.2 59.4
+ [8,] 10.5  4.9 69.3
+ [9,] 12.0  5.6 79.2
+[10,] 13.5  6.3 89.1
+[11,] 15.0  7.0 99.0
+>  matrix(nrow=11,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=11))*rep(0:10,3)+v1
+Error in matrix(nrow = 11, ncol = 3, rep((as.numeric(v2) - as.numeric(v1))/10,  : 
+  non-numeric argument to binary operator
+>  matrix(nrow=11,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=11))*rep(0:10,3)+as.numeric(v1)
+      [,1] [,2]  [,3]
+ [1,] 10.0  1.0   3.0
+ [2,]  4.5 10.7  10.9
+ [3,]  4.0  4.4  29.8
+ [4,] 14.5  3.1  32.7
+ [5,]  9.0 12.8  40.6
+ [6,]  8.5  6.5  59.5
+ [7,] 19.0  5.2  62.4
+ [8,] 13.5 14.9  70.3
+ [9,] 13.0  8.6  89.2
+[10,] 23.5  7.3  92.1
+[11,] 18.0 17.0 100.0
+>  matrix(nrow=11,ncol=3,rep((as.numeric(v2)- as.numeric(v1))/10,each=11))*rep(0:10,3)+as.numeric(v1)->joe
+> names(joe)<-names(v1)
+> colnames(joe)<-names(v1)
+> joe[1,]
+x1 x2 x3 
+10  1  3 
+> as.list(joe[1:2,])
+[[1]]
+[1] 10
+
+[[2]]
+[1] 4.5
+
+[[3]]
+[1] 1
+
+[[4]]
+[1] 10.7
+
+[[5]]
+[1] 3
+
+[[6]]
+[1] 10.9
+
+> as.data.frame(joe[1:2,])
+    x1   x2   x3
+1 10.0  1.0  3.0
+2  4.5 10.7 10.9
+> as.list(as.data.frame(joe[1:2,]))
+$x1
+[1] 10.0  4.5
+
+$x2
+[1]  1.0 10.7
+
+$x3
+[1]  3.0 10.9
+
+> call(expand.grid,as.list(as.data.frame(joe[1:2,])))
+Error in call(expand.grid, as.list(as.data.frame(joe[1:2, ]))) : 
+  first argument must be a character string
+> do.call(expand.grid,as.list(as.data.frame(joe[1:2,])))
+    x1   x2   x3
+1 10.0  1.0  3.0
+2  4.5  1.0  3.0
+3 10.0 10.7  3.0
+4  4.5 10.7  3.0
+5 10.0  1.0 10.9
+6  4.5  1.0 10.9
+7 10.0 10.7 10.9
+8  4.5 10.7 10.9
+> source("hzarFittingNew.R")
+> cov(hzar.gen.samples.rect(param.lower=v1,param.upper=v1))
+Error in matrix(nrow = pDiv, ncol = dim(param.names), data = rep(deltas,  : 
+  non-numeric matrix extent
+> dim(hzar.gen.samples.rect(param.lower=v1,param.upper=v1))
+Error in matrix(nrow = pDiv, ncol = dim(param.names), data = rep(deltas,  : 
+  non-numeric matrix extent
+> names(v1)
+[1] "x1" "x2" "x3"
+> source("hzarFittingNew.R")
+> dim(hzar.gen.samples.rect(param.lower=v1,param.upper=v1))
+[1] 0 0 0
+Error in matrix(nrow = pDiv, ncol = dim(param.names), data = rep(deltas,  : 
+  non-numeric matrix extent
+> dim(hzar.gen.samples.rect(param.lower=v1,param.upper=v2))
+[1] 1.5 0.7 9.9
+Error in matrix(nrow = pDiv, ncol = dim(param.names), data = rep(deltas,  : 
+  non-numeric matrix extent
+> source("hzarFittingNew.R")
+> dim(hzar.gen.samples.rect(param.lower=v1,param.upper=v2))
+[1] 1.5 0.7 9.9
+[1] "x1" "x2" "x3"
+Error in matrix(nrow = pDiv, ncol = dim(param.names), data = rep(deltas,  : 
+  non-numeric matrix extent
+> list(param.names=names(v1))
+$param.names
+[1] "x1" "x2" "x3"
+
+> list(param.names=names(v1))->test.frame.env
+> attach(test.frame.env)
+> test.frame.env$deltas<-(as.numeric(v2[param.names])-as.numeric(v2[param.names]))/(10);
+> detach()
+> attach(test.frame.env)
+> test.frame.env
+$param.names
+[1] "x1" "x2" "x3"
+
+$deltas
+[1] 0 0 0
+
+> test.frame.env$deltas<-(as.numeric(v2[param.names])-as.numeric(v1[param.names]))/(10);
+> detach()
+> attach(test.frame.env)
+> test.frame.env
+$param.names
+[1] "x1" "x2" "x3"
+
+$deltas
+[1] 1.5 0.7 9.9
+
+> dim(param.names)
+NULL
+> dim(deltas)
+NULL
+> length(param.names)
+[1] 3
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,length(param.names))+as.numeric(v1[param.names])
+      [,1] [,2]  [,3]
+ [1,] 10.0  1.0   3.0
+ [2,]  4.5 10.7  10.9
+ [3,]  4.0  4.4  29.8
+ [4,] 14.5  3.1  32.7
+ [5,]  9.0 12.8  40.6
+ [6,]  8.5  6.5  59.5
+ [7,] 19.0  5.2  62.4
+ [8,] 13.5 14.9  70.3
+ [9,] 13.0  8.6  89.2
+[10,] 23.5  7.3  92.1
+[11,] 18.0 17.0 100.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,11))*rep(0:10,length(param.names))+as.numeric(v1[param.names])
+      [,1] [,2]  [,3]
+ [1,] 10.0  1.0   3.0
+ [2,]  3.7 11.5  10.9
+ [3,] 20.8  4.4  13.0
+ [4,] 14.5 30.7   5.1
+ [5,]  5.8 16.0  40.6
+ [6,] 50.5  6.5  17.5
+ [7,] 19.0 60.4   7.2
+ [8,]  7.9 20.5  70.3
+ [9,] 80.2  8.6  22.0
+[10,] 23.5 90.1   9.3
+[11,] 10.0 25.0 100.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,each=length(param.names))+as.numeric(v1[param.names])
+      [,1] [,2]  [,3]
+ [1,] 10.0  3.1  72.3
+ [2,]  3.0 12.8  70.3
+ [3,]  1.0  5.8  89.2
+ [4,] 11.5  3.8  82.2
+ [5,]  4.5 13.5  80.2
+ [6,]  2.5  6.5  99.1
+ [7,] 13.0  4.5  92.1
+ [8,]  6.0 14.2  90.1
+ [9,]  4.0  7.2 109.0
+[10,] 14.5  5.2 102.0
+[11,]  7.5 14.9 100.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,each=length(param.names))
+      [,1] [,2] [,3]
+ [1,]  0.0  2.1 69.3
+ [2,]  0.0  2.8 69.3
+ [3,]  0.0  2.8 79.2
+ [4,]  1.5  2.8 79.2
+ [5,]  1.5  3.5 79.2
+ [6,]  1.5  3.5 89.1
+ [7,]  3.0  3.5 89.1
+ [8,]  3.0  4.2 89.1
+ [9,]  3.0  4.2 99.0
+[10,]  4.5  4.2 99.0
+[11,]  4.5  4.9 99.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,length(param.names))
+      [,1] [,2] [,3]
+ [1,]  0.0  0.0  0.0
+ [2,]  1.5  0.7  9.9
+ [3,]  3.0  1.4 19.8
+ [4,]  4.5  2.1 29.7
+ [5,]  6.0  2.8 39.6
+ [6,]  7.5  3.5 49.5
+ [7,]  9.0  4.2 59.4
+ [8,] 10.5  4.9 69.3
+ [9,] 12.0  5.6 79.2
+[10,] 13.5  6.3 89.1
+[11,] 15.0  7.0 99.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,length(param.names))+as.numeric(v1)
+      [,1] [,2]  [,3]
+ [1,] 10.0  1.0   3.0
+ [2,]  4.5 10.7  10.9
+ [3,]  4.0  4.4  29.8
+ [4,] 14.5  3.1  32.7
+ [5,]  9.0 12.8  40.6
+ [6,]  8.5  6.5  59.5
+ [7,] 19.0  5.2  62.4
+ [8,] 13.5 14.9  70.3
+ [9,] 13.0  8.6  89.2
+[10,] 23.5  7.3  92.1
+[11,] 18.0 17.0 100.0
+> matrix(nrow=11,length(param.names),data=rep(deltas,each=11))*rep(0:10,length(param.names))+rep(as.numeric(v1),each=11)
+      [,1] [,2]  [,3]
+ [1,] 10.0  3.0   1.0
+ [2,] 11.5  3.7  10.9
+ [3,] 13.0  4.4  20.8
+ [4,] 14.5  5.1  30.7
+ [5,] 16.0  5.8  40.6
+ [6,] 17.5  6.5  50.5
+ [7,] 19.0  7.2  60.4
+ [8,] 20.5  7.9  70.3
+ [9,] 22.0  8.6  80.2
+[10,] 23.5  9.3  90.1
+[11,] 25.0 10.0 100.0
+> detach()
+> source("hzarFittingNew.R")
+> dim(hzar.gen.samples.rect(param.lower=v1,param.upper=v2))
+[1] 1.5 0.7 9.9
+[1] "x1" "x2" "x3"
+[1] 1331    3
+> cov(hzar.gen.samples.rect(param.lower=v1,param.upper=v2))
+[1] 1.5 0.7 9.9
+[1] "x1" "x2" "x3"
+         x1            x2            x3
+x1 22.51692  0.000000e+00  0.000000e+00
+x2  0.00000  4.903684e+00 -2.337312e-18
+x3  0.00000 -2.337312e-18  9.808369e+02
+> cov(hzar.gen.samples.rect(param.lower=v2,param.upper=v1))
+[1] -1.5 -0.7 -9.9
+[1] "x1" "x2" "x3"
+         x1           x2           x3
+x1 22.51692 0.000000e+00 0.000000e+00
+x2  0.00000 4.903684e+00 1.335607e-18
+x3  0.00000 1.335607e-18 9.808369e+02
+> ?prod
+> abs(v1)
+Error in abs(v1) : non-numeric argument to function
+> source("hzarFittingNew.R")
+> names(hzar.gen.samples.rect(param.lower=v2,param.upper=v1))
+[1] "dTheta" "data"  
+> hzar.gen.samples.rect(param.lower=v2,param.upper=v1)$dTheta
+[1] 0.0962001
+> ?cov.wt
 > 

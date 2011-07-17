@@ -200,3 +200,50 @@ hzar.gen.rParam.uniform<-function(param.lower,param.upper,count=1000){
 
 ## So, what do I need to know to generate the matrix?
 ## Work backwards?
+
+## cov.wt requires a data frame of sampled parameters, weights
+## (Likelihood, intregration differentials, scaling), and possibly a
+## pre-calculated center.
+
+## data    := sampled parameters
+
+## data.wt := weights needs: (data, clineLLfunc, data.dP
+
+## data.LL := Likelihood; needs (clineLLfunc)
+## data.LL =  hzar.eval.clineLL(data, clineLLfunc)
+## data.dP := area given to each sampled point
+## scaling := 1/(sum(exp(data.LL)*data.dP))
+
+hzar.getCovWeights <- function(data,clineLLfunc, data.dP){
+  data.LL <- hzar.eval.clineLL(data,clineLLfunc);
+  return(exp(data.LL)*data.dP/sum(exp(data.LL)*data.dP));
+}
+
+## I can assume I have clineLLfunc, so I just need data and data.dP. I
+## could just sample a rectangular area.
+
+hzar.gen.samples.rect <- function(param.lower, param.upper, pDiv=11){
+  param.names<-names(param.lower);
+  nParam<-length(param.names);
+  deltas=(as.numeric(param.upper[param.names])-
+          as.numeric(param.lower[param.names]))/(pDiv-1);
+  ## print(deltas);print(param.names);
+  grid.formals<-matrix(nrow=pDiv,ncol=nParam,
+                       data=rep(deltas,each=pDiv))* rep(0:(pDiv-1),nParam)+
+                         rep(as.numeric(param.lower[param.names]),each=pDiv);
+  colnames(grid.formals)<-param.names;
+  names(grid.formals)<-param.names;
+  result<-list(dTheta=prod(abs(deltas)));
+  result$data<-do.call(expand.grid,as.list(as.data.frame(grid.formals)));
+  ## grid.formals<-names(param.lower
+  return(result);
+}
+
+hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11){
+  data.mat<-hzar.gen.samples.rect(param.lower,param.upper,pDiv);
+  data.wt<-hzar.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
+  return(cov.wt(x=data.mat$data,wt=data.wt));
+}
+
+
+
