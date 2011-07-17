@@ -358,9 +358,15 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
   } else if(scaling=="free") {
     attr(myModel$parameterTypes$pMin,"fixed")<-FALSE;
     attr(myModel$parameterTypes$pMax,"fixed")<-FALSE;
-    if(!is.null(data)){
+    if(!is.null(y)){
       myModel$parameterTypes$pMin$val<-min(y);
       myModel$parameterTypes$pMax$val<-max(y);
+      hzar.suggestionFunc1D$pMin(x,y)->junk;
+    attr(myModel$parameterTypes$pMin,"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes$pMin,"limit.upper")<-junk[[2]];
+      hzar.suggestionFunc1D$pMax(x,y)->junk;
+    attr(myModel$parameterTypes$pMax,"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes$pMax,"limit.upper")<-junk[[2]];
     }
   } else {
     stop(paste("Scaling type",scaling,"unrecignized. Please use none, fixed, or free."));
@@ -369,6 +375,13 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
     qX<-quantile(x,probs=c(0.25,0.5,0.75));
     myModel$parameterTypes$center$val<-qX[[2]]; 
     myModel$parameterTypes$width$val<-qX[[3]]-qX[[1]];
+      hzar.suggestionFunc1D$center(x,y)->junk;
+    attr(myModel$parameterTypes$center,"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes$center,"limit.upper")<-junk[[2]];
+    
+      hzar.suggestionFunc1D$width(x,y)->junk;
+    attr(myModel$parameterTypes$width,"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes$width,"limit.upper")<-junk[[2]];
   }
   return(myModel);
 }
