@@ -245,3 +245,47 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11){
   return(cov.wt(x=data.mat$data,wt=data.wt));
 }
 
+hzar.default.mcmc <- hzar.make.mcmcParam(chainLength=1e6,
+                                         burnin=1e4,
+                                         verbosity=1e4,
+                                         thin=100);
+
+hzar.quiet.mcmc   <- hzar.make.mcmcParam(chainLength=1e6,
+                                         burnin=1e4,
+                                         verbosity=0,
+                                         thin=100);
+
+##refitting
+hzar.cov.mcmc<-function(clineLLfunc,mcmcRaw){
+  mcmc.nm<-names(mcmcRaw);
+  pL<-lapply(mcmc.nm,function(x){min(mcmcRaw[,x])});
+  names(pL)<-mcmc.nm;
+  pU<-lapply(mcmc.nm,function(x){max(mcmcRaw[,x])});
+  names(pU)<-mcmc.nm;
+  return(hzar.cov.rect(clineLLfunc,pL,pU));
+}
+hzar.next.fitRequest <- function(oldFitRequest){
+  seedChannel<-1;
+  if(is.list(oldFitRequest$mcmcParam$seed)){
+    seedChannel=oldFitRequest$mcmcParam$seed[[2]];
+  }
+  if(identical( attr(oldFitRequest,"fit.run") , TRUE)){
+    seedChannel<-seedChannel+1;
+  } else {
+    seedChannel<-seedChannel+10;
+  }
+  mcmcParam=hzar.make.mcmcParam(oldFitRequest$mcmcParam$chainLength,
+    oldFitRequest$mcmcParam$burnin,
+    oldFitRequest$mcmcParam$verbosity,
+    oldFitRequest$mcmcParam$thin,
+    seedChannel);
+  covMatrix<-oldFitRequest$cM
+  if(identical( attr(oldFitRequest,"fit.success") , TRUE)){
+    covMatrix<-hzar.cov.mcmc(oldFitRequest$llFunc,oldFitRequest$mcmcRaw);
+  }
+  return(hzar.make.fitRequest(oldFitRequest$modelParam,
+                              covMatrix,
+                              oldFitRequest$llFunc,
+                              mcmcParam));
+}
+  

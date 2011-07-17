@@ -607,4 +607,31 @@ Error in abs(v1) : non-numeric argument to function
 > hzar.gen.samples.rect(param.lower=v2,param.upper=v1)$dTheta
 [1] 0.0962001
 > ?cov.wt
+> names(hzar.gen.samples.rect(param.lower=v2,param.upper=v1))
+[1] "dTheta" "data"  
+> names(hzar.gen.samples.rect(param.lower=v2,param.upper=v1)$data)
+[1] "x1" "x2" "x3"
+> joe<-hzar.gen.samples.rect(param.lower=v2,param.upper=v1)$data
+> lapply(names(joe),function(x){min([,x])})
+Error: unexpected '[' in "lapply(names(joe),function(x){min(["
+> lapply(names(joe),function(x){min(joe[,x])})
+[[1]]
+[1] 10
+
+[[2]]
+[1] 3
+
+[[3]]
+[1] 1
+
+> lapply(names(joe),function(x){min(joe[,x])})->pL; names(pL)<-names(joe); pL
+$x1
+[1] 10
+
+$x2
+[1] 3
+
+$x3
+[1] 1
+
 > 
