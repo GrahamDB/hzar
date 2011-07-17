@@ -371,6 +371,8 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
   } else {
     stop(paste("Scaling type",scaling,"unrecignized. Please use none, fixed, or free."));
   }
+   pTnames<-names(myModel$parameterTypes);
+  
   if(!is.null(x)){
     qX<-quantile(x,probs=c(0.25,0.5,0.75));
     myModel$parameterTypes$center$val<-qX[[2]]; 
@@ -382,11 +384,53 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
       hzar.suggestionFunc1D$width(x,y)->junk;
     attr(myModel$parameterTypes$width,"limit.lower")<-junk[[1]];
     attr(myModel$parameterTypes$width,"limit.upper")<-junk[[2]];
+    index<-"deltaR";
+    if(index %in% pTnames){
+      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+    }
+    index<-"deltaM";
+    if(index %in% pTnames){
+      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+    }
+    index<-"deltaL";
+    if(index %in% pTnames){
+      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+    }
+    
+    
   }
+   index<-"tauR";
+   if(index %in% pTnames){
+     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+     attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+   }
+   index<-"tauM";
+   if(index %in% pTnames){
+     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+     attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+   }
+   index<-"tauL";
+   if(index %in% pTnames){
+     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
+     attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
+   }
+    
+  
   return(myModel);
 }
 
 buildCline1D<-function(data,scaling,direction,ascending.cline,descending.cline){
+dist=NULL;
+obs=NULL;
   if(is.null(direction) ){
     if(is.null(data))
       stop("Either provide observation data, or set direction.");
@@ -397,6 +441,17 @@ buildCline1D<-function(data,scaling,direction,ascending.cline,descending.cline){
       } else {
         direction="descending";
       }
+      dist=data$frame$dist;
+      obs=data$frame$obsFreq;
+    } else if(class(data)=="clineSampleData1DCLT"){
+      if(mean(data$frame$dist) <
+         (sum(data$frame$dist*data$frame$obsMean)/sum(data$frame$obsMean))){
+        direction="ascending";
+      } else {
+        direction="descending";
+      }
+      dist=data$frame$dist;
+      obs=data$frame$obsMean;
     } else {
       stop("Class of data unknown.");
     }
@@ -408,7 +463,7 @@ buildCline1D<-function(data,scaling,direction,ascending.cline,descending.cline){
   }else {
     stop(paste("Direction",direction,"not recognized. Specify either ascending or descending."));
   }
-  myModel=setupMoleCenterClineParameters(myModel,scaling,data$frame$dist,data$frame$obsFreq);
+  myModel=setupMoleCenterClineParameters(myModel,scaling,dist,obs);
   attr(myModel,"tails")<-"none";
   return(myModel);
 }
@@ -430,7 +485,7 @@ makeTailedCline1D<-function(data=NULL,scaling="none",direction=NULL){
   return(myTailedModel);
 }
 
-makeCline1D<- function(data=NULL,scaling="none",tails="none",direction=NULL){
+makeCline1DFreq<- function(data=NULL,scaling="none",tails="none",direction=NULL){
   if(identical(tolower(tails),"none")){
     return(makeSimpleCline1D(data,scaling,direction));
   }else if(identical(tolower(tails),"both")) {

@@ -10,6 +10,7 @@
 
 #### prep work functions
 source("hzarPrep.R");
+source("hzarMorpho.R");
 ## setup transect with molecular data.
 ## sampleLikelihoodMolecularPop
 ## doMolecularData1DPops

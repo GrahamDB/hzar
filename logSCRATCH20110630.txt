@@ -634,4 +634,16 @@ $x2
 $x3
 [1] 1
 
+> names(joe) %in% names(pL)
+[1] TRUE TRUE TRUE
+> c("deltaR","deltaL") %in% CLINEPARAMETERS 
+[1] FALSE FALSE
+> c("deltaR","deltaL") %in% names(CLINEPARAMETERS )
+[1] TRUE TRUE
+> names(CLINEPARAMETERS )
+ [1] "center" "width"  "pMin"   "pMax"   "deltaL" "deltaR" "deltaM" "tauL"  
+ [9] "tauR"   "tauM"  
+> source("hzarClasses.R")
+Error: evaluation nested too deeply: infinite recursion / options(expressions=)?
+> source("hzarClasses.R")
 > 
