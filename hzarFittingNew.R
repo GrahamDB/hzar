@@ -246,4 +246,32 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11){
 }
 
 
+## suggest upper and lower bounds for cov matrix based on observed data:
+## have vector of distances (obsData$frame$dist),
+## and a vector of data points (obsData$frame$pObs?).
 
+hzar.suggestionFunc1D <-
+  list(center = function(dist,obs){
+    return(c(min(dist),max(dist)));},
+       width  = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       pMin   = function(dist,obs){return(c(0,1));},
+       pMax   = function(dist,obs){return(c(0,1));},
+       xMin   = function(dist,obs){
+         delta=(max(obs)-min(obs));
+         return(c(min(obs)-delta/10,max(obs)+delta/10));},
+       xMax   = function(dist,obs){
+         delta=(max(obs)-min(obs));
+         return(c(min(obs)-delta/10,max(obs)+delta/10));},
+       deltaL = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       deltaR = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       deltaM = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       tauL   = function(dist,obs){return(c(0,1));},
+       tauR   = function(dist,obs){return(c(0,1));},
+       tauM   = function(dist,obs){return(c(0,1));})
+       
+                            
+## obsData or mcmcRaw, free.param.names, clineLLfunc
