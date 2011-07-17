@@ -23,7 +23,7 @@ hzar.doFit <- function(fitRequest){
                  optim.lower=useParam$lower,
                  optim.upper=useParam$upper )
       )
-                 
+  colnames(result)<-names(mdlParam$init);
   fitRequest$mcmcRaw<-result;
   attr(fitRequest,"fit.run")<-TRUE;
   attr(fitRequest,"fit.success")<-FALSE;
@@ -184,6 +184,7 @@ hzar.make.clineLLfunc.old.bayes <-
 require(foreach);
 
 hzar.eval.clineLL <- function(data, llFunc){
+  ## print("A");
   result<-foreach(ttt=iter(data,by='row'),.combine=c) %dopar% { llFunc(ttt); };
   return(result);
 }
@@ -227,22 +228,34 @@ hzar.gen.samples.rect <- function(param.lower, param.upper, pDiv=11){
   nParam<-length(param.names);
   deltas=(as.numeric(param.upper[param.names])-
           as.numeric(param.lower[param.names]))/(pDiv-1);
-  ## print(deltas);print(param.names);
+ ##  print(deltas);print(param.names);
   grid.formals<-matrix(nrow=pDiv,ncol=nParam,
                        data=rep(deltas,each=pDiv))* rep(0:(pDiv-1),nParam)+
                          rep(as.numeric(param.lower[param.names]),each=pDiv);
   colnames(grid.formals)<-param.names;
-  names(grid.formals)<-param.names;
+  ## names(grid.formals)<-param.names;
+  ## print(as.list(as.data.frame(grid.formals)));
   result<-list(dTheta=prod(abs(deltas)));
   result$data<-do.call(expand.grid,as.list(as.data.frame(grid.formals)));
+  ## print(class(result$data))
   ## grid.formals<-names(param.lower
   return(result);
 }
 
 hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11){
+  ## print("A");
   data.mat<-hzar.gen.samples.rect(param.lower,param.upper,pDiv);
-  data.wt<-hzar.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
-  return(cov.wt(x=data.mat$data,wt=data.wt));
+  param.names<-names(data.mat$data);##print(names(data.mat));
+  ## print("A");
+  ##data.wt<-hzar.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
+  data.wt<-hzar.eval.clineLL(data.mat$data,clineLLfunc);
+  ## print("A");
+  VMATRIX<-cov.wt(x=cbind(data.mat$data,model.LL=data.wt),wt=exp(data.wt)*data.mat$dTheta)$cov;
+  diag(1/VMATRIX["model.LL",])->counter.inv;
+  dimnames(counter.inv)<-list(rownames(VMATRIX),colnames(VMATRIX));
+  counter.inv2<-counter.inv/sqrt(counter.inv["model.LL","model.LL"]);
+  mat.scaled<-counter.inv2%*%VMATRIX%*%counter.inv2;
+  return(mat.scaled[param.names,param.names]);
 }
 
 hzar.default.mcmc <- hzar.make.mcmcParam(chainLength=1e6,
@@ -290,18 +303,24 @@ hzar.next.fitRequest <- function(oldFitRequest){
 }
   
 hzar.first.fitRequest.old.ML <-function(model,obsData,verbose=TRUE){
+  
   if(verbose){
     mcmcParam<-hzar.default.mcmc;
   }else {
     mcmcParam<-hzar.quiet.mcmc;
   }
+   print("A");
   
   modelParam<-splitParameters(model$parameterTypes);
+   print("A");
   clineLLfunc<-hzar.make.clineLLfunc.old.ML(names(modelParam$init),
                                             modelParam$fixed,
                                             model$req,
                                             model$func,
                                             obsData$model.LL);
-  covMatrix<-hzar.cov.rect(clineLLfunc,modelParam$lower,model$upper);
-  return(hzar.make.fitRequest(modelParam,covmatrix,clineLLfunc,mcmcParam));
+   print("A");
+  covMatrix<-NULL;
+  try(  covMatrix<-hzar.cov.rect(clineLLfunc,modelParam$lower,modelParam$upper));
+   print("A");
+  return(hzar.make.fitRequest(modelParam,covMatrix,clineLLfunc,mcmcParam));
 }

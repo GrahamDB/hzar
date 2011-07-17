@@ -50,10 +50,10 @@ doCLTData1DPops<-function(distance,muObs,varObs,nSamples){
     muEst=model.func(obj$frame$dist);
 ##res<-numeric(length(pEst));
   ##  for(iter in 1:(length(pEst))){
-      res<-logLikeCLTEstPopMeanVar(muEst=as.numeric(muEst),
+      res<-logLikeCLTEstPopMean(muEst=as.numeric(muEst),
                                       muObs=as.numeric(obj$frame$obsMean),
                                       varObs=as.numeric(obj$frame$obsVariance),
-                                      N=as.numeric(obj$frame$n));
+                                      nObs=as.numeric(obj$frame$n));
     ##}
                                                 
     result<-sum(res);

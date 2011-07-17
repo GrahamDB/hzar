@@ -342,36 +342,42 @@ class(hzar.meta.rtail.scaled.descending)<-"clineMetaModel";
 
 
 setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
+  pTnames<-names(myModel$parameterTypes);
+  if("pMin" %in% pTnames) mdlMin <- "pMin";
+  if("xMin" %in% pTnames) mdlMin <- "xMin";
+  if("pMax" %in% pTnames) mdlMax <- "pMax";
+  if("xMax" %in% pTnames) mdlMax <- "xMax";
+  
   if(scaling=="none"){
-    attr(myModel$parameterTypes$pMin,"fixed")<-TRUE;
-    attr(myModel$parameterTypes$pMax,"fixed")<-TRUE;
-    myModel$parameterTypes$pMin$val<-0;
-    myModel$parameterTypes$pMax$val<-1;
+    attr(myModel$parameterTypes[[mdlMin]],"fixed")<-TRUE;
+    attr(myModel$parameterTypes[[mdlMax]],"fixed")<-TRUE;
+    myModel$parameterTypes[[mdlMin]]$val<-0;
+    myModel$parameterTypes[[mdlMax]]$val<-1;
     
   } else if(scaling=="fixed") {
-    attr(myModel$parameterTypes$pMin,"fixed")<-TRUE;
-    attr(myModel$parameterTypes$pMax,"fixed")<-TRUE;
+    attr(myModel$parameterTypes[[mdlMin]],"fixed")<-TRUE;
+    attr(myModel$parameterTypes[[mdlMax]],"fixed")<-TRUE;
     if(!is.null(y)){
-      myModel$parameterTypes$pMin$val<-min(y);
-      myModel$parameterTypes$pMax$val<-max(y);
+      myModel$parameterTypes[[mdlMin]]$val<-min(y);
+      myModel$parameterTypes[[mdlMax]]$val<-max(y);
     }
   } else if(scaling=="free") {
-    attr(myModel$parameterTypes$pMin,"fixed")<-FALSE;
-    attr(myModel$parameterTypes$pMax,"fixed")<-FALSE;
+    attr(myModel$parameterTypes[[mdlMin]],"fixed")<-FALSE;
+    attr(myModel$parameterTypes[[mdlMax]],"fixed")<-FALSE;
     if(!is.null(y)){
-      myModel$parameterTypes$pMin$val<-min(y);
-      myModel$parameterTypes$pMax$val<-max(y);
-      hzar.suggestionFunc1D$pMin(x,y)->junk;
-    attr(myModel$parameterTypes$pMin,"limit.lower")<-junk[[1]];
-    attr(myModel$parameterTypes$pMin,"limit.upper")<-junk[[2]];
-      hzar.suggestionFunc1D$pMax(x,y)->junk;
-    attr(myModel$parameterTypes$pMax,"limit.lower")<-junk[[1]];
-    attr(myModel$parameterTypes$pMax,"limit.upper")<-junk[[2]];
+      myModel$parameterTypes[[mdlMin]]$val<-min(y);
+      myModel$parameterTypes[[mdlMax]]$val<-max(y);
+      hzar.suggestionFunc1D[[mdlMin]](x,y)->junk;
+    attr(myModel$parameterTypes[[mdlMin]],"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes[[mdlMin]],"limit.upper")<-junk[[2]];
+      hzar.suggestionFunc1D[[mdlMax]](x,y)->junk;
+    attr(myModel$parameterTypes[[mdlMax]],"limit.lower")<-junk[[1]];
+    attr(myModel$parameterTypes[[mdlMax]],"limit.upper")<-junk[[2]];
     }
   } else {
     stop(paste("Scaling type",scaling,"unrecignized. Please use none, fixed, or free."));
   }
-   pTnames<-names(myModel$parameterTypes);
+   
   
   if(!is.null(x)){
     qX<-quantile(x,probs=c(0.25,0.5,0.75));
