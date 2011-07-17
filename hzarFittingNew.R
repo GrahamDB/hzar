@@ -289,3 +289,19 @@ hzar.next.fitRequest <- function(oldFitRequest){
                               mcmcParam));
 }
   
+hzar.first.fitRequest.old.ML <-function(model,obsData,verbose=TRUE){
+  if(verbose){
+    mcmcParam<-hzar.default.mcmc;
+  }else {
+    mcmcParam<-hzar.quiet.mcmc;
+  }
+  
+  modelParam<-splitParameters(model$parameterTypes);
+  clineLLfunc<-hzar.make.clineLLfunc.old.ML(names(modelParam$init),
+                                            modelParam$fixed,
+                                            model$req,
+                                            model$func,
+                                            obsData$model.LL);
+  covMatrix<-hzar.cov.rect(clineLLfunc,modelParam$lower,model$upper);
+  return(hzar.make.fitRequest(modelParam,covmatrix,clineLLfunc,mcmcParam));
+}
