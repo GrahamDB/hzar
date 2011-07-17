@@ -53,12 +53,44 @@ CLINEPARAMETERS<-list(center=mkParam("center",10,1.5,-1e8,1e8),
                       width =mkParam("width", 10,1.5,1e-8,1e8),
                       pMin  =mkParam("pMin",  0, 1.1,   0,  1,isRB01=TRUE),
                       pMax  =mkParam("pMax",  1, 1.1,   0,  1,isRB01=TRUE),
+                      xMin  =mkParam("xMin",0,1.5,-1e8,1e8),
+                      xMax  =mkParam("xMax",10,1.5,-1e8,1e8),
                       deltaL=mkParam("deltaL",1,1.5,  1e-8, 1e8),
                       deltaR=mkParam("deltaR",1,1.5,  1e-8, 1e8),
                       deltaM=mkParam("deltaM",1,1.5,  1e-8, 1e8),
                       tauL  =mkParam("tauL", 0.5,1.1,  0,   1,isRB01=TRUE),
                       tauR  =mkParam("tauR", 0.5,1.1,  0,   1,isRB01=TRUE),
                       tauM  =mkParam("tauM", 0.5,1.1,  0,   1,isRB01=TRUE));
+
+
+## suggest upper and lower bounds for cov matrix based on observed data:
+## have vector of distances (obsData$frame$dist),
+## and a vector of data points (obsData$frame$pObs?).
+
+hzar.suggestionFunc1D <-
+  list(center = function(dist,obs){
+    return(c(min(dist),max(dist)));},
+       width  = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       pMin   = function(dist,obs){return(c(0,1));},
+       pMax   = function(dist,obs){return(c(0,1));},
+       xMin   = function(dist,obs){
+         delta=(max(obs)-min(obs));
+         return(c(min(obs)-delta/10,max(obs)+delta/10));},
+       xMax   = function(dist,obs){
+         delta=(max(obs)-min(obs));
+         return(c(min(obs)-delta/10,max(obs)+delta/10));},
+       deltaL = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       deltaR = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       deltaM = function(dist,obs){
+         return(c(0,max(dist)-min(dist)));},
+       tauL   = function(dist,obs){return(c(0,1));},
+       tauR   = function(dist,obs){return(c(0,1));},
+       tauM   = function(dist,obs){return(c(0,1));});
+       
+      
 
 ## ## format of the cline meta model
 ## objCMeta<-list();
