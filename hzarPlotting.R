@@ -1,3 +1,17 @@
+
+plotClineFunc <- function(clineFrame){
+
+  attach(clineFrame$data$frame);
+  x<-seq(min(dist),max(dist),length.out=101);
+  detach();
+  plot(obsFreq ~ dist, data=clineFrame$data$frame);
+  lines(clineFrame$maxLL.cline(x)~x);
+
+}
+
+
+
+
 plotLLspace<-function(clineFrame){
   attach(clineFrame$allClines);
 credibleLLspace<-data.frame(LL=sort(model.LL),
