@@ -183,9 +183,21 @@ hzar.make.clineLLfunc.old.bayes <-
 
 require(foreach);
 
+hzar.wedgeSlice <- function (count){
+  res=list();
+  if(count>100)
+    res<-lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 });
+  return(c(res,list(1:(1+(count-1)%%100)+100*((count-1)%/%100))));
+}
+
 hzar.eval.clineLL <- function(data, llFunc){
   ## print("A");
-  result<-foreach(ttt=iter(data,by='row'),.combine=c) %dopar% { llFunc(ttt); };
+  useData<-data;
+  slices<-hzar.wedgeSlice(dim(data)[[1]])
+  useFunc<-llFunc;
+  result<-foreach(tttIndex=slices,.combine=rbind) %dopar% {
+    data.frame(model.LL=as.numeric(lapply(tttIndex,function(x)
+                 {useFunc(useData[x,]); })));}
   return(result);
 }
            
@@ -242,19 +254,28 @@ hzar.gen.samples.rect <- function(param.lower, param.upper, pDiv=11){
   return(result);
 }
 
-hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11){
+hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,passCenter=FALSE){
   ## print("A");
   data.mat<-hzar.gen.samples.rect(param.lower,param.upper,pDiv);
+  if(random>0)
+    data.mat<-list(dTheta=prod(abs(as.numeric(param.upper)-as.numeric(param.lower)))/random,data=hzar.gen.rParam.uniform(param.lower,param.upper,random));
+  
   param.names<-names(data.mat$data);##print(names(data.mat));
   ## print("A");
   ##data.wt<-hzar.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
   data.wt<-hzar.eval.clineLL(data.mat$data,clineLLfunc);
+  data.mat$data<-data.mat$data[data.wt>-1e6,];
+  data.wt<-data.wt[data.wt>-1e6];
   ## print("A");
-  VMATRIX<-cov.wt(x=cbind(data.mat$data,model.LL=data.wt),wt=exp(data.wt)*data.mat$dTheta)$cov;
-  diag(1/VMATRIX["model.LL",])->counter.inv;
+  VDATA<-cov.wt(x=cbind(data.mat$data,model.LL=data.wt),wt=exp(data.wt)*data.mat$dTheta)
+  VMATRIX<-VDATA$cov;
+  ## diag(1/(VMATRIX["model.LL",]))->counter.inv;
+  diag(sign(VMATRIX["model.LL",]))->counter.inv;
   dimnames(counter.inv)<-list(rownames(VMATRIX),colnames(VMATRIX));
   counter.inv2<-counter.inv/sqrt(counter.inv["model.LL","model.LL"]);
-  mat.scaled<-counter.inv2%*%VMATRIX%*%counter.inv2;
+  mat.scaled<-counter.inv%*%VMATRIX%*%counter.inv;
+  if(passCenter)
+    return(list(cov=mat.scaled[param.names,param.names],center=VDATA$center[param.names]));
   return(mat.scaled[param.names,param.names]);
 }
 
@@ -269,13 +290,13 @@ hzar.quiet.mcmc   <- hzar.make.mcmcParam(chainLength=1e6,
                                          thin=100);
 
 ##refitting
-hzar.cov.mcmc<-function(clineLLfunc,mcmcRaw){
-  mcmc.nm<-names(mcmcRaw);
+hzar.cov.mcmc<-function(clineLLfunc,mcmcRaw,pDiv=15,random=1e4,passCenter=FALSE){
+  mcmc.nm<-colnames(mcmcRaw);
   pL<-lapply(mcmc.nm,function(x){min(mcmcRaw[,x])});
   names(pL)<-mcmc.nm;
   pU<-lapply(mcmc.nm,function(x){max(mcmcRaw[,x])});
   names(pU)<-mcmc.nm;
-  return(hzar.cov.rect(clineLLfunc,pL,pU));
+  return(hzar.cov.rect(clineLLfunc,pL,pU,pDiv,random,passCenter));
 }
 hzar.next.fitRequest <- function(oldFitRequest){
   seedChannel<-1;
@@ -292,11 +313,14 @@ hzar.next.fitRequest <- function(oldFitRequest){
     oldFitRequest$mcmcParam$verbosity,
     oldFitRequest$mcmcParam$thin,
     seedChannel);
+  mdlParam<-oldFitRequest$modelParam;
   covMatrix<-oldFitRequest$cM
   if(identical( attr(oldFitRequest,"fit.success") , TRUE)){
-    covMatrix<-hzar.cov.mcmc(oldFitRequest$llFunc,oldFitRequest$mcmcRaw);
+    covData<-hzar.cov.mcmc(oldFitRequest$llFunc,oldFitRequest$mcmcRaw,passCenter=TRUE);
+    covMatrix<-covData$cov;
+    mdlParam$init<-covData$center[names(mdlParam$init)];
   }
-  return(hzar.make.fitRequest(oldFitRequest$modelParam,
+  return(hzar.make.fitRequest(mdlParam,
                               covMatrix,
                               oldFitRequest$llFunc,
                               mcmcParam));

@@ -5697,4 +5697,1638 @@ In addition: Warning messages:
 Error in exp(data.wt) : Non-numeric argument to mathematical function
 > hzar.cov.mcmc(test.fit$llFunc,test.fit$mcmcRaw);
 Error in exp(data.wt) : Non-numeric argument to mathematical function
-> 
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.fit$llFunc,test.fit$mcmcRaw);
+          center     width       xMin      xMax
+center 10.334147   8.40972   7.433694 10.380100
+width   8.409719  55.67173 -11.141749 18.719298
+xMin    7.433694 -11.14175 135.999291 -1.751419
+xMax   10.380100  18.71930  -1.751419 22.314147
+> test.request.2<-hzar.next.fitRequest(test.fit);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00002
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> test.request.3<-hzar.next.fitRequest(test.refit); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00005
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  C-c C-c
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.fit$llFunc,test.fit$mcmcRaw);
+            center       width         xMin        xMax
+center 0.008557777  0.01146565  0.004091935  0.03921327
+width  0.011465647  0.12496332 -0.010097367  0.11642648
+xMin   0.004091935 -0.01009737  0.049762066 -0.00439804
+xMax   0.039213267  0.11642648 -0.004398040  0.38455361
+> test.request.2<-hzar.next.fitRequest(test.fit);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00237
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width          xMin         xMax
+center  3.670969e-01 -0.6760752597  1.260051e-05 1.147521e+00
+width  -6.760753e-01  2.9934872702 -1.446714e-04 8.785816e-01
+xMin    1.260051e-05 -0.0001446714  9.157760e-05 1.677689e-04
+xMax    1.147521e+00  0.8785815909  1.677689e-04 1.046637e+01
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00773
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center         width          xMin          xMax
+center 3.309025e+00  1.122882e+00  5.737336e-07  9.445685e+01
+width  1.122882e+00  1.308065e+00 -1.949186e-06 -3.532795e+00
+xMin   5.737336e-07 -1.949186e-06  1.251612e-06  1.031256e-04
+xMax   9.445685e+01 -3.532795e+00  1.031256e-04  4.304038e+03
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.01177
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00847
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> plot(mcmc(thin=100,start=1e4, rbind(test.fit$mcmcRaw,test.refit$mcmcRaw,test.refit.2$mcmcRaw,test.refit.3$mcmcRaw,test.refit.4$mcmcRaw)))
+> densityplot(hzar.eval.clineLL(data=rbind(test.fit$mcmcRaw,test.refit$mcmcRaw,test.refit.2$mcmcRaw,test.refit.3$mcmcRaw,test.refit.4$mcmcRaw),llFunc=test.request$llFunc))
+> test.allData<-rbind(test.fit$mcmcRaw,test.refit$mcmcRaw,test.refit.2$mcmcRaw,test.refit.3$mcmcRaw,test.refit.4$mcmcRaw);hzar.eval.clineLL(data=test.allData,llFunc=test.request$llFunc)->test.model.LL; plot(mcmc(thin=100,start=1e4,cbind(test.allData,model.LL=test.model.LL)))
+Hit <Return> to see next plot: 
+> summary(test.allData)
+     center            width              xMin                 xMax         
+ Min.   :-45.322   Min.   : 0.8423   Min.   :-0.0256199   Min.   :   17.90  
+ 1st Qu.:-20.432   1st Qu.:12.6109   1st Qu.:-0.0004701   1st Qu.:   29.85  
+ Median : -9.620   Median :19.8189   Median : 0.0002663   Median :  219.65  
+ Mean   : -9.494   Mean   :15.7565   Mean   : 1.4300563   Mean   : 1612.32  
+ 3rd Qu.:  2.671   3rd Qu.:21.1225   3rd Qu.: 0.0017635   3rd Qu.: 1430.95  
+ Max.   :  6.530   Max.   :31.1233   Max.   : 8.0025841   Max.   :23688.91  
+> summary(test.allData[test.model.LL>-100,])
+     center            width              xMin                 xMax         
+ Min.   :-45.322   Min.   : 0.8423   Min.   :-0.0256199   Min.   :   17.90  
+ 1st Qu.:-20.432   1st Qu.:12.6109   1st Qu.:-0.0004701   1st Qu.:   29.85  
+ Median : -9.620   Median :19.8189   Median : 0.0002663   Median :  219.65  
+ Mean   : -9.494   Mean   :15.7565   Mean   : 1.4300563   Mean   : 1612.32  
+ 3rd Qu.:  2.671   3rd Qu.:21.1225   3rd Qu.: 0.0017635   3rd Qu.: 1430.95  
+ Max.   :  6.530   Max.   :31.1233   Max.   : 8.0025841   Max.   :23688.91  
+> summary(test.allData[test.model.LL>-70,])
+     center            width            xMin                 xMax         
+ Min.   :-45.322   Min.   : 6.98   Min.   :-2.562e-02   Min.   :   18.04  
+ 1st Qu.:-22.593   1st Qu.:17.79   1st Qu.:-6.490e-04   1st Qu.:   36.91  
+ Median :-12.255   Median :20.47   Median :-2.510e-05   Median :  339.53  
+ Mean   :-12.546   Mean   :19.17   Mean   :-1.912e-05   Mean   : 2009.83  
+ 3rd Qu.:  1.952   3rd Qu.:21.34   3rd Qu.: 6.221e-04   3rd Qu.: 2022.90  
+ Max.   :  6.119   Max.   :31.12   Max.   : 1.406e-02   Max.   :23688.91  
+> cov(test.allData)
+             center      width        xMin         xMax
+center    153.76905  -66.63895    17.42723   -30346.577
+width     -66.63895   55.00414   -19.49459     8929.242
+xMin       17.42723  -19.49459     8.19057    -2269.684
+xMax   -30346.57719 8929.24151 -2269.68449 11609522.210
+> cor(test.allData)
+           center      width       xMin       xMax
+center  1.0000000 -0.7245962  0.4910625 -0.7182375
+width  -0.7245962  1.0000000 -0.9184583  0.3533538
+xMin    0.4910625 -0.9184583  1.0000000 -0.2327562
+xMax   -0.7182375  0.3533538 -0.2327562  1.0000000
+> cov(cbind(test.allData,model.LL=test.model.LL))
+               center      width        xMin         xMax    model.LL
+center      153.76905  -66.63895    17.42723   -30346.577  -110.85319
+width       -66.63895   55.00414   -19.49459     8929.242    87.81039
+xMin         17.42723  -19.49459     8.19057    -2269.684   -32.21317
+xMax     -30346.57719 8929.24151 -2269.68449 11609522.210 14779.95879
+model.LL   -110.85319   87.81039   -32.21317    14779.959   151.09965
+> cov(cbind(test.allData,model.LL=test.model.LL))/151.1
+               center      width         xMin        xMax   model.LL
+center      1.0176641 -0.4410255   0.11533572  -200.83770 -0.7336412
+width      -0.4410255  0.3640247  -0.12901782    59.09491  0.5811409
+xMin        0.1153357 -0.1290178   0.05420629   -15.02108 -0.2131911
+xMax     -200.8377048 59.0949140 -15.02107539 76833.37002 97.8157431
+model.LL   -0.7336412  0.5811409  -0.21319106    97.81574  0.9999977
+> hzar.cov.mcmc(test.request$llFunc,test.allData)
+              center         width          xMin         xMax
+center  4.939315e+01 -7.009737e-01  2.574357e-04 6.586966e+04
+width  -7.009737e-01  5.564748e-01 -7.760382e-05 5.380902e+02
+xMin    2.574357e-04 -7.760382e-05  4.810113e-05 2.500781e-01
+xMax    6.586966e+04  5.380902e+02  2.500781e-01 9.188510e+07
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.request$llFunc,test.allData)
+           center      width         xMin      xMax
+center  1.6723395 -0.4828967    0.2737751 1.4748163
+width  -0.4828967  7.7999679   -1.6792025 0.2451334
+xMin    0.2737751 -1.6792025 1606.7486378 0.1758716
+xMax    1.4748163  0.2451334    0.1758716 1.3604807
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.request$llFunc,test.allData)
+           center      width        xMin        xMax
+center 41.3893787 12.4701966  -0.2404242  84.7079143
+width  12.4701966  7.2391044  -0.2768261  20.3168098
+xMin   -0.2404242 -0.2768261 106.8752019  -0.2465755
+xMax   84.7079143 20.3168098  -0.2465755 189.2893694
+> #hzar.cov.mcmc(test.request$llFunc,test.fit$mcmcRaw)
+> summary(hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper))
+       Length Class      Mode   
+dTheta 1      -none-     numeric
+data   4      data.frame list   
+> summary(hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper)$data)
+     center         width           xMin            xMax      
+ Min.   : 0.0   Min.   : 0.0   Min.   :-3.05   Min.   :-3.05  
+ 1st Qu.:15.0   1st Qu.:15.0   1st Qu.: 4.27   1st Qu.: 4.27  
+ Median :37.5   Median :37.5   Median :15.25   Median :15.25  
+ Mean   :37.5   Mean   :37.5   Mean   :15.25   Mean   :15.25  
+ 3rd Qu.:60.0   3rd Qu.:60.0   3rd Qu.:26.23   3rd Qu.:26.23  
+ Max.   :75.0   Max.   :75.0   Max.   :33.55   Max.   :33.55  
+> summary(hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper)$data,pDiv=21)
+     center         width           xMin            xMax      
+ Min.   : 0.0   Min.   : 0.0   Min.   :-3.05   Min.   :-3.05  
+ 1st Qu.:15.0   1st Qu.:15.0   1st Qu.: 4.27   1st Qu.: 4.27  
+ Median :37.5   Median :37.5   Median :15.25   Median :15.25  
+ Mean   :37.5   Mean   :37.5   Mean   :15.25   Mean   :15.25  
+ 3rd Qu.:60.0   3rd Qu.:60.0   3rd Qu.:26.23   3rd Qu.:26.23  
+ Max.   :75.0   Max.   :75.0   Max.   :33.55   Max.   :33.55  
+> summary(hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=21)$data)
+     center          width            xMin            xMax      
+ Min.   : 0.00   Min.   : 0.00   Min.   :-3.05   Min.   :-3.05  
+ 1st Qu.:18.75   1st Qu.:18.75   1st Qu.: 6.10   1st Qu.: 6.10  
+ Median :37.50   Median :37.50   Median :15.25   Median :15.25  
+ Mean   :37.50   Mean   :37.50   Mean   :15.25   Mean   :15.25  
+ 3rd Qu.:56.25   3rd Qu.:56.25   3rd Qu.:24.40   3rd Qu.:24.40  
+ Max.   :75.00   Max.   :75.00   Max.   :33.55   Max.   :33.55  
+> summary(hzar.eval.clineLL(llFunc=test.request$llFunc,data=hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=21)$data)
++ )
+      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+-1.000e+08 -1.000e+08 -1.000e+08 -5.465e+07 -1.814e+02 -8.111e+01 
+> densityplot(hzar.eval.clineLL(llFunc=test.request$llFunc,data=hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=5)$data))
+> model.LL.junk<-hzar.eval.clineLL(llFunc=test.request$llFunc,data=hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=5)$data);model.LL.junk<-model.LL.junk[model.LL.junk>-100];densityplot(model.LL.junk)
+> model.LL.junk
+numeric(0)
+> model.LL.junk<-hzar.eval.clineLL(llFunc=test.request$llFunc,data=hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=5)$data);model.LL.junk<-model.LL.junk[model.LL.junk>-1e6];densityplot(model.LL.junk)
+> hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=5)$data->model.data.junk; model.LL.junk<-hzar.eval.clineLL(llFunc=test.request$llFunc,data=model.data.junk);summary(model.data.junk[model.LL.junk>-1e6,]);model.LL.junk<-model.LL.junk[model.LL.junk>-1e6];densityplot(model.LL.junk)
+     center          width            xMin            xMax      
+ Min.   : 0.00   Min.   :18.75   Min.   :-3.05   Min.   : 6.10  
+ 1st Qu.:18.75   1st Qu.:32.81   1st Qu.:-3.05   1st Qu.:15.25  
+ Median :37.50   Median :46.88   Median : 6.10   Median :24.40  
+ Mean   :37.50   Mean   :46.88   Mean   : 6.10   Mean   :24.40  
+ 3rd Qu.:56.25   3rd Qu.:60.94   3rd Qu.:15.25   3rd Qu.:33.55  
+ Max.   :75.00   Max.   :75.00   Max.   :24.40   Max.   :33.55  
+> hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=11)$data->model.data.junk; model.LL.junk<-hzar.eval.clineLL(llFunc=test.request$llFunc,data=model.data.junk);summary(model.data.junk[model.LL.junk>-1e6,]);model.LL.junk<-model.LL.junk[model.LL.junk>-1e6];densityplot(model.LL.junk)
+     center         width            xMin            xMax      
+ Min.   : 0.0   Min.   : 7.50   Min.   :-3.05   Min.   : 0.61  
+ 1st Qu.:15.0   1st Qu.:22.50   1st Qu.: 0.61   1st Qu.:15.25  
+ Median :37.5   Median :41.25   Median : 7.93   Median :22.57  
+ Mean   :37.5   Mean   :41.25   Mean   : 7.93   Mean   :22.57  
+ 3rd Qu.:60.0   3rd Qu.:60.00   3rd Qu.:15.25   3rd Qu.:29.89  
+ Max.   :75.0   Max.   :75.00   Max.   :29.89   Max.   :33.55  
+> hzar.gen.samples.rect(test.request$modelParam$lower,test.request$modelParam$upper,pDiv=15)$data->model.data.junk; model.LL.junk<-hzar.eval.clineLL(llFunc=test.request$llFunc,data=model.data.junk);summary(model.data.junk[model.LL.junk>-1e6,]);model.LL.junk<-model.LL.junk[model.LL.junk>-1e6];densityplot(model.LL.junk)
+     center          width             xMin              xMax        
+ Min.   : 0.00   Min.   : 5.357   Min.   :-3.0500   Min.   :-0.4357  
+ 1st Qu.:16.07   1st Qu.:21.429   1st Qu.:-0.4357   1st Qu.:15.2500  
+ Median :37.50   Median :40.179   Median : 7.4071   Median :23.0929  
+ Mean   :37.50   Mean   :40.179   Mean   : 8.2786   Mean   :22.2214  
+ 3rd Qu.:58.93   3rd Qu.:58.929   3rd Qu.:15.2500   3rd Qu.:30.9357  
+ Max.   :75.00   Max.   :75.000   Max.   :30.9357   Max.   :33.5500  
+> hzar.cov.mcmc(test.request$llFunc,test.request.2$mcmcRaw,pDiv=11)
+Error in exp(data.wt) : Non-numeric argument to mathematical function
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.request$llFunc,test.request.2$mcmcRaw,pDiv=11)
+Error in exp(data.wt) : Non-numeric argument to mathematical function
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=11)
+            center      width          xMin       xMax
+center  7.95054957  7.6194879    0.06179365 11.1232925
+width   7.61948791 25.0677532   -0.59289992 -1.1749322
+xMin    0.06179365 -0.5928999 6042.81955314  0.5443806
+xMax   11.12329254 -1.1749322    0.54438062 24.8415516
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=25)
+             center       width         xMin        xMax
+center   11.6837289   1219.7949    0.8587211   9.0499823
+width  1219.7948854 290159.8337  259.3961712 612.2660339
+xMin      0.8587211    259.3962 1885.1287246   0.3925789
+xMax      9.0499823    612.2660    0.3925789   8.0348433
+> source("hzarClasses.R")
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=1000)
+Error in { : task 1 failed - "missing value where TRUE/FALSE needed"
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=10000)
+Error in { : task 1 failed - "missing value where TRUE/FALSE needed"
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=10000)
+Error in { : task 1 failed - "missing value where TRUE/FALSE needed"
+>   C-c C-c
+> source("hzarClasses.R")
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=10000)
+          center     width       xMin     xMax
+center  7.883626 17.495974   3.221741 7.789967
+width  17.495974 83.975341   8.588669 9.689584
+xMin    3.221741  8.588669 183.187168 4.347224
+xMax    7.789967  9.689584   4.347224 9.713727
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=1000)
+          center     width      xMin      xMax
+center  5.238441 -6.198877 -3.807373  3.646498
+width  -6.198877 26.354066 19.093668 -2.267985
+xMin   -3.807373 19.093668 84.732677 -1.183040
+xMax    3.646498 -2.267985 -1.183040  2.804461
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=1000)
+           center      width       xMin       xMax
+center  3.5333371  1.9636095 -0.1810602  3.6186235
+width   1.9636095  6.7400363  0.5635877 -0.3684693
+xMin   -0.1810602  0.5635877  5.4265687 -0.1995029
+xMax    3.6186235 -0.3684693 -0.1995029  4.8519855
+> hzar.cov.mcmc(test.request$llFunc,test.refit.2$mcmcRaw,pDiv=3,random=1e5)
+           center     width       xMin       xMax
+center  12.267034 -72.91974  -16.05254   9.354777
+width  -72.919742 896.05339   98.02191 -39.545798
+xMin   -16.052542  98.02191 1453.22285 -14.659107
+xMax     9.354777 -39.54580  -14.65911   7.987645
+> source("hzarClasses.R")
+> test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+         center      width        xMin       xMax
+center 8.774895   5.769637   8.9344978  8.5415776
+width  5.769637  44.090866 -13.4744291 13.9366647
+xMin   8.934498 -13.474429 193.1557703 -0.9919757
+xMax   8.541578  13.936665  -0.9919757 17.9070042
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00001
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            center        width         xMin        xMax
+center  2.83517170  1.751271592 -0.026423423 -0.00287242
+width   1.75127159  1.919317001 -0.003426327  0.92292938
+xMin   -0.02642342 -0.003426327 20.898474494 -0.08908336
+xMax   -0.00287242  0.922929384 -0.089083364  4.54357194
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00053
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          center      width       xMin      xMax
+center 29.368650 -1.6753435  9.3878621 6.2047255
+width  -1.675343  1.3873527 -0.8826343 0.5311684
+xMin    9.387862 -0.8826343 77.1914315 3.0645177
+xMax    6.204726  0.5311684  3.0645177 2.0061448
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00010
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          center       width        xMin       xMax
+center  4.570757    6.467424    18.16844   4.193643
+width   6.467424   68.143356  -324.82961   9.306757
+xMin   18.168442 -324.829605 16145.75246 -36.505993
+xMax    4.193643    9.306757   -36.50599   5.220351
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00002
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+          center      width        xMin       xMax
+center 10.647049   6.317859  10.9315498 11.4414946
+width   6.317859  39.205643 -12.1820635 17.4092690
+xMin   10.931550 -12.182064 194.8925614  0.7501693
+xMax   11.441495  17.409269   0.7501693 28.3308865
+  C-c C-c
+> source("hzarClasses.R")
+> test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+            center        width          xMin         xMax
+center 0.007413636  0.008227055  0.0040553641 0.0311656040
+width  0.008227055  0.100084824 -0.0051767689 0.0866306589
+xMin   0.004055364 -0.005176769  0.0460808858 0.0008862015
+xMax   0.031165604  0.086630659  0.0008862015 0.3084062430
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00235
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center        width          xMin          xMax
+center 1.759679e-01 0.1218001729  6.897141e-05  0.8735959583
+width  1.218002e-01 0.3534338982  2.166529e-04  0.2120488447
+xMin   6.897141e-05 0.0002166529  1.717102e-06 -0.0001479722
+xMax   8.735960e-01 0.2120488447 -1.479722e-04  5.4648134909
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.06264
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center        width         xMin         xMax
+center 1.139128e+01 1.761693e+00 1.600577e-03 4.250109e+02
+width  1.761693e+00 1.582294e+00 1.458484e-04 2.348547e+01
+xMin   1.600577e-03 1.458484e-04 3.683648e-06 6.156802e-02
+xMax   4.250109e+02 2.348547e+01 6.156802e-02 1.734864e+04
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00336
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width         xMin         xMax
+center  9.611840e+00 -0.3846795786 2.749156e-04 1.099236e+03
+width  -3.846796e-01  0.9083573820 3.906827e-04 7.029664e+01
+xMin    2.749156e-04  0.0003906827 8.020065e-07 7.892729e-02
+xMax    1.099236e+03 70.2966387513 7.892729e-02 1.427339e+05
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00833
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> plot(mcmc(thin=100,hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw)))
+Error in { : task 1 failed - "element 1 is empty;
+   the part of the args list of '<' being evaluated was:
+   (xMin, xMax)"
+> plot(mcmc(thin=100,hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw)))
+Error in { : task 1 failed - "element 1 is empty;
+   the part of the args list of '<' being evaluated was:
+   (xMin, xMax)"
+> summary(test.refit.4$mcmcRaw)
+
+Iterations = 10001:1009901
+Thinning interval = 100 
+Number of chains = 1 
+Sample size per chain = 10000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+             Mean        SD  Naive SE Time-series SE
+center -1.990e+01 4.384e+00 4.384e-02      5.715e-01
+width   2.120e+01 9.056e-01 9.056e-03      4.347e-02
+xMin   -5.656e-05 1.252e-03 1.252e-05      4.367e-05
+xMax    1.585e+03 9.439e+02 9.439e+00      1.238e+02
+
+2. Quantiles for each variable:
+
+             2.5%       25%        50%        75%      97.5%
+center -26.379050 -22.91222 -2.076e+01 -1.754e+01 -9.734e+00
+width   19.320069  20.63321  2.119e+01  2.178e+01  2.302e+01
+xMin    -0.002664  -0.00068 -2.722e-05  5.725e-04  2.392e-03
+xMax   226.041096 860.26123  1.497e+03  2.068e+03  3.618e+03
+
+> summary(mcmc(1000,start=10001,test.refit.4$mcmcRaw[(1:1e3)*10,]))
+Error in mcmc(1000, start = 10001, test.refit.4$mcmcRaw[(1:1000) * 10,  : 
+  Invalid end
+> summary(mcmc(thin=1000,start=10001,data=test.refit.4$mcmcRaw[(1:1e3)*10,]))
+
+Iterations = 10001:1009001
+Thinning interval = 1000 
+Number of chains = 1 
+Sample size per chain = 1000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+             Mean        SD  Naive SE Time-series SE
+center -1.989e+01 4.380e+00 1.385e-01      5.509e-01
+width   2.119e+01 8.883e-01 2.809e-02      4.511e-02
+xMin   -3.960e-05 1.278e-03 4.042e-05      5.972e-05
+xMax    1.585e+03 9.427e+02 2.981e+01      1.229e+02
+
+2. Quantiles for each variable:
+
+             2.5%        25%        50%        75%      97.5%
+center -26.237244 -2.287e+01 -2.079e+01 -1.756e+01 -9.733e+00
+width   19.304728  2.062e+01  2.116e+01  2.180e+01  2.287e+01
+xMin    -0.002516 -6.925e-04 -3.806e-06  6.411e-04  2.289e-03
+xMax   226.801364  8.670e+02  1.496e+03  2.060e+03  3.663e+03
+
+Warning message:
+In glm.fit(x = X, y = Y, weights = weights, start = start, etastart = etastart,  :
+  algorithm did not converge
+>  plot(mcmc(thin=1000,start=10901,data=hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw)[100*(1:1e3),]))
+Error in { : task 1 failed - "element 1 is empty;
+   the part of the args list of '<' being evaluated was:
+   (xMin, xMax)"
+> 191 %/% 100
+[1] 1
+> 191 %% 100
+[1] 91
+> list(1:100,101:191)
+[[1]]
+  [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+ [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+ [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+ [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+ [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+ [91]  91  92  93  94  95  96  97  98  99 100
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119
+[20] 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138
+[39] 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157
+[58] 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176
+[77] 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191
+
+> lapply(1:(999%/%100)-1,function(x) { 1:10 + x*100 })
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110
+
+[[3]]
+ [1] 201 202 203 204 205 206 207 208 209 210
+
+[[4]]
+ [1] 301 302 303 304 305 306 307 308 309 310
+
+[[5]]
+ [1] 401 402 403 404 405 406 407 408 409 410
+
+[[6]]
+ [1] 501 502 503 504 505 506 507 508 509 510
+
+[[7]]
+ [1] 601 602 603 604 605 606 607 608 609 610
+
+[[8]]
+ [1] 701 702 703 704 705 706 707 708 709 710
+
+[[9]]
+ [1] 801 802 803 804 805 806 807 808 809 810
+
+> c(lapply(1:(409%/%100)-1,function(x) { 1:10 + x*100 }),1:(409%%100)+100*(409%/%100))
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110
+
+[[3]]
+ [1] 201 202 203 204 205 206 207 208 209 210
+
+[[4]]
+ [1] 301 302 303 304 305 306 307 308 309 310
+
+[[5]]
+[1] 401
+
+[[6]]
+[1] 402
+
+[[7]]
+[1] 403
+
+[[8]]
+[1] 404
+
+[[9]]
+[1] 405
+
+[[10]]
+[1] 406
+
+[[11]]
+[1] 407
+
+[[12]]
+[1] 408
+
+[[13]]
+[1] 409
+
+> c(lapply(1:(409%/%100)-1,function(x) { 1:10 + x*100 }),list(1:(409%%100)+100*(409%/%100)))
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110
+
+[[3]]
+ [1] 201 202 203 204 205 206 207 208 209 210
+
+[[4]]
+ [1] 301 302 303 304 305 306 307 308 309 310
+
+[[5]]
+[1] 401 402 403 404 405 406 407 408 409
+
+> c(lapply(1:(400%/%100)-1,function(x) { 1:10 + x*100 }),list(1:(400%%100)+100*(400%/%100)))
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110
+
+[[3]]
+ [1] 201 202 203 204 205 206 207 208 209 210
+
+[[4]]
+ [1] 301 302 303 304 305 306 307 308 309 310
+
+[[5]]
+[1] 401 400
+
+> c(lapply(1:((400-1)%/%100)-1,function(x) { 1:10 + x*100 }),list(1:(1+(400-1)%%100)+100*((400-1)%/%100)))
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+ [1] 101 102 103 104 105 106 107 108 109 110
+
+[[3]]
+ [1] 201 202 203 204 205 206 207 208 209 210
+
+[[4]]
+  [1] 301 302 303 304 305 306 307 308 309 310 311 312 313 314 315 316 317 318
+ [19] 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 334 335 336
+ [37] 337 338 339 340 341 342 343 344 345 346 347 348 349 350 351 352 353 354
+ [55] 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369 370 371 372
+ [73] 373 374 375 376 377 378 379 380 381 382 383 384 385 386 387 388 389 390
+ [91] 391 392 393 394 395 396 397 398 399 400
+
+> (function(count) { c(lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 }),list(1:(1+(count-1)%%100)+100*((count-1)%/%100))) })(10)
+[[1]]
+  [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+ [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+ [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+ [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+ [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+ [91]  91  92  93  94  95  96  97  98  99 100
+
+[[2]]
+  [1] -99 -98 -97 -96 -95 -94 -93 -92 -91 -90 -89 -88 -87 -86 -85 -84 -83 -82
+ [19] -81 -80 -79 -78 -77 -76 -75 -74 -73 -72 -71 -70 -69 -68 -67 -66 -65 -64
+ [37] -63 -62 -61 -60 -59 -58 -57 -56 -55 -54 -53 -52 -51 -50 -49 -48 -47 -46
+ [55] -45 -44 -43 -42 -41 -40 -39 -38 -37 -36 -35 -34 -33 -32 -31 -30 -29 -28
+ [73] -27 -26 -25 -24 -23 -22 -21 -20 -19 -18 -17 -16 -15 -14 -13 -12 -11 -10
+ [91]  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
+
+[[3]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+> (function(count) { res=list(); if(count>100) res<-lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 });return(c(res,list(1:(1+(count-1)%%100)+100*((count-1)%/%100)))); })(10)
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+> foreach(wedgeSlice=(function(count) { res=list(); if(count>100) res<-lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 });return(c(res,list(1:(1+(count-1)%%100)+100*((count-1)%/%100)))); })(10)) %do% { wedgeSlice}
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+> foreach(wedgeSlice=(function(count) { res=list(); if(count>100) res<-lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 });return(c(res,list(1:(1+(count-1)%%100)+100*((count-1)%/%100)))); })(10)) %do% { length(wedgeSlice)}
+[[1]]
+[1] 10
+
+> foreach(wedgeSlice=(function(count) { res=list(); if(count>100) res<-lapply(1:((count-1)%/%100)-1,function(x) { 1:100 + x*100 });return(c(res,list(1:(1+(count-1)%%100)+100*((count-1)%/%100)))); })(999)) %do% { length(wedgeSlice)}
+[[1]]
+[1] 100
+
+[[2]]
+[1] 100
+
+[[3]]
+[1] 100
+
+[[4]]
+[1] 100
+
+[[5]]
+[1] 100
+
+[[6]]
+[1] 100
+
+[[7]]
+[1] 100
+
+[[8]]
+[1] 100
+
+[[9]]
+[1] 100
+
+[[10]]
+[1] 99
+
+> dim(test.fit$mcmcRaw)
+[1] 10000     4
+> as.numeric(lapply(1:10,function(x) {x}))
+ [1]  1  2  3  4  5  6  7  8  9 10
+> source("hzarClasses.R"); plot(mcmc(thin=100,hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw)))
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot: 
+Hit <Return> to see next plot:   C-c C-c
+> length(hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw))
+[1] 10000
+> source("hzarClasses.R"); plot(mcmc(thin=100,hzar.eval.clineLL(llFunc=test.fit$llFunc,data=test.refit.4$mcmcRaw)))
+> source("hzarClasses.R"); plot(mcmc(thin=100,lapply(c(test.fit,test.refit),function(dataF){ hzar.eval.clineLL(llFunc=dataF$llFunc,data=dataF$mcmcRaw)})))
+Error in if (count > 100) res <- lapply(1:((count - 1)%/%100) - 1, function(x) { : 
+  argument is of length zero
+> source("hzarClasses.R"); plot(mcmc(thin=100,lapply(list(test.fit,test.refit),function(dataF){ hzar.eval.clineLL(llFunc=dataF$llFunc,data=dataF$mcmcRaw)})))
+Error in vector("character", length) : invalid 'length' argument
+> source("hzarClasses.R"); plot(mcmc(thin=100,as.data.frame(lapply(list(test.fit,test.refit),function(dataF){ hzar.eval.clineLL(llFunc=dataF$llFunc,data=dataF$mcmcRaw)}))))
+> source("hzarClasses.R"); plot(mcmc(thin=100,as.data.frame(lapply(list(test.refit,test.refit.2,test.refit.3,test.refit.4),function(dataF){ hzar.eval.clineLL(llFunc=dataF$llFunc,data=dataF$mcmcRaw)}))))
+> source("hzarClasses.R"); test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam<-hzar.quiet.mcmc; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+            center        width         xMin         xMax
+center 0.006605637  0.006550784  0.002997071  0.027486761
+width  0.006550784  0.100593360 -0.010128464  0.086897475
+xMin   0.002997071 -0.010128464  0.045953692 -0.007037114
+xMax   0.027486761  0.086897475 -0.007037114  0.312926431
+  C-c C-c
+> test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam$verbosity<-1e5; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+            center        width         xMin         xMax
+center 0.007435037  0.009185348  0.004152662  0.033939067
+width  0.009185348  0.106396915 -0.008276150  0.093733026
+xMin   0.004152662 -0.008276150  0.047696326 -0.002227047
+xMax   0.033939067  0.093733026 -0.002227047  0.347720163
+MCMCmetrop1R iteration 1 of 1010000 
+function value = -124.15735
+theta = 
+   7.30000
+   5.50000
+   0.00000
+  30.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -64.30833
+theta = 
+   4.33786
+  12.88557
+   0.00076
+  26.22493
+Metropolis acceptance rate = 0.00241
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -63.04885
+theta = 
+   3.32997
+  16.82552
+  -0.00160
+  28.14725
+Metropolis acceptance rate = 0.00276
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -61.67637
+theta = 
+   3.77692
+  16.43473
+  -0.00105
+  25.48257
+Metropolis acceptance rate = 0.00285
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -56.54784
+theta = 
+   2.74492
+  13.87161
+   0.00063
+  36.40001
+Metropolis acceptance rate = 0.00281
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -59.75548
+theta = 
+   1.77483
+  15.21362
+   0.00079
+  38.70391
+Metropolis acceptance rate = 0.00263
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -55.16891
+theta = 
+   1.21186
+  15.73517
+  -0.00023
+  43.91767
+Metropolis acceptance rate = 0.00261
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -54.24196
+theta = 
+   1.45310
+  15.11494
+   0.00020
+  43.89556
+Metropolis acceptance rate = 0.00255
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -54.55511
+theta = 
+   1.07825
+  15.07658
+  -0.00001
+  45.49579
+Metropolis acceptance rate = 0.00250
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -58.91246
+theta = 
+   0.68654
+  15.80164
+  -0.00303
+  49.96547
+Metropolis acceptance rate = 0.00250
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -53.37409
+theta = 
+   0.22418
+  16.45799
+  -0.00021
+  50.82845
+Metropolis acceptance rate = 0.00245
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00244
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width         xMin          xMax
+center  8.493041e-01 -0.6892184226 3.809756e-05  5.0461313491
+width  -6.892184e-01  1.4042526766 2.213043e-04 -2.2968294590
+xMin    3.809756e-05  0.0002213043 2.106262e-06  0.0004414001
+xMax    5.046131e+00 -2.2968294590 4.414001e-04 35.4096696518
+MCMCmetrop1R iteration 1 of 1010000 
+function value = -117.74686
+theta = 
+   6.64069
+   7.85479
+   0.00003
+  31.58576
+Metropolis acceptance rate = 1.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -52.85210
+theta = 
+ -10.12124
+  21.06167
+   0.00327
+ 222.88763
+Metropolis acceptance rate = 0.03160
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -50.36856
+theta = 
+ -10.80562
+  19.06065
+   0.00078
+ 311.87355
+Metropolis acceptance rate = 0.03276
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -48.48029
+theta = 
+  -9.18996
+  20.15069
+  -0.00064
+ 206.73505
+Metropolis acceptance rate = 0.03314
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -49.00120
+theta = 
+  -9.12229
+  20.22803
+   0.00079
+ 198.42843
+Metropolis acceptance rate = 0.03328
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -48.36009
+theta = 
+ -12.13678
+  20.80416
+  -0.00085
+ 327.41777
+Metropolis acceptance rate = 0.03357
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -48.24109
+theta = 
+ -10.45128
+  20.02215
+   0.00017
+ 265.82205
+Metropolis acceptance rate = 0.03371
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -49.87540
+theta = 
+  -8.46480
+  19.06601
+  -0.00041
+ 198.16993
+Metropolis acceptance rate = 0.03373
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -53.18761
+theta = 
+  -8.86490
+  19.27334
+  -0.00407
+ 211.90661
+Metropolis acceptance rate = 0.03352
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -50.08302
+theta = 
+ -10.72215
+  20.69050
+  -0.00204
+ 256.04683
+Metropolis acceptance rate = 0.03365
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -48.34845
+theta = 
+ -13.30988
+  21.41907
+  -0.00071
+ 370.97140
+Metropolis acceptance rate = 0.03373
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03374
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width         xMin          xMax
+center  2.014873e+00  -0.850599334 1.217768e-05   73.10409089
+width  -8.505993e-01   0.864398815 4.554630e-04  -14.98852915
+xMin    1.217768e-05   0.000455463 1.871336e-06    0.01670879
+xMax    7.310409e+01 -14.988529146 1.670879e-02 3289.07964607
+MCMCmetrop1R iteration 1 of 1010000 
+function value = -124.15735
+theta = 
+   7.30000
+   5.50000
+   0.00000
+  30.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -49.46415
+theta = 
+ -15.78753
+  20.93253
+  -0.00227
+ 622.10420
+Metropolis acceptance rate = 0.01523
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -49.18853
+theta = 
+ -20.27658
+  22.46331
+   0.00028
+1091.84209
+Metropolis acceptance rate = 0.02003
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -50.80999
+theta = 
+ -17.03441
+  20.96491
+   0.00095
+ 747.11133
+Metropolis acceptance rate = 0.02156
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -49.93650
+theta = 
+  -7.73745
+  18.90831
+  -0.00030
+ 181.73072
+Metropolis acceptance rate = 0.02059
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -47.49323
+theta = 
+ -20.70871
+  21.63816
+   0.00083
+1352.94788
+Metropolis acceptance rate = 0.01972
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -47.30449
+theta = 
+ -19.69557
+  20.88824
+  -0.00062
+1311.14304
+Metropolis acceptance rate = 0.02092
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -47.82854
+theta = 
+ -18.79268
+  20.54031
+   0.00077
+1183.83530
+Metropolis acceptance rate = 0.02175
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -47.53331
+theta = 
+ -15.08806
+  20.71826
+  -0.00022
+ 557.05148
+Metropolis acceptance rate = 0.02223
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -47.78536
+theta = 
+ -22.74117
+  21.08466
+   0.00124
+2216.39688
+Metropolis acceptance rate = 0.02252
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -47.67409
+theta = 
+ -22.57861
+  22.19273
+   0.00045
+1692.87903
+Metropolis acceptance rate = 0.02305
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.02313
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width          xMin          xMax
+center  1.678536e+01 -1.161398e-01 -7.643382e-04  3.527917e+03
+width  -1.161398e-01  5.488634e-01 -1.986414e-04 -1.364805e+02
+xMin   -7.643382e-04 -1.986414e-04  2.470495e-06 -1.479618e-01
+xMax    3.527917e+03 -1.364805e+02 -1.479618e-01  7.832995e+05
+MCMCmetrop1R iteration 1 of 1010000 
+function value = -124.15735
+theta = 
+   7.30000
+   5.50000
+   0.00000
+  30.50000
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -70.86718
+theta = 
+   7.63955
+   5.19756
+   0.00018
+  13.87533
+Metropolis acceptance rate = 0.00007
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -71.98380
+theta = 
+   7.63180
+   5.85227
+  -0.00200
+  14.12270
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -70.08023
+theta = 
+   7.19014
+   6.47966
+  -0.00019
+  15.36728
+Metropolis acceptance rate = 0.00006
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -60.26970
+theta = 
+   4.58176
+  11.05832
+  -0.00077
+  28.74426
+Metropolis acceptance rate = 0.00008
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -59.76517
+theta = 
+   4.05243
+  11.22278
+   0.00012
+  30.86852
+Metropolis acceptance rate = 0.00007
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -55.61570
+theta = 
+   1.20110
+  15.62572
+   0.00062
+  45.90029
+Metropolis acceptance rate = 0.00007
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -50.67644
+theta = 
+  -3.38430
+  18.23945
+  -0.00018
+  86.97417
+Metropolis acceptance rate = 0.00011
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -47.60256
+theta = 
+ -18.72123
+  21.09635
+  -0.00053
+1056.80633
+Metropolis acceptance rate = 0.00027
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -50.74708
+theta = 
+ -26.02589
+  22.53640
+  -0.00243
+2865.82665
+Metropolis acceptance rate = 0.00069
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -47.42450
+theta = 
+ -24.92690
+  20.58344
+   0.00057
+3771.58091
+Metropolis acceptance rate = 0.00120
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00124
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> source("hzarClasses.R"); plot(mcmc(thin=100,as.data.frame(lapply(list(test.refit,test.refit.2,test.refit.3,test.refit.4),function(dataF){ hzar.eval.clineLL(llFunc=dataF$llFunc,data=dataF$mcmcRaw)}))))
+> ?cov.wt
+> source("hzarClasses.R"); source("hzarClasses.R"); test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam$verbosity<-1e5; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+Error in source("hzarFittingNew.R") : 
+  hzarFittingNew.R:278:90: unexpected ';'
+277:   if(passCenter)
+278:     return(list(cov=mat.scaled[param.names,param.names],center=VDATA$center[param.names]);
+                                                                                              ^
+> source("hzarClasses.R"); test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam$verbosity<-1e5; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+            center       width         xMin         xMax
+center 0.007991275  0.00984051  0.004019613  0.035343162
+width  0.009840510  0.11520828 -0.009644140  0.103791963
+xMin   0.004019613 -0.00964414  0.049509475 -0.004254027
+xMax   0.035343162  0.10379196 -0.004254027  0.351179786
+MCMCmetrop1R iteration 1 of 1010000 
+function value =  -76.79731
+theta = 
+   2.58291
+   2.83718
+   7.13018
+  25.33522
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -63.14055
+theta = 
+  -2.18840
+  15.64286
+   0.00589
+  81.60995
+Metropolis acceptance rate = 0.17019
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -57.75446
+theta = 
+  -3.56909
+  19.09015
+   0.00609
+  82.42866
+Metropolis acceptance rate = 0.08606
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -51.05927
+theta = 
+  -3.17831
+  17.54144
+  -0.00034
+  86.00779
+Metropolis acceptance rate = 0.05812
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -50.15682
+theta = 
+  -3.46618
+  18.24683
+  -0.00002
+  86.72817
+Metropolis acceptance rate = 0.04416
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -51.31981
+theta = 
+  -4.03399
+  19.04402
+   0.00081
+  89.91591
+Metropolis acceptance rate = 0.03568
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -52.57888
+theta = 
+  -5.61174
+  20.38907
+   0.00112
+ 109.20645
+Metropolis acceptance rate = 0.03013
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -51.63476
+theta = 
+  -4.94095
+  19.99233
+   0.00044
+  99.27796
+Metropolis acceptance rate = 0.02613
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -51.43244
+theta = 
+  -4.54000
+  18.46833
+  -0.00169
+ 103.36619
+Metropolis acceptance rate = 0.02312
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -50.62658
+theta = 
+  -4.72645
+  19.43845
+   0.00028
+ 101.03231
+Metropolis acceptance rate = 0.02079
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -50.56548
+theta = 
+  -5.46776
+  19.72970
+  -0.00062
+ 112.19746
+Metropolis acceptance rate = 0.01892
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.01875
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  C-c C-cselect: Interrupted system call
+
+
+
+
+
+> source("hzarClasses.R"); test.request.2<-hzar.next.fitRequest(test.fit);print(test.request.2$cM);test.request.2$mcmcParam$verbosity<-1e5; test.refit<-hzar.doFit(test.request.2); plot(test.refit$mcmcRaw);test.request.3<-hzar.next.fitRequest(test.refit);print(test.request.3$cM); test.refit.2<-hzar.doFit(test.request.3); test.request.4<-hzar.next.fitRequest(test.refit.2);print(test.request.4$cM); test.refit.3<-hzar.doFit(test.request.4);  test.request.5<-hzar.next.fitRequest(test.refit.3); print(test.request.5$cM);test.refit.4<-hzar.doFit(test.request.5);plot(test.refit.4$mcmcRaw)
+            center       width         xMin         xMax
+center 0.007868746  0.00864070  0.003569529  0.033657710
+width  0.008640700  0.10516170 -0.010415198  0.092153363
+xMin   0.003569529 -0.01041520  0.046046232 -0.004881319
+xMax   0.033657710  0.09215336 -0.004881319  0.323947380
+MCMCmetrop1R iteration 1 of 1010000 
+function value =  -76.79762
+theta = 
+   2.58077
+   2.85197
+   7.11489
+  25.33950
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -52.55452
+theta = 
+  -1.49257
+  17.66612
+  -0.00090
+  64.75972
+Metropolis acceptance rate = 0.11313
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -55.66023
+theta = 
+  -1.62690
+  18.42761
+   0.00188
+  63.85022
+Metropolis acceptance rate = 0.05790
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -51.86179
+theta = 
+  -2.11506
+  17.07620
+   0.00041
+  72.65363
+Metropolis acceptance rate = 0.03960
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -52.91964
+theta = 
+  -2.30071
+  16.67145
+  -0.00001
+  76.47337
+Metropolis acceptance rate = 0.03024
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -51.32256
+theta = 
+  -2.63579
+  18.24543
+   0.00066
+  75.63353
+Metropolis acceptance rate = 0.02472
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -52.43637
+theta = 
+  -3.50346
+  19.39656
+  -0.00045
+  81.88559
+Metropolis acceptance rate = 0.02095
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -51.15850
+theta = 
+  -2.66687
+  17.62954
+   0.00068
+  78.15887
+Metropolis acceptance rate = 0.01825
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -51.51830
+theta = 
+  -3.30516
+  17.65330
+   0.00069
+  86.48815
+Metropolis acceptance rate = 0.01625
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -57.17490
+theta = 
+  -4.94655
+  22.06075
+   0.00043
+  78.50167
+Metropolis acceptance rate = 0.01475
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -59.03266
+theta = 
+  -5.83829
+  24.67569
+  -0.00145
+  73.75105
+Metropolis acceptance rate = 0.01354
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.01342
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+             center       width       xMin        xMax
+center  20.21054215  -6.1445663 0.05071377 125.8144078
+width   -6.14456631   7.0629548 0.10816716 -34.5460449
+xMin     0.05071377   0.1081672 0.05566009   0.3657832
+xMax   125.81440782 -34.5460449 0.36578316 789.6421333
+MCMCmetrop1R iteration 1 of 1010000 
+function value =  -71.37174
+theta = 
+   1.43036
+  20.80320
+   0.00626
+  35.12568
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -57.71593
+theta = 
+   2.04454
+  15.12210
+   0.00083
+  38.83686
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -62.16002
+theta = 
+   1.16867
+  19.26441
+  -0.00018
+  37.33042
+Metropolis acceptance rate = 0.00005
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -54.89757
+theta = 
+   1.45696
+  15.15619
+   0.00092
+  43.77132
+Metropolis acceptance rate = 0.00007
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -54.85064
+theta = 
+   1.02728
+  15.80405
+  -0.00066
+  46.55294
+Metropolis acceptance rate = 0.00005
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -54.81428
+theta = 
+   1.07277
+  15.20762
+   0.00026
+  47.21569
+Metropolis acceptance rate = 0.00005
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -59.00178
+theta = 
+   0.85681
+  15.68846
+   0.00552
+  47.35367
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -57.70759
+theta = 
+   0.40389
+  15.34059
+  -0.00081
+  49.02516
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -56.99956
+theta = 
+   0.44660
+  15.73633
+   0.00298
+  51.20846
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -58.92670
+theta = 
+  -1.26332
+  20.81996
+  -0.00019
+  45.40957
+Metropolis acceptance rate = 0.00004
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -54.76960
+theta = 
+   0.17764
+  15.42752
+   0.00115
+  52.96144
+Metropolis acceptance rate = 0.00004
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.00004
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width          xMin          xMax
+center  3.546543e-01  4.596903e-01  1.470797e-05 -1.5246564504
+width   4.596903e-01  1.302378e+00 -2.807011e-05 -0.3184937169
+xMin    1.470797e-05 -2.807011e-05  1.265433e-06 -0.0001414779
+xMax   -1.524656e+00 -3.184937e-01 -1.414779e-04 12.1739068124
+MCMCmetrop1R iteration 1 of 1010000 
+function value =  -53.64765
+theta = 
+   0.60378
+  15.94749
+   0.00031
+  48.34483
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -49.55105
+theta = 
+  -8.25276
+  20.51735
+  -0.00094
+ 167.77426
+Metropolis acceptance rate = 0.04617
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -49.85618
+theta = 
+ -14.08132
+  20.41091
+   0.00137
+ 502.08680
+Metropolis acceptance rate = 0.04018
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -48.16628
+theta = 
+ -12.50744
+  20.55197
+   0.00090
+ 355.68881
+Metropolis acceptance rate = 0.03870
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -48.00494
+theta = 
+ -11.32650
+  20.94208
+   0.00034
+ 274.24132
+Metropolis acceptance rate = 0.03866
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -47.56965
+theta = 
+ -14.55221
+  20.84163
+   0.00013
+ 508.11597
+Metropolis acceptance rate = 0.03833
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -47.89544
+theta = 
+ -13.13395
+  20.59354
+  -0.00013
+ 406.45736
+Metropolis acceptance rate = 0.03787
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -48.34902
+theta = 
+ -15.73653
+  20.94166
+  -0.00092
+ 603.68999
+Metropolis acceptance rate = 0.03751
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -50.88585
+theta = 
+ -17.85569
+  23.25496
+  -0.00012
+ 626.75990
+Metropolis acceptance rate = 0.03715
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -48.43966
+theta = 
+ -16.67247
+  19.79354
+   0.00028
+ 895.09777
+Metropolis acceptance rate = 0.03651
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -49.34283
+theta = 
+ -16.38134
+  20.60225
+   0.00131
+ 749.15942
+Metropolis acceptance rate = 0.03596
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.03588
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              center         width          xMin          xMax
+center  7.153693e+00 -1.369910e+00 -1.629064e-04  6.152051e+02
+width  -1.369910e+00  9.276703e-01  1.112411e-05 -4.337573e+01
+xMin   -1.629064e-04  1.112411e-05  3.819362e-06 -5.046079e-03
+xMax    6.152051e+02 -4.337573e+01 -5.046079e-03  6.356413e+04
+MCMCmetrop1R iteration 1 of 1010000 
+function value =  -54.49007
+theta = 
+ -16.95695
+  21.35567
+   0.00036
+ 763.79421
+Metropolis acceptance rate = 0.00000
+
+MCMCmetrop1R iteration 100001 of 1010000 
+function value =  -47.71137
+theta = 
+ -25.35605
+  21.66102
+   0.00114
+3155.88523
+Metropolis acceptance rate = 0.00854
+
+MCMCmetrop1R iteration 200001 of 1010000 
+function value =  -52.70199
+theta = 
+ -31.31952
+  23.51867
+  -0.00013
+5334.67735
+Metropolis acceptance rate = 0.00902
+
+MCMCmetrop1R iteration 300001 of 1010000 
+function value =  -47.75830
+theta = 
+ -26.61812
+  21.46661
+  -0.00027
+4075.64380
+Metropolis acceptance rate = 0.00958
+
+MCMCmetrop1R iteration 400001 of 1010000 
+function value =  -46.94263
+theta = 
+ -29.05931
+  21.18050
+   0.00026
+7021.16768
+Metropolis acceptance rate = 0.00971
+
+MCMCmetrop1R iteration 500001 of 1010000 
+function value =  -49.25009
+theta = 
+ -33.14339
+  23.13739
+   0.00037
+8719.63898
+Metropolis acceptance rate = 0.00992
+
+MCMCmetrop1R iteration 600001 of 1010000 
+function value =  -47.03449
+theta = 
+ -30.11044
+  20.83968
+   0.00040
+9622.19217
+Metropolis acceptance rate = 0.01003
+
+MCMCmetrop1R iteration 700001 of 1010000 
+function value =  -46.55411
+theta = 
+ -30.81514
+  21.45147
+  -0.00008
+9159.47730
+Metropolis acceptance rate = 0.01014
+
+MCMCmetrop1R iteration 800001 of 1010000 
+function value =  -47.80115
+theta = 
+ -31.40373
+  21.21827
+   0.00061
+10704.93333
+Metropolis acceptance rate = 0.01021
+
+MCMCmetrop1R iteration 900001 of 1010000 
+function value =  -46.93839
+theta = 
+ -31.12729
+  21.92825
+  -0.00019
+8378.11868
+Metropolis acceptance rate = 0.01028
+
+MCMCmetrop1R iteration 1000001 of 1010000 
+function value =  -47.73105
+theta = 
+ -29.00208
+  22.31563
+  -0.00057
+5144.35233
+Metropolis acceptance rate = 0.01027
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The Metropolis acceptance rate was 0.01023
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> xyplot(dist~mean.sal,data=rail.data)
+> q()
+Save workspace image? [y/n/c]: n
+
+Process R finished at Mon Jul 18 15:49:32 2011
