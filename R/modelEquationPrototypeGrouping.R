@@ -7,19 +7,19 @@
 
 ## Frame level methods.
 
-## Calling the long form of this function will compensate for the
-## scaling caused by using pMin and pMax.
-eval.gamma <- function(width,pMin=0,pMax=1) {
-  return( 4/(width*(pMax-pMin))) }
+## ## Calling the long form of this function will compensate for the
+## ## scaling caused by using pMin and pMax.
+## eval.gamma <- function(width,pMin=0,pMax=1) {
+##   return( 4/(width*(pMax-pMin))) }
 
-## eval.gammaAlt <- 4/width
+## ## eval.gammaAlt <- 4/width
 
-## For now, direction must either be 1 or -1.  This value must also
-## always be fixed (at least for these cline models).
-eval.lambda <- function(gamma,direction) { return(gamma*direction) }
+## ## For now, direction must either be 1 or -1.  This value must also
+## ## always be fixed (at least for these cline models).
+## eval.lambda <- function(gamma,direction) { return(gamma*direction) }
 
-## Unnecessary helper function to document implict evaluation.
-eval.gammaStep <- function( gamma, step ) { return(gamma * step) }
+## ## Unnecessary helper function to document implict evaluation.
+## eval.gammaStep <- function( gamma, step ) { return(gamma * step) }
 
 eval.intercept <- function( gammaStep ) {
   return( 1/(1+exp(gammaStep))) }
@@ -29,17 +29,17 @@ eval.kappa <- function( tau, gammaStep ) {
 
 ## Model evaluation methods.
 
-## intermediate functions.
+## ## intermediate functions.
 
-helper.u        <- function(x,center,lambda){
-  return((x- center) * lambda) }
+## helper.u        <- function(x,center,lambda){
+##   return((x- center) * lambda) }
 
-## lowerU and upperU included for the sake of clarity.
-helper.lowerU   <- function(u,lowerStep){
-  return(u + lowerStep)}
+## ## lowerU and upperU included for the sake of clarity.
+## helper.lowerU   <- function(u,lowerStep){
+##   return(u + lowerStep)}
 
-helper.upperU   <- function(u,upperStep){
-  return(u - upperStep)}
+## helper.upperU   <- function(u,upperStep){
+##   return(u - upperStep)}
 
 
 ## cline model functions
