@@ -183,7 +183,7 @@ hzar.make.clineLLfunc.old.bayes <-
 ## of likelihood values given a data frame of parameter values. I want
 ## this to be capable of executing in parallel.
 
-require(foreach);
+## require(foreach);
 
 hzar.wedgeSlice <- function (count,slice.size=1000){
   res=list();

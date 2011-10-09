@@ -1,5 +1,5 @@
 
-require(MCMCpack);
+## require(MCMCpack);
 
 splitParameters<-function(paramList){
   param.fixed=list();
