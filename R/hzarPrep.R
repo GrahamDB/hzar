@@ -12,7 +12,7 @@ sampleLikelihoodMolecularPop=function(pEst,pObs,N) {
 }
 
 ## Second, i will setup the data.
-doMolecularData1DPops<-function(distance,pObs,nSamples){
+hzar.doMolecularData1DPops<-function(distance,pObs,nSamples){
   if((length(distance) != length(pObs))     ||
      (length(distance) != length(nSamples)) ||
      (length(pObs) != length(nSamples))  ){
@@ -70,7 +70,7 @@ CLINEPARAMETERS<-list(center=mkParam("center",10,1.5,-1e8,1e8),
 ## have vector of distances (obsData$frame$dist),
 ## and a vector of data points (obsData$frame$pObs?).
 
-hzar.suggestionFunc1D <-
+cline.suggestionFunc1D <-
   list(center = function(dist,obs){
     return(c(min(dist),max(dist)));},
        width  = function(dist,obs){
@@ -108,7 +108,7 @@ hzar.suggestionFunc1D <-
 ## objCMeta$func<-function(center,width);
 ## class(objCMeta)<-"clineMetaModel";
 
-hzar.meta.simple.scaled.ascending =
+cline.meta.simple.scaled.ascending =
   list(
        prior=function(center,width,pMin,pMax){
   return(0); },
@@ -123,7 +123,7 @@ hzar.meta.simple.scaled.ascending =
          return(pMin>=0 & pMax<=1 & pMin<pMax & width>0)},
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax")]
        );
-hzar.meta.simple.scaled.descending =
+cline.meta.simple.scaled.descending =
   list(
        prior=function(center,width,pMin,pMax){
   return(0); },
@@ -138,9 +138,9 @@ hzar.meta.simple.scaled.descending =
          return(pMin>=0 & pMax<=1 & pMin<pMax & width>0)},
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax")]
        );
-class(hzar.meta.simple.scaled.ascending)<-"clineMetaModel";
-class(hzar.meta.simple.scaled.descending)<-"clineMetaModel";
-hzar.meta.tailed.scaled.ascending =
+class(cline.meta.simple.scaled.ascending)<-"clineMetaModel";
+class(cline.meta.simple.scaled.descending)<-"clineMetaModel";
+cline.meta.tailed.scaled.ascending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          return(width>0 & deltaL>=0 & deltaR>=0 &
@@ -168,7 +168,7 @@ hzar.meta.tailed.scaled.ascending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL","deltaR","tauR")]
        );
-hzar.meta.tailed.scaled.descending =
+cline.meta.tailed.scaled.descending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL,deltaR,tauR)
        {
          return(width>0 & deltaL>=0 & deltaR>=0 &
@@ -196,10 +196,10 @@ hzar.meta.tailed.scaled.descending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL","deltaR","tauR")]
        );
-class(hzar.meta.tailed.scaled.ascending)<-"clineMetaModel";
-class(hzar.meta.tailed.scaled.descending)<-"clineMetaModel";
+class(cline.meta.tailed.scaled.ascending)<-"clineMetaModel";
+class(cline.meta.tailed.scaled.descending)<-"clineMetaModel";
 
-hzar.meta.mtail.scaled.descending =
+cline.meta.mtail.scaled.descending =
   list(req= function(center,width,pMin,pMax,deltaM,tauM)
        {
          return(width>0 & deltaM>=0 &
@@ -223,7 +223,7 @@ hzar.meta.mtail.scaled.descending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaM","tauM")]
        );
-hzar.meta.mtail.scaled.ascending =
+cline.meta.mtail.scaled.ascending =
   list(req= function(center,width,pMin,pMax,deltaM,tauM)
        {
          return(width>0 & deltaM>=0 &
@@ -247,9 +247,9 @@ hzar.meta.mtail.scaled.ascending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaM","tauM")]
        );
-class(hzar.meta.mtail.scaled.ascending)<-"clineMetaModel";
-class(hzar.meta.mtail.scaled.descending)<-"clineMetaModel";
-hzar.meta.ltail.scaled.descending =
+class(cline.meta.mtail.scaled.ascending)<-"clineMetaModel";
+class(cline.meta.mtail.scaled.descending)<-"clineMetaModel";
+cline.meta.ltail.scaled.descending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL)
        {
          return(width>0 & deltaL>=0 &
@@ -273,7 +273,7 @@ hzar.meta.ltail.scaled.descending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL")]
        );
-hzar.meta.ltail.scaled.ascending =
+cline.meta.ltail.scaled.ascending =
   list(req= function(center,width,pMin,pMax,deltaL,tauL)
        {
          return(width>0 & deltaL>=0 &
@@ -296,9 +296,9 @@ hzar.meta.ltail.scaled.ascending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaL","tauL")]
        );
-class(hzar.meta.ltail.scaled.ascending)<-"clineMetaModel";
-class(hzar.meta.ltail.scaled.descending)<-"clineMetaModel";
-hzar.meta.rtail.scaled.ascending =
+class(cline.meta.ltail.scaled.ascending)<-"clineMetaModel";
+class(cline.meta.ltail.scaled.descending)<-"clineMetaModel";
+cline.meta.rtail.scaled.ascending =
   list(req= function(center,width,pMin,pMax,deltaR,tauR)
        {
          return(width>0 & deltaR>=0 &
@@ -322,7 +322,7 @@ hzar.meta.rtail.scaled.ascending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaR","tauR")]
        );
-hzar.meta.rtail.scaled.descending =
+cline.meta.rtail.scaled.descending =
   list(req= function(center,width,pMin,pMax,deltaR,tauR)
        {
          return(width>0 & deltaR>=0 &
@@ -345,8 +345,8 @@ hzar.meta.rtail.scaled.descending =
        },
        parameterTypes=CLINEPARAMETERS[c("center","width","pMin","pMax","deltaR","tauR")]
        );
-class(hzar.meta.rtail.scaled.ascending)<-"clineMetaModel";
-class(hzar.meta.rtail.scaled.descending)<-"clineMetaModel";
+class(cline.meta.rtail.scaled.ascending)<-"clineMetaModel";
+class(cline.meta.rtail.scaled.descending)<-"clineMetaModel";
 
 
 
@@ -376,10 +376,10 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
     if(!is.null(y)){
       myModel$parameterTypes[[mdlMin]]$val<-min(y);
       myModel$parameterTypes[[mdlMax]]$val<-max(y);
-      hzar.suggestionFunc1D[[mdlMin]](x,y)->junk;
+      cline.suggestionFunc1D[[mdlMin]](x,y)->junk;
     attr(myModel$parameterTypes[[mdlMin]],"limit.lower")<-junk[[1]];
     attr(myModel$parameterTypes[[mdlMin]],"limit.upper")<-junk[[2]];
-      hzar.suggestionFunc1D[[mdlMax]](x,y)->junk;
+      cline.suggestionFunc1D[[mdlMax]](x,y)->junk;
     attr(myModel$parameterTypes[[mdlMax]],"limit.lower")<-junk[[1]];
     attr(myModel$parameterTypes[[mdlMax]],"limit.upper")<-junk[[2]];
     }
@@ -392,28 +392,28 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
     qX<-quantile(x,probs=c(0.25,0.5,0.75));
     myModel$parameterTypes$center$val<-qX[[2]]; 
     myModel$parameterTypes$width$val<-qX[[3]]-qX[[1]];
-      hzar.suggestionFunc1D$center(x,y)->junk;
+      cline.suggestionFunc1D$center(x,y)->junk;
     attr(myModel$parameterTypes$center,"limit.lower")<-junk[[1]];
     attr(myModel$parameterTypes$center,"limit.upper")<-junk[[2]];
     
-      hzar.suggestionFunc1D$width(x,y)->junk;
+      cline.suggestionFunc1D$width(x,y)->junk;
     attr(myModel$parameterTypes$width,"limit.lower")<-junk[[1]];
     attr(myModel$parameterTypes$width,"limit.upper")<-junk[[2]];
     index<-"deltaR";
     if(index %in% pTnames){
-      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      cline.suggestionFunc1D[[index]](x,y)->junk;
       attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
       attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
     }
     index<-"deltaM";
     if(index %in% pTnames){
-      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      cline.suggestionFunc1D[[index]](x,y)->junk;
       attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
       attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
     }
     index<-"deltaL";
     if(index %in% pTnames){
-      hzar.suggestionFunc1D[[index]](x,y)->junk;
+      cline.suggestionFunc1D[[index]](x,y)->junk;
       attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
       attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
     }
@@ -422,19 +422,19 @@ setupMoleCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
   }
    index<-"tauR";
    if(index %in% pTnames){
-     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     cline.suggestionFunc1D[[index]](x,y)->junk;
      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
    }
    index<-"tauM";
    if(index %in% pTnames){
-     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     cline.suggestionFunc1D[[index]](x,y)->junk;
      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
    }
    index<-"tauL";
    if(index %in% pTnames){
-     hzar.suggestionFunc1D[[index]](x,y)->junk;
+     cline.suggestionFunc1D[[index]](x,y)->junk;
      attr(myModel$parameterTypes[[index]],"limit.lower")<-junk[[1]];
      attr(myModel$parameterTypes[[index]],"limit.upper")<-junk[[2]];
    }
@@ -483,44 +483,55 @@ obs=NULL;
   return(myModel);
 }
 
-makeSimpleCline1D<-function(data=NULL,scaling="none",direction=NULL){
-  return(buildCline1D(data,scaling,direction,
-                      hzar.meta.simple.scaled.ascending,
-                      hzar.meta.simple.scaled.descending));
-}
+## makeSimpleCline1D<-function(data=NULL,scaling="none",direction=NULL){
+##   return(buildCline1D(data,scaling,direction,
+##                       cline.meta.simple.scaled.ascending,
+##                       cline.meta.simple.scaled.descending));
+## }
 
-makeTailedCline1D<-function(data=NULL,scaling="none",direction=NULL){
-  myTailedModel<-buildCline1D(data,scaling,direction,
-                              hzar.meta.tailed.scaled.ascending,
-                              hzar.meta.tailed.scaled.descending);
+## makeTailedCline1D<-function(data=NULL,scaling="none",direction=NULL){
+##   myTailedModel<-buildCline1D(data,scaling,direction,
+##                               cline.meta.tailed.scaled.ascending,
+##                               cline.meta.tailed.scaled.descending);
+##   Width<-myTailedModel$parameterTypes$width$val;
+##   attr(myTailedModel,"tails")<-"both";
+## ##   myTailedModel$parameterTypes$deltaL$val<-Width;
+## ##   myTailedModel$parameterTypes$deltaR$val<-Width;
+##   return(myTailedModel);
+## }
+
+hzar.makeCline1DFreq<- function(data=NULL,scaling="none",tails="none",direction=NULL){
+  if(identical(tolower(tails),"none")){
+  ##   return(makeSimpleCline1D(data,scaling,direction));
+ return(buildCline1D(data,scaling,direction,
+                      cline.meta.simple.scaled.ascending,
+                      cline.meta.simple.scaled.descending));
+  }else if(identical(tolower(tails),"both")) {
+##     return(makeTailedCline1D(data,scaling,direction));
+      myTailedModel<-buildCline1D(data,scaling,direction,
+                              cline.meta.tailed.scaled.ascending,
+                              cline.meta.tailed.scaled.descending);
   Width<-myTailedModel$parameterTypes$width$val;
   attr(myTailedModel,"tails")<-"both";
 ##   myTailedModel$parameterTypes$deltaL$val<-Width;
 ##   myTailedModel$parameterTypes$deltaR$val<-Width;
   return(myTailedModel);
-}
-
-makeCline1DFreq<- function(data=NULL,scaling="none",tails="none",direction=NULL){
-  if(identical(tolower(tails),"none")){
-    return(makeSimpleCline1D(data,scaling,direction));
-  }else if(identical(tolower(tails),"both")) {
-    return(makeTailedCline1D(data,scaling,direction));
   }else if(identical(tolower(tails),"right")) {
 myRightCline<-buildCline1D(data,scaling,direction,
-                              hzar.meta.rtail.scaled.ascending,
-                              hzar.meta.rtail.scaled.descending);
+                              cline.meta.rtail.scaled.ascending,
+                              cline.meta.rtail.scaled.descending);
   attr(myRightCline,"tails")<-"right";
     return(myRightCline);
   }else if(identical(tolower(tails),"left")) {
 myLeftCline<-buildCline1D(data,scaling,direction,
-                              hzar.meta.ltail.scaled.ascending,
-                              hzar.meta.ltail.scaled.descending);
+                              cline.meta.ltail.scaled.ascending,
+                              cline.meta.ltail.scaled.descending);
   attr(myLeftCline,"tails")<-"left";
     return(myLeftCline);
   }else if(identical(tolower(tails),"mirror")) {
 myMirrorCline<-buildCline1D(data,scaling,direction,
-                              hzar.meta.mtail.scaled.ascending,
-                              hzar.meta.mtail.scaled.descending);
+                              cline.meta.mtail.scaled.ascending,
+                              cline.meta.mtail.scaled.descending);
   attr(myMirrorCline,"tails")<-"mirror";
     return(myMirrorCline);
   }
