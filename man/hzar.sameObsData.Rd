@@ -2,7 +2,8 @@
 \alias{hzar.sameObsData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+  Test hzar objects for identical associated hzar.obsData objects.
+  %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

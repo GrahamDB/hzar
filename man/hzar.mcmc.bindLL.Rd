@@ -2,6 +2,7 @@
 \alias{hzar.mcmc.bindLL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a data frame with sampled parameters and log likelihoods.
 %%  ~~function to do ... ~~
 }
 \description{

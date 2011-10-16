@@ -2,6 +2,7 @@
 \alias{hzar.gen.rParam.uniform}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a uniform distribution of random samples in parameter space.
 %%  ~~function to do ... ~~
 }
 \description{

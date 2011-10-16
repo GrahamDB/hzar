@@ -2,6 +2,7 @@
 \alias{hzar.make.obsDataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Collect optimzer output from multiple models for analysis.
 %%  ~~function to do ... ~~
 }
 \description{

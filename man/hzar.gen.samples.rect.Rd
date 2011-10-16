@@ -2,6 +2,7 @@
 \alias{hzar.gen.samples.rect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a lattice in parameter space.
 %%  ~~function to do ... ~~
 }
 \description{

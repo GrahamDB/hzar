@@ -2,6 +2,7 @@
 \alias{hzar.make.dataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Make a hzar.dataGroup object with given parameters.
 %%  ~~function to do ... ~~
 }
 \description{

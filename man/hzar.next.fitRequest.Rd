@@ -2,6 +2,7 @@
 \alias{hzar.next.fitRequest}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a new fitRequest using data from another fitRequest.
 %%  ~~function to do ... ~~
 }
 \description{

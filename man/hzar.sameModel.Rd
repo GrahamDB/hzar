@@ -2,6 +2,7 @@
 \alias{hzar.sameModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Test hzar objects for identical associated cline models.
 %%  ~~function to do ... ~~
 }
 \description{

@@ -2,6 +2,7 @@
 \alias{hzar.getCredCut}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Get the minimum log likelihood of sufficient credibility.
 %%  ~~function to do ... ~~
 }
 \description{

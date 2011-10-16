@@ -2,6 +2,7 @@
 \alias{hzar.make.clineLLfunc.old.bayes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a Bayesian log likelihood method for the cline model.
 %%  ~~function to do ... ~~
 }
 \description{

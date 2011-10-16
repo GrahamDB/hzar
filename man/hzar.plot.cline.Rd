@@ -2,6 +2,7 @@
 \alias{hzar.plot.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a plot of the cline.
 %%  ~~function to do ... ~~
 }
 \description{

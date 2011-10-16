@@ -2,6 +2,7 @@
 \alias{hzar.qScores.getScores}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate credibility scores.
 %%  ~~function to do ... ~~
 }
 \description{

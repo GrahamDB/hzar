@@ -2,6 +2,7 @@
 \alias{hzar.wedgeSlice}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Helper function to generate a list of indexing vectors.
 %%  ~~function to do ... ~~
 }
 \description{

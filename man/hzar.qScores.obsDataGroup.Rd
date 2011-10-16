@@ -2,6 +2,7 @@
 \alias{hzar.qScores.obsDataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate quantiles for the cline model with the best AICc score.
 %%  ~~function to do ... ~~
 }
 \description{

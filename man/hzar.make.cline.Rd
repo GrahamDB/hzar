@@ -2,6 +2,7 @@
 \alias{hzar.make.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Make a hzar.cline object.
 %%  ~~function to do ... ~~
 }
 \description{

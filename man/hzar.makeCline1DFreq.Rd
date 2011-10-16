@@ -1,14 +1,15 @@
-\name{makeCline1DFreq}
-\alias{makeCline1DFreq}
+\name{hzar.makeCline1DFreq}
+\alias{hzar.makeCline1DFreq}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Make a frequency cline model with the requested attributes.
 %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = NULL)
+hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

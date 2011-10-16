@@ -2,6 +2,7 @@
 \alias{hzar.plot.obsData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a plot of the observed data points.
 %%  ~~function to do ... ~~
 }
 \description{

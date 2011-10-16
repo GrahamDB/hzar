@@ -2,6 +2,7 @@
 \alias{hzar.make.fitRequest}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a hzar.fitRequest with the specified attributes.
 %%  ~~function to do ... ~~
 }
 \description{

@@ -2,6 +2,7 @@
 \alias{hzar.getCredParam}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Select a credible subset of a collection of parameters.
 %%  ~~function to do ... ~~
 }
 \description{

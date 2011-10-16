@@ -2,6 +2,7 @@
 \alias{hzar.getCovWeights}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Determine sample weights for the purpose of generating a tuning matrix.
 %%  ~~function to do ... ~~
 }
 \description{

@@ -1,14 +1,15 @@
-\name{makeCline1DCLT}
-\alias{makeCline1DCLT}
+\name{hzar.makeCline1DCLT}
+\alias{hzar.makeCline1DCLT}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Make a cline model for the prediction of population means.
 %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = NULL)
+hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

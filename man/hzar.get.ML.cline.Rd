@@ -2,6 +2,7 @@
 \alias{hzar.get.ML.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Extract the maximum likelihood cline.
 %%  ~~function to do ... ~~
 }
 \description{

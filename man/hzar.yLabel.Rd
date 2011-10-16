@@ -2,7 +2,8 @@
 \alias{hzar.yLabel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+  Suggests a y axis label based on the hzar object passed.
+  %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

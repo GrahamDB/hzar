@@ -2,6 +2,7 @@
 \alias{hzar.qScores}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Calculate credibility intervals.
 %%  ~~function to do ... ~~
 }
 \description{

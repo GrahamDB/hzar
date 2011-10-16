@@ -2,6 +2,7 @@
 \alias{hzar.qScores.dataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate quantiles for the cline model parameters.
 %%  ~~function to do ... ~~
 }
 \description{

@@ -2,6 +2,7 @@
 \alias{hzar.make.mcmcParam}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Set the parameters controling the optimizer environment.
 %%  ~~function to do ... ~~
 }
 \description{
