@@ -2,6 +2,7 @@
 \alias{hzar.fit2DataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Prepare output from optimizer for analysis.
 %%  ~~function to do ... ~~
 }
 \description{

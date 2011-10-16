@@ -476,29 +476,29 @@ hzar.getCredParam <- function(dataGroup,rejectionPercent=0.05){
 }
 
 
-hzar.fzCline.reduce <- function(candidates,
-                                checkFunc=hzar.fz.getCheckFunc(names(candidates)),
+PP.fzCline.reduce <- function(candidates,
+                                checkFunc=PP.fz.getCheckFunc(names(candidates)),
                                 noReCheck=FALSE,glitz=character(0),wedgeCut=8000*length(names(candidates))){
   candidates<-as.data.frame(candidates);
   dim(candidates)[[1]]->numCandidates;
   if(numCandidates>wedgeCut){
     #cat("/");
-    a <- hzar.fzCline.reduce(candidates[1:as.integer(numCandidates/2),],
+    a <- PP.fzCline.reduce(candidates[1:as.integer(numCandidates/2),],
                              checkFunc=checkFunc, noReCheck=noReCheck,
                              glitz=c(glitz," "));
     #cat("V");
-    b <- hzar.fzCline.reduce(candidates[as.integer(1+(numCandidates/2)):numCandidates,],
+    b <- PP.fzCline.reduce(candidates[as.integer(1+(numCandidates/2)):numCandidates,],
                              checkFunc=checkFunc, noReCheck=noReCheck,
                              glitz=c(glitz,"|"));
     #cat(":")#,as.integer(log(
     numA <- dim(a)[[1]]#)/log(2)),"+",as.integer(log(
     numB <- dim(b)[[1]]#)/log(2)),sep="");
     ## if(numA<numB){
-    ##     res <- (hzar.fzCaMnRc(a,#rbind(a[1:(numA-1),],b[numB,]),
+    ##     res <- (PP.fzCaMnRc(a,#rbind(a[1:(numA-1),],b[numB,]),
     ##                           b[rev(1:(numB)),],
     ##                           checkFunc=checkFunc));
     ##   }else{
-    ##     res <- (hzar.fzCaMnRc(b,a[rev(1:(numA)),],
+    ##     res <- (PP.fzCaMnRc(b,a[rev(1:(numA)),],
     ##                                     #rbind(a[numA,],b[numB,]),
     ##                                     #rbind(b[rev(1:(numB-1)),],a[rev(1:(numA-1)),]),
     ##                           checkFunc=checkFunc));
@@ -511,12 +511,12 @@ hzar.fzCline.reduce <- function(candidates,
       rD <- 2;
       if(numA<numB){
         cutV <- (rN*numA) %/% (rD);
-        res <- (hzar.fzCaMnRc(rbind(b[numB,],a[cutV:numA,]),
+        res <- (PP.fzCaMnRc(rbind(b[numB,],a[cutV:numA,]),
                               rbind(a[rev(1:(cutV-1)),],b[rev(1:(numB-1)),]),
                               checkFunc=checkFunc));
       }else{
         cutV <- (rN*numB) %/% (rD);
-        res <- (hzar.fzCaMnRc(rbind(a[numA,],b[cutV:numB,]),
+        res <- (PP.fzCaMnRc(rbind(a[numA,],b[cutV:numB,]),
                               rbind(b[rev(1:(cutV-1)),],a[rev(1:(numA-1)),]),
                               checkFunc=checkFunc));
       }
@@ -526,11 +526,11 @@ hzar.fzCline.reduce <- function(candidates,
         cat("\n");
     } else {
       if(numA<numB){
-        res <- (hzar.fzCaMnRc(a,#rbind(a[1:(numA-1),],b[numB,]),
+        res <- (PP.fzCaMnRc(a,#rbind(a[1:(numA-1),],b[numB,]),
                               b[rev(1:(numB)),],
                               checkFunc=checkFunc));
       }else{
-        res <- (hzar.fzCaMnRc(b,a[rev(1:(numA)),],
+        res <- (PP.fzCaMnRc(b,a[rev(1:(numA)),],
                                         #rbind(a[numA,],b[numB,]),
                                         #rbind(b[rev(1:(numB-1)),],a[rev(1:(numA-1)),]),
                               checkFunc=checkFunc));
@@ -551,33 +551,33 @@ hzar.fzCline.reduce <- function(candidates,
   if(numCandidates<8)
     return(candidates);
   
-  return(hzar.fzCaMnRc(candidates[1:4,],
+  return(PP.fzCaMnRc(candidates[1:4,],
                           candidates[5:numCandidates,],
                           checkFunc=checkFunc));
 }
  
-hzar.fzCline.add <-function(accepted,
+PP.fzCline.add <-function(accepted,
                             candidate,
-                            checkFunc=hzar.fz.getCheckFunc(names(accepted)) ){
+                            checkFunc=PP.fz.getCheckFunc(names(accepted)) ){
    if(any(apply(candidate[,names(accepted)],2,max)>apply(accepted,2,max),
           apply(candidate[,names(accepted)],2,min)<apply(accepted,2,min)))
-     return(hzar.fzCline.addBest (accepted,candidate,checkFunc));
+     return(PP.fzCline.addBest (accepted,candidate,checkFunc));
   
   
-  res<-hzar.fzCline.addMany(accepted=accepted, candidates=candidate,
+  res<-PP.fzCline.addMany(accepted=accepted, candidates=candidate,
                             checkFunc=checkFunc);
   return(res);
 }
-hzar.fzCline.addOne <-function(accepted,
+PP.fzCline.addOne <-function(accepted,
                             candidate,
                             checkFirst=1,
-                            checkFunc=hzar.fz.getCheckFunc(names(accepted)) ){
+                            checkFunc=PP.fz.getCheckFunc(names(accepted)) ){
   accepted<-as.data.frame(accepted);
   candidate<-as.data.frame(candidate);
   dim(accepted)[[1]]->numAccepted;
   ## Check for multiple candidates
   if(dim(candidate)[[1]]>1)
-    return(hzar.fzCline.addOne(hzar.fzCline.addOne(accepted,candidate[1,],
+    return(PP.fzCline.addOne(PP.fzCline.addOne(accepted,candidate[1,],
                                                    checkFunc=checkFunc,
                                                    checkFirst=checkFirst),
                                candidate[2:(dim(candidate)[[1]]),],
@@ -591,11 +591,11 @@ hzar.fzCline.addOne <-function(accepted,
   return(accepted);
 }
 
-hzar.fzCline.addMany <- function(accepted,candidates,checkFunc){
+PP.fzCline.addMany <- function(accepted,candidates,checkFunc){
   ## First, check alignment, in order to simplify tail call
   numCan <- dim(candidates)[[1]]
   if(numCan<4)
-    return(hzar.fzCline.addOne(accepted,
+    return(PP.fzCline.addOne(accepted,
                                candidate=candidates,
                                checkFunc=checkFunc));
  
@@ -627,11 +627,11 @@ hzar.fzCline.addMany <- function(accepted,candidates,checkFunc){
     accepted<-rbind(accepted,candidates[canI+6,]);
   return(accepted);
 }
- hzar.fzCaMnRc <- function(accepted,candidates,checkFunc){
+ PP.fzCaMnRc <- function(accepted,candidates,checkFunc){
   ## First, check alignment, in order to simplify tail call
   numCan <- dim(candidates)[[1]]
   if(numCan<4)
-    return(hzar.fzCline.addOne(accepted,
+    return(PP.fzCline.addOne(accepted,
                                candidate=candidates,
                                checkFunc=checkFunc));
  
@@ -659,13 +659,13 @@ hzar.fzCline.addMany <- function(accepted,candidates,checkFunc){
 } 
 
 
-hzar.fzCline.addBest <- function(accepted,candidates,checkFunc){
+PP.fzCline.addBest <- function(accepted,candidates,checkFunc){
   ## This should be called just once per candidate pool.
 
   ## Useful expressions...
 
-  addFz1 <- hzar.fzCline.addOne;
-  addFzN <- hzar.fzCline.addMany;
+  addFz1 <- PP.fzCline.addOne;
+  addFzN <- PP.fzCline.addMany;
   
   ## returns a list of the reduced set and the remaining candidates,
   ## if any. Currently uses mutation.
@@ -740,7 +740,7 @@ hzar.fzCline.addBest <- function(accepted,candidates,checkFunc){
 }
 
 
-hzar.fz.oldCheckFunc <- function(paramNames){
+PP.fz.oldCheckFunc <- function(paramNames){
   checkCW <- function(accepted,candidate){  
     ## left side bounds
     if(sum(accepted$center<=candidate$center & accepted$width>=candidate$width)==0)
@@ -784,7 +784,7 @@ hzar.fz.oldCheckFunc <- function(paramNames){
   return(function(accepted,candidate) return(TRUE));
 }
 
-hzar.fz.getCheckFunc <- function(paramNames){
+PP.fz.getCheckFunc <- function(paramNames){
   accLeft  <- quote(acc$center<=can$center)
   accRight <- quote(acc$center>=can$center)
   accWIn   <- quote(acc$width >=can$width )
@@ -869,3 +869,59 @@ hzar.fz.getCheckFunc <- function(paramNames){
 
   
   
+
+hzar.getLLCutParam <- function(dataGroups,params,cutValue=2){
+  params<-as.character(params);
+  if(inherits(dataGroups, c("hzar.fitRequest","hzar.dataGroup"))){
+    dataGroups<-hzar.fit2DataGroup(dataGroups);
+  } else if( is.list(dataGroups)){
+    if(is.character(names(dataGroups))){
+      return(do.call(rbind,sapply(names(dataGroups),
+                                  function(x) hzar.getLLCutParam(dataGroups[[x]],params,cutValue),simplify = FALSE)));
+    }
+    return(do.call(rbind,lapply(dataGroups,hzar.getLLCutParam,params,cutValue)));
+  } else {
+    stop("hzar.getLLCutParam does not understand class of dataGroups.");
+  }
+  
+  data.param=dataGroups$data.param[dataGroups$data.LL$model.LL >
+    max(dataGroups$data.LL$model.LL -cutValue),];
+  tempFunc <- function(x){
+    res<-list(min(data.param[[x]]),
+              max(data.param[[x]]));
+    names(res) <- paste(x,cutValue,"LL",c("Low","High"),sep="");
+    return(res);
+  }
+  return(do.call(data.frame,do.call(c,lapply(params,tempFunc))));
+}
+
+sapply(names(all.dG),function(x) all.dG[[x]][[1]],simplify=FALSE)-> all.dG.strip
+
+hzar.getCredParamRed <- function(dataGroup){
+  junk<-hzar.getCredParam(dataGroup);
+  junk1<-PP.fzCline.reduce(junk);
+  junk1<-PP.fzCline.reduce(junk1);
+  res<-hzar.make.fzCline(lapply(1:(dim(junk1)[[1]]),
+         function(x) hzar.gen.cline(junk1[x,],
+                                    dataGroup)));
+  return(res);
+}
+
+hzar.make.fzCline <- function(clineList){
+  list(clines=clineList,
+       listFuncInt=function(xVal,funcList=res$clines){
+    
+         yList <- as.numeric(lapply(funcList,function(x,u) x$clineFunc(u),u=xVal));
+         return(data.frame(x=xVal,yMin=min(yList),yMax=max(yList)));
+       },
+       fzCline=function(xVals,listFunc=res$listFuncInt){
+         xVals <- as.numeric(xVals);
+         if(length(xVals>1))
+           return(do.call(rbind,lapply(xVals,listFunc)));
+         if(length(xVals<1))
+           return(numeric(0));
+         return(listFunc(xVals));
+       })->res;
+  return(res);
+}
+

@@ -2,6 +2,7 @@
 \alias{hzar.AICc.hzar.dataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Calculate the corrected AIC score (AICc) for the hzar.dataGroup object.
 %%  ~~function to do ... ~~
 }
 \description{

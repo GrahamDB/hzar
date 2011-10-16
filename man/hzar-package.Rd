@@ -14,7 +14,7 @@ More about what it does (maybe more than one line)
 \tabular{ll}{
 Package: \tab hzar\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 0.1\cr
 Date: \tab 2011-10-08\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr

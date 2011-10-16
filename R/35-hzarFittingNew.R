@@ -367,12 +367,12 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
   return(mat.scaled[param.names,param.names]);
 }
 
-hzar.default.mcmc <- hzar.make.mcmcParam(chainLength=1e6,
+cfg.hzar.default.mcmc <- hzar.make.mcmcParam(chainLength=1e6,
                                          burnin=1e4,
                                          verbosity=5e5,
                                          thin=100);
 
-hzar.quiet.mcmc   <- hzar.make.mcmcParam(chainLength=1e6,
+cfg.hzar.quiet.mcmc   <- hzar.make.mcmcParam(chainLength=1e6,
                                          burnin=1e4,
                                          verbosity=0,
                                          thin=100);
@@ -421,9 +421,9 @@ hzar.next.fitRequest <- function(oldFitRequest){
 hzar.first.fitRequest.old.ML <-function(model,obsData,verbose=TRUE){
   
   if(verbose){
-    mcmcParam<-hzar.default.mcmc;
+    mcmcParam<-cfg.hzar.default.mcmc;
   }else {
-    mcmcParam<-hzar.quiet.mcmc;
+    mcmcParam<-cfg.hzar.quiet.mcmc;
   }
    ## print("A");
   

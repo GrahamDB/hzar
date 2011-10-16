@@ -1,7 +1,8 @@
-\name{doMolecularData1DPops}
-\alias{doMolecularData1DPops}
+\name{hzar.doMolecularData1DPops}
+\alias{hzar.doMolecularData1DPops}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a hzar.obsData object using a table of sample frequencies.
 %%  ~~function to do ... ~~
 }
 \description{

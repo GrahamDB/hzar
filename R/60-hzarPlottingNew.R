@@ -68,3 +68,27 @@ hzar.mcmc.bindLL <-function(fitRequest,dataGroup=hzar.fit2DataGroup(fitRequest),
 }
 
               
+
+hzar.plot.fzCline<-function(dataGroup,fzCline=hzar.getCredParamRed(dataGroup) ,type="p",pch="+",col="black",fzCol="gray",...){
+  hzar.plot.obsData(dataGroup,col="transparent",...);
+  xSeries<-seq(from=par("usr")[1],to=par("usr")[2],length.out=109)
+  if(par("xaxs")=="r")
+    xSeries<-xSeries[2:108];
+  
+  fzCoor<-fzCline$fzCline(xSeries);
+  polygon(x=c(fzCoor$x,rev(fzCoor$x)),y=c(fzCoor$yMin,rev(fzCoor$yMax)),border=fzCol,col=fzCol);
+  lines(x=xSeries,y=dataGroup$ML.cline$clineFunc(xSeries),col=col);
+  hzar.plot.obsData(dataGroup,col=col,type=type,pch=pch,add=TRUE);
+}
+
+hzar.overPlot.fzCline<-function(dataGroupSet,
+                                fzClineSet=sapply(dataGroupSet,
+                                  hzar.getCredParamRed, simplify=FALSE),
+                                type="p",
+                              ##  pch="+", col="black",
+                                fzDens=8,
+                                fzShadeAngle=((1:length(dataGroupSet))*180
+                                              ) %/% (1+length(dataGroupSet)),
+                                ...){
+  
+}

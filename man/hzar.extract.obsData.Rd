@@ -2,6 +2,7 @@
 \alias{hzar.extract.obsData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Extract the observation data used by the optimizer.
 %%  ~~function to do ... ~~
 }
 \description{

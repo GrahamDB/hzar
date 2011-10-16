@@ -2,6 +2,7 @@
 \alias{hzar.AICc.default}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+Calculate the corrected AIC score (AICc).
 %%  ~~function to do ... ~~
 }
 \description{

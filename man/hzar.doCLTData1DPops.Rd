@@ -1,7 +1,9 @@
-\name{doCLTData1DPops}
-\alias{doCLTData1DPops}
+\name{hzar.doCLTData1DPops}
+\alias{hzar.doCLTData1DPops}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Create a hzar.obsData object using a table of sample means and
+  standard deviations.
 %%  ~~function to do ... ~~
 }
 \description{

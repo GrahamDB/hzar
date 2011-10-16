@@ -2,6 +2,7 @@
 \alias{hzar.cov.mcmc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a refined covariance matrix using previous data.
 %%  ~~function to do ... ~~
 }
 \description{

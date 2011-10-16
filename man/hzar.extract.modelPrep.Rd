@@ -2,6 +2,7 @@
 \alias{hzar.extract.modelPrep}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Extract environment used to build the cline likelihood function.
 %%  ~~function to do ... ~~
 }
 \description{

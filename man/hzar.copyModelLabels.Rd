@@ -2,6 +2,7 @@
 \alias{hzar.copyModelLabels}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Copy names from one hzar object to another.
 %%  ~~function to do ... ~~
 }
 \description{

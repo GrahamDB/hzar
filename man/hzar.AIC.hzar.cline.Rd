@@ -2,6 +2,7 @@
 \alias{hzar.AIC.hzar.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+Calculate AIC score for a cline object.
 %%  ~~function to do ... ~~
 }
 \description{

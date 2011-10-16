@@ -2,6 +2,7 @@
 \alias{hzar.extract.old.model.gen}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Extract cline factory method.
 %%  ~~function to do ... ~~
 }
 \description{

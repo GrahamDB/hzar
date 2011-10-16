@@ -2,6 +2,7 @@
 \alias{hzar.chain.doSeq}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Repeatedly run the optimizer in series to tune the optimizer.
 %%  ~~function to do ... ~~
 }
 \description{

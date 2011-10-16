@@ -2,6 +2,7 @@
 \alias{hzar.cov.rect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a covariance matrix for the cline optimizer.
 %%  ~~function to do ... ~~
 }
 \description{

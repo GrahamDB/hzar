@@ -2,6 +2,7 @@
 \alias{hzar.first.fitRequest.old.ML}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Generate a ML based hzar.fitRequest using a meta model structure.
 %%  ~~function to do ... ~~
 }
 \description{

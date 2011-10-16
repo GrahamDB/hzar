@@ -2,6 +2,8 @@
 \alias{hzar.AICc.hzar.obsDataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Calculate the corrected AIC score (AICc) table for the
+  hzar.obsDataGroup collection.
 %%  ~~function to do ... ~~
 }
 \description{

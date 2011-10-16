@@ -2,6 +2,7 @@
 \alias{hzar.eval.clineLL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Calculate the Log Likehoods of the table of parameters provided.
 %%  ~~function to do ... ~~
 }
 \description{

@@ -2,6 +2,7 @@
 \alias{hzar.doFit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Run the optimizer.
 %%  ~~function to do ... ~~
 }
 \description{

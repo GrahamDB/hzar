@@ -1,7 +1,8 @@
-\name{doCLTData1DRaw}
-\alias{doCLTData1DRaw}
+\name{hzar.doCLTData1DRaw}
+\alias{hzar.doCLTData1DRaw}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Create an hzar.obsData object using a table of individual traits.
 %%  ~~function to do ... ~~
 }
 \description{

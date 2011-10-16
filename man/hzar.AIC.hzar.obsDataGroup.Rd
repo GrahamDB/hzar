@@ -2,6 +2,7 @@
 \alias{hzar.AIC.hzar.obsDataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+Calculate the AIC score table for the given hzar.obsDataGroup object.
 %%  ~~function to do ... ~~
 }
 \description{
