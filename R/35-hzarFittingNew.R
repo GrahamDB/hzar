@@ -476,7 +476,13 @@ hzar.chain.doSeq <- function(hzar.request, count=3,collapse=FALSE,announce.compl
     
     rawMCMC<-mcmc(data=raw.data,thin=thin(hzar.results[[count]]$mcmcRaw),start=mcmcParam$burnin+1);
     names(rawMCMC)<-names(hzar.results[[count]]$mcmcRaw);
-    return(list(hzar.make.fitRequest(mdlParam,hzar.results[[count]]$cM,hzar.results[[count]]$llFunc,mcmcParam,mcmcRaw=rawMCMC,TRUE,prod(as.logical(lapply(test.fits,attr,"fit.success"))))));
+    return(list(hzar.make.fitRequest(mdlParam,
+                                     hzar.results[[count]]$cM,
+                                     hzar.results[[count]]$llFunc,
+                                     mcmcParam,
+                                     mcmcRaw=rawMCMC,
+                                     TRUE,
+                                     prod(as.logical(lapply(hzar.results,attr,"fit.success"))))));
   }
   return(hzar.results);
 }

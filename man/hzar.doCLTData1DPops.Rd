@@ -10,7 +10,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-doCLTData1DPops(distance, muObs, varObs, nSamples)
+hzar.doCLTData1DPops(distance, muObs, varObs, nSamples)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

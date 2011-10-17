@@ -271,12 +271,12 @@ setupCLTCenterClineParameters<-function(myModel,scaling,x=NULL,y=NULL) {
 hzar.makeCline1DCLT<- function(data=NULL,scaling="free",tails="none",direction=NULL){
   if(identical(tolower(tails),"none")){
     return(buildCline1D(data,scaling,direction,
-                        hzar.meta.CLTnA,hzar.meta.CLTnD));
+                        cline.meta.CLTnA,cline.meta.CLTnD));
  ##  }else if(identical(tolower(tails),"both")) {
 ##     return(makeTailedCline1D(data,scaling,direction));
    }else if(identical(tolower(tails),"right")) {
      myRightCline<-buildCline1D(data,scaling,direction,
-                                hzar.meta.CLTrA, hzar.meta.CLTrD);
+                                cline.meta.CLTrA, cline.meta.CLTrD);
      
      attr(myRightCline,"tails")<-"right";
      return(myRightCline);

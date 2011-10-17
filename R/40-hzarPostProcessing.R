@@ -450,7 +450,7 @@ hzar.getCredCut<-function(dataGroup,rejectionPercent=0.05){
             inherits(dataGroup[[1]],
                      c("hzar.fitRequest","hzar.dataGroup"))){
     warning("Only calculating LL cut for first element in list");
-    dataGroup<-hzar.fit2DataGroup(dataGroups[[1]]);
+    dataGroup<-hzar.fit2DataGroup(dataGroup[[1]]);
   }
   model.relLL=exp(sort(dataGroup$data.LL$model.LL-dataGroup$ML.cline$logLike));
   credibleLLspace<-data.frame(LL=sort(dataGroup$data.LL$model.LL),
@@ -894,8 +894,6 @@ hzar.getLLCutParam <- function(dataGroups,params,cutValue=2){
   }
   return(do.call(data.frame,do.call(c,lapply(params,tempFunc))));
 }
-
-sapply(names(all.dG),function(x) all.dG[[x]][[1]],simplify=FALSE)-> all.dG.strip
 
 hzar.getCredParamRed <- function(dataGroup){
   junk<-hzar.getCredParam(dataGroup);

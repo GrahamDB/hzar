@@ -9,7 +9,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-doCLTData1DRaw(distance, traitValue)
+hzar.doCLTData1DRaw(distance, traitValue)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

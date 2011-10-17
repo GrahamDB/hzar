@@ -3,12 +3,13 @@
 \alias{hzar}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+  Hybrid Zone Analysis using R
+  %What the package does (short line)
+%~~ package title ~~
 }
 \description{
 More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+%~~ A concise (1-5 lines) description of the package ~~
 }
 \details{
 \tabular{ll}{
@@ -19,25 +20,26 @@ Date: \tab 2011-10-08\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+%~~ An overview of how to use the package, including the most important ~~
+%~~ functions ~~
 }
 \author{
 Who wrote it
 
 Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+%~~ The author and/or maintainer of the package ~~
 }
 \references{
-~~ Literature or other references for background information ~~
+%~~ Literature or other references for background information ~~
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
+%~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
+%~~ the R documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+%~~ Optional links to other man pages, e.g. ~~
+%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
-~~ simple examples of the most important functions ~~
+%~~ simple examples of the most important functions ~~
+
 }

@@ -9,7 +9,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-doMolecularData1DPops(distance, pObs, nSamples)
+hzar.doMolecularData1DPops(distance, pObs, nSamples)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
