@@ -4,29 +4,26 @@
 \docType{package}
 \title{
   Hybrid Zone Analysis using R
-  %What the package does (short line)
-%~~ package title ~~
 }
 \description{
 More about what it does (maybe more than one line)
-%~~ A concise (1-5 lines) description of the package ~~
+% ~~ A concise (1-5 lines) description of the package ~~
 }
 \details{
 \tabular{ll}{
 Package: \tab hzar\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2011-10-08\cr
-License: \tab What license is it under?\cr
+Version: \tab 0.1-1\cr
+Date: \tab 2011-10-19\cr
+License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
 %~~ An overview of how to use the package, including the most important ~~
 %~~ functions ~~
 }
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
+ Graham Derryberry
+Maintainer:  Graham Derryberry <asterion@alum.mit.edu>
 %~~ The author and/or maintainer of the package ~~
 }
 \references{

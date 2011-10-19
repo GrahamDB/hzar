@@ -1,11 +1,11 @@
 Package: hzar
 Type: Package
 Title: Hybrid Zone Analysis using R
-Version: 0.1
-Date: 2011-10-06
+Version: 0.1-1
+Date: 2011-10-19
 Author: Graham Derryberry
 Maintainer: Graham Derryberry <asterion@alum.mit.edu>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: GPL (>= 2)
 LazyLoad: yes
 Depends: R (>= 2.10.0), MCMCpack, foreach
