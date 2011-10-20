@@ -1,8 +1,8 @@
 Package: hzar
 Type: Package
 Title: Hybrid Zone Analysis using R
-Version: 0.1-1
-Date: 2011-10-19
+Version: 0.1-2
+Date: 2011-10-20
 Author: Graham Derryberry
 Maintainer: Graham Derryberry <asterion@alum.mit.edu>
 Description: More about what it does (maybe more than one line)
