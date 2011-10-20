@@ -3,13 +3,19 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Plot a cline region for multiple models and / or loci. 
-%%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-hzar.overPlot.fzCline(dataGroupSet, fzClineSet = sapply(dataGroupSet, hzar.getCredParamRed, simplify = FALSE), type = "p", fzDens = 8, fzShadeAngle = ((1:length(dataGroupSet)) * 180)%/%(1 + length(dataGroupSet)), ...)
+hzar.overPlot.fzCline(dataGroupSet,
+fzClineSet = sapply(
+dataGroupSet, hzar.getCredParamRed, simplify = FALSE),
+type = "p",
+fzDens = 8,
+fzShadeAngle = ((1:length(dataGroupSet)) * 180)
+\%/\% (1 + length(dataGroupSet)),
+...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
