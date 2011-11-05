@@ -470,6 +470,16 @@ obs=NULL;
     } else {
       stop("Class of data unknown.");
     }
+  }else{
+    if(inherits(data,"clineSampleData1D")){
+      
+      dist=data$frame$dist;
+      obs=data$frame$obsFreq;
+    } else if(inherits(data,"clineSampleData1DCLT")){
+      
+      dist=data$frame$dist;
+      obs=data$frame$obsMean;
+    }
   }
   if(identical(tolower(direction),"ascending")){
     myModel=ascending.cline;

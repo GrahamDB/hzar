@@ -6,8 +6,12 @@ hzar.sameModel <- function(fitA, fitB){
      !inherits(fitB, c("hzar.fitRequest","hzar.dataGroup")) ){
     stop("Can only compare hzar.fitRequest or hzar.dataGroup objects.");
   }
-  return(isTRUE(all.equal(hzar.extract.modelPrep(fitA),
-                          hzar.extract.modelPrep(fitB))));
+  if(!hzar.sameObsData(fitA,fitB))
+    return(FALSE);
+  chkA=hzar.extract.modelPrep(fitA);
+  chkB=hzar.extract.modelPrep(fitB);
+  return(all(identical(body(chkA$model.gen),body(chkB$model.gen)),
+             identical(chkA$new.formals,chkB$new.formals) ));
 
 }
 
