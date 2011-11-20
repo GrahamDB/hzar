@@ -13,7 +13,7 @@
   A data frame with 213 observations on the following 14 variables.
   \describe{
    
-    \item{\code{Population}}{a numeric vector}
+    \item{\code{PopulationID}}{a factor}
     \item{\code{Location}}{a factor with levels \code{Chiriqui Grande} \code{Costa Rica} \code{Quebrada Pastores} \code{Rio Changuinola} \code{Rio Oeste} \code{Rio Robalo} \code{Rio Sixaola} \code{Rio Teribe} \code{Rio Uyama} \code{Soberania} \code{Tierra Oscura} \code{Valiente Peninsula}}
     \item{\code{TissueID}}{a factor}
     \item{\code{Mass}}{a numeric vector}

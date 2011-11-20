@@ -2,7 +2,8 @@
 \alias{manakinLocations}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+  Distance from population A for each population.
+  %%   ~~ data name/kind ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
