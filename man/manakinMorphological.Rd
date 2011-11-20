@@ -2,6 +2,7 @@
 \alias{manakinMorphological}
 \docType{data}
 \title{
+  Manakin observed Morphological Traits
 %%   ~~ data name/kind ... ~~
 }
 \description{
