@@ -1,14 +1,14 @@
-\name{mannequinMolecular}
-\alias{mannequinMolecular}
+\name{manakinMolecular}
+\alias{manakinMolecular}
 \docType{data}
 \title{
-  Molecular data samples for multiple loci accross the Mannequin Cline.
+  Molecular data samples for multiple loci accross the Manakin Cline.
 %%   ~~ data name/kind ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
 }
-\usage{data(mannequinMolecular)}
+\usage{data(manakinMolecular)}
 \format{
   A data frame with 11 observations on the following 30 variables.
   \describe{
@@ -54,7 +54,7 @@
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-data(mannequinMolecular)
-## maybe str(mannequinMolecular) ; plot(mannequinMolecular) ...
+data(manakinMolecular)
+## maybe str(manakinMolecular) ; plot(manakinMolecular) ...
 }
 \keyword{datasets}
