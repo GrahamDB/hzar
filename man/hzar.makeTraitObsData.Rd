@@ -2,6 +2,7 @@
 \alias{hzar.makeTraitObsData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Compile and transform raw scalar data into hzar.obsData objects 
 %%  ~~function to do ... ~~
 }
 \description{

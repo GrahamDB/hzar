@@ -1,14 +1,25 @@
 \name{hzar.model.addBoxReq}
 \alias{hzar.model.addBoxReq}
+\alias{hzar.model.addCenterRange}
+\alias{hzar.model.addMaxCenter}
+\alias{hzar.model.addMinCenter}
+\alias{hzar.model.addMaxDelta}
+\alias{hzar.model.addMaxWidth}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+  Add parameter restriction clauses to cline model
+  %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 hzar.model.addBoxReq(meta.model, low, high)
+hzar.model.addCenterRange(meta.model, low, high)
+hzar.model.addMaxCenter(meta.model, maxValue)
+hzar.model.addMinCenter(meta.model, minValue)
+hzar.model.addMaxDelta(meta.model, maxValue)
+hzar.model.addMaxWidth(meta.model, maxValue)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +30,12 @@ hzar.model.addBoxReq(meta.model, low, high)
 %%     ~~Describe \code{low} here~~
 }
   \item{high}{
+%%     ~~Describe \code{high} here~~
+}
+  \item{minValue}{
+%%     ~~Describe \code{high} here~~
+}
+  \item{maxValue}{
 %%     ~~Describe \code{high} here~~
 }
 }

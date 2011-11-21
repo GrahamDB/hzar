@@ -2,6 +2,7 @@
 \alias{hzar.dBernoulli.LL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Transformations of Scalar Data into Bernoulli Trials 
 %%  ~~function to do ... ~~
 }
 \description{

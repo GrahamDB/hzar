@@ -2,6 +2,7 @@
 \alias{hzar.doMorphoSets}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
+  Make hzar.obsData objects from scalar observations using reference tables 
 %%  ~~function to do ... ~~
 }
 \description{

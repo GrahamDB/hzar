@@ -5,27 +5,27 @@ model.addReqClause <- function(meta.model,newClause){
   return(meta.model);
 }
 
-hzar.model.addMaxWidth <- function(meta.model,maxWidth){
-  clause <- substitute(width<V,list(V=maxWidth));
-  attr(meta.model$parameterTypes$width,"limit.upper") <- maxWidth;
+hzar.model.addMaxWidth <- function(meta.model,maxValue){
+  clause <- substitute(width<V,list(V=maxValue));
+  attr(meta.model$parameterTypes$width,"limit.upper") <- maxValue;
   return(model.addReqClause(meta.model,clause));
 }
 
-hzar.model.addMaxCenter <- function(meta.model,maxCenter){
-  clause <- substitute(center<V,list(V=maxCenter));
-  attr(meta.model$parameterTypes$center,"limit.upper") <- maxCenter;
+hzar.model.addMaxCenter <- function(meta.model,maxValue){
+  clause <- substitute(center<V,list(V=maxValue));
+  attr(meta.model$parameterTypes$center,"limit.upper") <- maxValue;
   return(model.addReqClause(meta.model,clause));
 }
 
-hzar.model.addMaxDelta <- function(meta.model,maxDelta){
+hzar.model.addMaxDelta <- function(meta.model,maxValue){
   if(identical(attr(meta.model,"tails"),"none"))
     return(meta.model);
   
-  clauseL <- substitute(deltaL<V,list(V=maxDelta));
-  clauseM <- substitute(deltaM<V,list(V=maxDelta));
-  clauseR <- substitute(deltaR<V,list(V=maxDelta));
+  clauseL <- substitute(deltaL<V,list(V=maxValue));
+  clauseM <- substitute(deltaM<V,list(V=maxValue));
+  clauseR <- substitute(deltaR<V,list(V=maxValue));
   assignLimit <- function(param){
-    attr(meta.model$parameterTypes[[param]],"limit.upper") <<- maxDelta;
+    attr(meta.model$parameterTypes[[param]],"limit.upper") <<- maxValue;
   }
   if(identical(attr(meta.model,"tails"),"both")){
     assignLimit("deltaL");
@@ -47,9 +47,9 @@ hzar.model.addMaxDelta <- function(meta.model,maxDelta){
   }
   
 }
-hzar.model.addMinCenter <- function(meta.model,minCenter){
-  clause <- substitute(center>V,list(V=minCenter));
-  attr(meta.model$parameterTypes$center,"limit.lower") <- minCenter;
+hzar.model.addMinCenter <- function(meta.model,minValue){
+  clause <- substitute(center>V,list(V=minValue));
+  attr(meta.model$parameterTypes$center,"limit.lower") <- minValue;
   return(model.addReqClause(meta.model,clause));
 }
 
