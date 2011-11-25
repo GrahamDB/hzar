@@ -48,7 +48,10 @@ hzar.makeTraitObsData <- function(distOfLocation,locationOfValue,values){
 hzar.doMorphoSets <- function(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol){
   distOfLocation <- tDist[[tDDistCol]];
   names(distOfLocation) <- tDist[[tDLocCol]];
-  
+  distOfLocation[sapply(levels(tDist[[tDLocCol]]),
+                        function(x,ids) which(ids==x)[[1]],
+                        tDist[[tDLocCol]])]->distOfLocation;
+
   res <- lapply(traitNames,
                 function(id) {
                   tVal <- tValues[!is.na(tValues[[id]]),c(tVLocCol,id)]

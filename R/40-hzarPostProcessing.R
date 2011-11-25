@@ -8,8 +8,8 @@ hzar.sameModel <- function(fitA, fitB){
   }
   if(!hzar.sameObsData(fitA,fitB))
     return(FALSE);
-  chkA=hzar.extract.modelPrep(fitA);
-  chkB=hzar.extract.modelPrep(fitB);
+  chkA=cline.extract.modelPrep(fitA);
+  chkB=cline.extract.modelPrep(fitB);
   return(all(identical(body(chkA$model.gen),body(chkB$model.gen)),
              identical(chkA$new.formals,chkB$new.formals) ));
 
@@ -77,7 +77,7 @@ hzar.copyModelLabels<-function(group1,group2){
 ## Extract meta model object?
 ## as.list(environment(fitRequest$llFunc))
 
-hzar.extract.modelPrep <- function(fitRequest){
+cline.extract.modelPrep <- function(fitRequest){
   if(inherits(fitRequest, c("hzar.fitRequest","hzar.dataGroup"))){
     llFunc<-fitRequest$llFunc;
   }else if(is.function(fitRequest)){
@@ -90,12 +90,12 @@ hzar.extract.modelPrep <- function(fitRequest){
 hzar.extract.old.model.gen <- function(fitRequest){
   ##returns a function of TTT, the list of free parameters
   
-  return(hzar.extract.modelPrep(fitRequest)$model.gen);
+  return(cline.extract.modelPrep(fitRequest)$model.gen);
 }
 
 hzar.extract.old.model.req <- function(fitRequest){
   ##returns a function of TTT, the list of free parameters
-  return(hzar.extract.modelPrep(fitRequest)$model.req);
+  return(cline.extract.modelPrep(fitRequest)$model.req);
 }
 
 ## hzar.extract.old.model.prior <- function(fitRequest){
@@ -114,7 +114,7 @@ hzar.extract.obsData <- function(fitRequest) {
     return(fitRequest);
   }
       
-  return(as.list(environment(hzar.extract.modelPrep(fitRequest)$model.LL))$obj);
+  return(as.list(environment(cline.extract.modelPrep(fitRequest)$model.LL))$obj);
 }
 
 ## Cline Object (free parameter values, parameter values, cline
@@ -132,7 +132,7 @@ hzar.make.cline<-function(free.parameters,parameters,func,LL,isValid=is.function
 
 hzar.gen.cline<-function(free.parameters,fitRequest){
   ## print(free.parameters);
-  context<-hzar.extract.modelPrep(fitRequest);
+  context<-cline.extract.modelPrep(fitRequest);
   cline.func<-NULL;
   cline.param<-c(as.list(free.parameters),context$param.fixed)
   
