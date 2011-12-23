@@ -6,7 +6,9 @@
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Calls MCMCmetrop1R using the parameters encoded in the passed
+  hzar.fitRequest object.
+  %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 hzar.doFit(fitRequest)
@@ -14,6 +16,8 @@ hzar.doFit(fitRequest)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
+    An object of class hzar.fitRequest.
+    
 %%     ~~Describe \code{fitRequest} here~~
 }
 }
@@ -21,17 +25,16 @@ hzar.doFit(fitRequest)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  An updated hzar.fitRequest object. The fit.run attribute is set to
+  TRUE.  If MCMCmetrop1R ran to completion, the fit.success, the fit.run
+  attribute is set to TRUE.  The $mcmcRaw field points to the mcmc
+  object returned by MCMCmetrop1R. 
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry
 }
 \note{
 %%  ~~further notes~~
@@ -40,6 +43,8 @@ hzar.doFit(fitRequest)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  MCMCmetrop1R
+  hzar.make.fitRequest
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -77,5 +82,5 @@ function (fitRequest)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ multivariate }
+\keyword{ datagen }% __ONLY ONE__ keyword per line
