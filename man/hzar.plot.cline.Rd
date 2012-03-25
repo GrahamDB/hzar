@@ -6,7 +6,10 @@
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Plots a line representing the expected frequency versus distance for
+  the given object.  For hzar.dataGroup and hzar.obsDataGroup objects,
+  plots the observed data backing the model. For hzar.obsDataGroup
+  objects, plots the maximum likelihood cline for each model.
 }
 \usage{
 hzar.plot.cline(cline, add = FALSE, ...)
@@ -14,38 +17,44 @@ hzar.plot.cline(cline, add = FALSE, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cline}{
-%%     ~~Describe \code{cline} here~~
+    A hzar.cline, hzar.dataGroup or hzar.obsDataGroup object.
 }
   \item{add}{
-%%     ~~Describe \code{add} here~~
+    Add to an existing plot if TRUE.
 }
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+\item{\dots}{
+  Arguments to be passed to methods, such as graphical
+  parameters (see ‘plot’).
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
+%%\value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
+%%}
+
+
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
+
 \author{
+  Graham Derryberry <email: asterion@alum.mit.edu>
 %%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{plot}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -53,25 +62,27 @@ hzar.plot.cline(cline, add = FALSE, ...)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (cline, add = FALSE, ...) 
-{
-    if (inherits(cline, "hzar.cline")) 
-        curve(cline$clineFunc(x), add = add, ...)
-    if (inherits(cline, c("hzar.dataGroup", "hzar.fitRequest"))) {
-        dataGroup <- hzar.fit2DataGroup(cline)
-        hzar.plot.obsData(dataGroup, add = add, ...)
-        hzar.plot.cline(hzar.get.ML.cline(dataGroup), add = TRUE, 
-            ...)
-    }
-    if (inherits(cline, c("hzar.obsDataGroup"))) {
-        hzar.plot.obsData(cline, add = add, ...)
-        lapply(cline$data.groups, function(dataGroup) hzar.plot.cline(hzar.get.ML.cline(dataGroup), 
-            add = TRUE, ...))
-    }
-  }
+data
+
+% ## The function is currently defined as
+% function (cline, add = FALSE, ...) 
+% {
+%     if (inherits(cline, "hzar.cline")) 
+%         curve(cline$clineFunc(x), add = add, ...)
+%     if (inherits(cline, c("hzar.dataGroup", "hzar.fitRequest"))) {
+%         dataGroup <- hzar.fit2DataGroup(cline)
+%         hzar.plot.obsData(dataGroup, add = add, ...)
+%         hzar.plot.cline(hzar.get.ML.cline(dataGroup), add = TRUE, 
+%             ...)
+%     }
+%     if (inherits(cline, c("hzar.obsDataGroup"))) {
+%         hzar.plot.obsData(cline, add = add, ...)
+%         lapply(cline$data.groups, function(dataGroup) hzar.plot.cline(hzar.get.ML.cline(dataGroup), 
+%             add = TRUE, ...))
+%     }
+%   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%% \keyword{ ~kwd1 }
+%% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
