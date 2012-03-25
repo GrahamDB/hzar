@@ -371,12 +371,12 @@ hzar.AICc.default <- function(maxLL,param.count,nObs){
 
 ## hzar.cline
 
-hzar.AIC.hzar.cline <- function(maxLL){
-  return(hzar.AIC.default(maxLL$logLike,length(maxLL$param.free)));
+hzar.AIC.hzar.cline <- function(cline){
+  return(hzar.AIC.default(cline$logLike,length(cline$param.free)));
 }
 
-hzar.AICc.hzar.cline <- function(maxLL,nObs){
-  return(hzar.AICc.default(maxLL$logLike,length(maxLL$param.free),nObs));
+hzar.AICc.hzar.cline <- function(cline,nObs){
+  return(hzar.AICc.default(cline$logLike,length(cline$param.free),nObs));
 }
 
 ## hzar.dataGroup
