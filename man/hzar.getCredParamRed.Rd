@@ -39,6 +39,7 @@ hzar.getCredParamRed(dataGroup)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{hzar.make.fzCline}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
