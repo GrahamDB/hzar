@@ -54,9 +54,10 @@ hzar.plot.obsData(x, type = "p", pch = "+", xlab = "Distance", ylab = hzar.yLabe
 % %%  \item{comp2 }{Description of 'comp2'}
 % %% ...
 % }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+%   Software Note
+%   %% ~put references to the literature/web site here ~
+% }
 \author{
   Graham Derryberry <email: asterion@alum.mit.edu>
 
@@ -69,7 +70,7 @@ hzar.plot.obsData(x, type = "p", pch = "+", xlab = "Distance", ylab = hzar.yLabe
 
 \seealso{
   \code{\link{plot}}
-  \code{\link{ hzar.extract.obsData}}
+  \code{\link{hzar.extract.obsData}}
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----

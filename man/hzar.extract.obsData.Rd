@@ -43,9 +43,9 @@ hzar.extract.obsData(fitRequest)
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-  % \code{\link{hzar.}}
-}
+% \seealso{
+%   % \code{\link{hzar.}}
+% }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
