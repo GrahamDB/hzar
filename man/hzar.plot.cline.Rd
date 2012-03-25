@@ -24,7 +24,7 @@ hzar.plot.cline(cline, add = FALSE, ...)
 }
 \item{\dots}{
   Arguments to be passed to methods, such as graphical
-  parameters (see ‘plot’).
+  parameters (see \code{\link{plot}}).
 }
 }
 % \details{
