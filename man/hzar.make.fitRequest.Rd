@@ -66,12 +66,12 @@ hzar.make.fitRequest(modelParameters, covMatrix, clineLLfunc, mcmcParameters, mc
 }
 \details{
   For modelParameters, the list must have the following entries:
-  
+  \itemize{
   \item{$init}{A named list with the initial values of the free
     parameters. Used as theta.init in \code{\link{MCMCmetrop1R}}.}
   \item{$tune}{A named list with the tuning values of the free
     parameters. Used as tune in \code{\link{MCMCmetrop1R}}.}
-  
+  }
   %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
@@ -81,12 +81,12 @@ hzar.make.fitRequest(modelParameters, covMatrix, clineLLfunc, mcmcParameters, mc
   A list with values:
   \item{$modelParam}{ modelParameters from above.}
   \item{$cM }{covMatrix from above.}
-  \item{$llFunc} {clineLLfunc from above.}
-  \item{$mcmcParam} {mcmcParameters from above.}
-  \item{$mcmcRaw} {mcmcRaw from above.}
+  \item{$llFunc}{clineLLfunc from above.}
+  \item{$mcmcParam}{mcmcParameters from above.}
+  \item{$mcmcRaw}{mcmcRaw from above.}
   and with attributes:
-  \item{"fit.run"} {fit.run from above.}
-  \item{"fit.success"} {fit.success from above.}
+  \item{"fit.run"}{fit.run from above.}
+  \item{"fit.success"}{fit.success from above.}
     
 %% ...
 }
