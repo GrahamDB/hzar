@@ -59,7 +59,7 @@ hzar.plot.obsData(x, type = "p", pch = "+", xlab = "Distance", ylab = hzar.yLabe
 %   %% ~put references to the literature/web site here ~
 % }
 \author{
-  Graham Derryberry <email: asterion@alum.mit.edu>
+  Graham Derryberry \email{asterion@alum.mit.edu}
 
 }
 % \note{

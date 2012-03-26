@@ -44,8 +44,8 @@ hzar.plot.cline(cline, add = FALSE, ...)
 % }
 
 \author{
-  Graham Derryberry <email: asterion@alum.mit.edu>
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
+
 }
 % \note{
 % %%  ~~further notes~~

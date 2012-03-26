@@ -50,7 +50,7 @@ hzar.sameObsData(fitA, fitB)
 % %% ~put references to the literature/web site here ~
 % }
 \author{
-  Graham Derryberry <email: asterion@alum.mit.edu>
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
 
 % \note{

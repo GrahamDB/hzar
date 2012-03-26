@@ -1,5 +1,6 @@
 \name{hzar.doFit}
 \alias{hzar.doFit}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Run the optimizer.
@@ -10,6 +11,7 @@
 }
 \usage{
 hzar.doFit(fitRequest)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,6 +33,8 @@ hzar.doFit(fitRequest)
 %% ~put references to the literature/web site here ~
 }
 \author{
+  Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{

@@ -60,8 +60,8 @@ hzar.AICc.hzar.dataGroup(dataGroup)
 % %% ~put references to the literature/web site here ~
 % }
 \author{
-  Graham Derryberry <email: asterion@alum.mit.edu>
-
+  Graham Derryberry \email{asterion@alum.mit.edu}
+  
 }
 % \note{
 % %%  ~~further notes~~

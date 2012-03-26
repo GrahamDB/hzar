@@ -34,7 +34,8 @@ hzar.extract.obsData(fitRequest)
 % %% ~put references to the literature/web site here ~
 % }
 \author{
-  Graham Derryberry <email: asterion@alum.mit.edu>
+  Graham Derryberry \email{asterion@alum.mit.edu}
+
 }
 \note{
   This function if passed a hzar.obsData objects returns the same
