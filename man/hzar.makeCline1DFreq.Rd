@@ -1,8 +1,10 @@
 \name{hzar.makeCline1DFreq}
 \alias{hzar.makeCline1DFreq}
+\alias{hzar.makeCline1DCLT}
+\alias{clineMetaModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a frequency cline model with the requested attributes.
+  Make a cline model with the requested attributes.
 %%  ~~function to do ... ~~
 }
 \description{
@@ -10,6 +12,8 @@
 }
 \usage{
 hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = NULL)
+hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = NULL)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +34,7 @@ hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = 
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
+  A \code{clineMetaModel} object. 
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
@@ -40,7 +45,7 @@ hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = 
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
 \note{
 %%  ~~further notes~~
@@ -56,35 +61,51 @@ hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = 
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (data = NULL, scaling = "none", tails = "none", direction = NULL) 
-{
-    if (identical(tolower(tails), "none")) {
-        return(makeSimpleCline1D(data, scaling, direction))
-    }
-    else if (identical(tolower(tails), "both")) {
-        return(makeTailedCline1D(data, scaling, direction))
-    }
-    else if (identical(tolower(tails), "right")) {
-        myRightCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.rtail.scaled.ascending, hzar.meta.rtail.scaled.descending)
-        attr(myRightCline, "tails") <- "right"
-        return(myRightCline)
-    }
-    else if (identical(tolower(tails), "left")) {
-        myLeftCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.ltail.scaled.ascending, hzar.meta.ltail.scaled.descending)
-        attr(myLeftCline, "tails") <- "left"
-        return(myLeftCline)
-    }
-    else if (identical(tolower(tails), "mirror")) {
-        myMirrorCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.mtail.scaled.ascending, hzar.meta.mtail.scaled.descending)
-        attr(myMirrorCline, "tails") <- "mirror"
-        return(myMirrorCline)
-    }
-    stop(paste("Cline with", tails, "tail(s) not available."))
-  }
+% ## The function is currently defined as
+% function (data = NULL, scaling = "none", tails = "none", direction = NULL) 
+% {
+%     if (identical(tolower(tails), "none")) {
+%         return(makeSimpleCline1D(data, scaling, direction))
+%     }
+%     else if (identical(tolower(tails), "both")) {
+%         return(makeTailedCline1D(data, scaling, direction))
+%     }
+%     else if (identical(tolower(tails), "right")) {
+%         myRightCline <- buildCline1D(data, scaling, direction, 
+%             hzar.meta.rtail.scaled.ascending, hzar.meta.rtail.scaled.descending)
+%         attr(myRightCline, "tails") <- "right"
+%         return(myRightCline)
+%     }
+%     else if (identical(tolower(tails), "left")) {
+%         myLeftCline <- buildCline1D(data, scaling, direction, 
+%             hzar.meta.ltail.scaled.ascending, hzar.meta.ltail.scaled.descending)
+%         attr(myLeftCline, "tails") <- "left"
+%         return(myLeftCline)
+%     }
+%     else if (identical(tolower(tails), "mirror")) {
+%         myMirrorCline <- buildCline1D(data, scaling, direction, 
+%             hzar.meta.mtail.scaled.ascending, hzar.meta.mtail.scaled.descending)
+%         attr(myMirrorCline, "tails") <- "mirror"
+%         return(myMirrorCline)
+%     }
+%     stop(paste("Cline with", tails, "tail(s) not available."))
+%   }
+% ## The function is currently defined as
+% function (data = NULL, scaling = "free", tails = "none", direction = NULL) 
+% {
+%     if (identical(tolower(tails), "none")) {
+%         return(buildCline1D(data, scaling, direction, hzar.meta.CLTnA, 
+%             hzar.meta.CLTnD))
+%     }
+%     else if (identical(tolower(tails), "right")) {
+%         myRightCline <- buildCline1D(data, scaling, direction, 
+%             hzar.meta.CLTrA, hzar.meta.CLTrD)
+%         attr(myRightCline, "tails") <- "right"
+%         return(myRightCline)
+%     }
+%     stop(paste("Cline with", tails, "tail(s) not available."))
+%   }
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
