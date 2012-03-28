@@ -19,32 +19,42 @@ hzar.doCLTData1DPops(distance, muObs, varObs, nSamples)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  All arguments should be of the same length.
   \item{distance}{
-%%     ~~Describe \code{distance} here~~
-}
+    The distance of each population. If the same distance is given
+    multiple times, then multiple sites are assumed to be at that
+    distance.
+  }
   \item{pObs}{
-%%     ~~Describe \code{pObs} here~~
-}
+    The observed frequency at each site.
+  }
   \item{nSamples}{
-%%     ~~Describe \code{nSamples} here~~
-}
+    The numbered of samples observed at each site.
+  }
   \item{muObs}{
-%%     ~~Describe \code{muObs} here~~
-}
+    The mean trait value observed at each site.
+  }
   \item{varObs}{
-%%     ~~Describe \code{varObs} here~~
-}
-
+    The trait variance observed at each site.
+  }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  For \code{hzar.doCLTData1DPops}, \code{varObs} must not be less than
+  zero, and should be greater than zero. If equal to zero, the method
+  will attempt to estimate the number of significant digits in the
+  observed trait value, and use that to calculate additional variance
+  due to measurement error at each site, and add that variance to the
+  observed variance for each site.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
- \item{frame}{Description of 'comp1'}
-  \item{model.LL}{A function }
-%% ...
+  A \code{hzar.obsData} object with the following structure.
+  %%  ~Describe the value returned
+  %%  If it is a LIST, use
+  \item{frame}{A data.frame composed of the arguments.}
+  \item{model.LL}{A function of one argument that returns a log
+    likelihood.  The argument is a function of distance that estimates
+    either frequency or trait value as appropriate.}
+  %% ...
 }
 \references{
 %% ~put references to the literature/web site here ~

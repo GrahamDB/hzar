@@ -18,28 +18,74 @@ hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = N
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-%%     ~~Describe \code{data} here~~
-}
+    A \code{\link{hzar.obsData}} object, used to determine cline
+    direction and estimate initial values.
+    %%     ~~Describe \code{data} here~~
+  }
   \item{scaling}{
-%%     ~~Describe \code{scaling} here~~
-}
+    Can be one of three strings:
+    \itemize{
+      \item{"none"}{A model with fixed minimum value 0 and maximum value 1
+	is desired.}
+      \item{"fixed"}{A model with minimum and maximum values fixed to the
+	minimum and maxumimum observed mean values of \code{data} is
+	desired.} 
+      \item{"free"}{A model with the minimum and maximum value as free
+	parameters is desired.}
+    }
+    %%     ~~Describe \code{scaling} here~~
+  }
   \item{tails}{
-%%     ~~Describe \code{tails} here~~
-}
+    Can be one of five strings:
+    \itemize{
+      \item{"none"}{A model with no exponential tails is desired}
+      \item{"right"}{A model with just one exponential tail on the right
+	is desired.} 
+      \item{"left"}{A model with just one exponential tail on the left is
+	desired.} 
+      \item{"mirror"}{A model with two exponential tails mirrored about
+	the cline center is desired.}
+      \item{"both"}{A model with two tails with independent parameters is
+	desired.} 
+    }
+  }
   \item{direction}{
-%%     ~~Describe \code{direction} here~~
+    Can be one of three values:
+    \itemize{
+      \item{NULL}{Determine direction using \code{data}}
+      \item{"ascending"}{A model whose estimates increase as the site
+	distance increases is desired.}
+      \item{"descending"}{A model whose estimates decrease as the site
+	distance increases is desired.}
+    }
+    %%     ~~Describe \code{direction} here~~
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-  A \code{clineMetaModel} object. 
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{clineMetaModel} object, which is a list with the following
+  4 components:
+  \item{req}{A boolean function of the model parameters w}
+  \item{prior}{Description of 'comp1'}
+  \item{func}{Description of 'comp1'}
+  \item{parameterTypes}{A list of \code{clineParameter} objects, named
+    with the parameter names.
+    A \code{clineParameter} object structure:
+    \itemize{
+      \item{}{Components:}
+      \item{val}{The initial or fixed value.}
+      \item{w}{The parameter tuning.}
+      \item{}{Attributes:}
+      \item{"param"}{The parameter name.}
+      \item{"fixed"}{TRUE if the parameter is fixed.}
+      \item{"limit.lower"}{The parameter minimum finite value.}
+      \item{"limit.upper"}{The parameter maximum finite value.}
+      \item{"realBTWN01"}{The parameter is restricted to between 0 and
+	1.} 
+      }
+    }
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -47,13 +93,16 @@ hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = N
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{hzar.obsData}}
+  \code{\link{hzar.first.fitRequest.old.ML}}
+  
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -107,7 +156,7 @@ hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = N
 %   }
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
