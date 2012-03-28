@@ -6,6 +6,7 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  This method assists in assigning appropriate values for controller \code{\link{MCMCmetrop1R}} optimizer.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -14,53 +15,61 @@ hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{chainLength}{
-%%     ~~Describe \code{chainLength} here~~
-}
+    How many generations to run the mcmc process after burn-in.
+    %%     ~~Describe \code{chainLength} here~~
+  }
   \item{burnin}{
-%%     ~~Describe \code{burnin} here~~
-}
+    How many initial generations are to be considered burn-in and discarded.
+    %%     ~~Describe \code{burnin} here~~
+  }
   \item{verbosity}{
-%%     ~~Describe \code{verbosity} here~~
-}
+    If 0, output nothing while mcmc process is running.
+    If positive, print the model state every verbosity generations after burn-in.
+  }
   \item{thin}{
-%%     ~~Describe \code{thin} here~~
-}
+    Keep only states whose number of generations after burn-in is evenly
+    divisible by thin.
+  }
   \item{seedStreamChannel}{
-%%     ~~Describe \code{seedStreamChannel} here~~
-}
+    In the lecuyer random number generator, use channel \code{seedStreamChannel}.
+  }
   \item{useSeedStream}{
-%%     ~~Describe \code{useSeedStream} here~~
-}
+    If TRUE, use the lecuyer random number generator.
+    If FALSE, use the mersenne random number generator.
+  }
   \item{mersenneSeed}{
-%%     ~~Describe \code{mersenneSeed} here~~
-}
+    Seed for the mersenne random number generator.
+  }
   \item{lecuyerSeed}{
-%%     ~~Describe \code{lecuyerSeed} here~~
+    Seed for the lecuyer random number generator.
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A list of 5 values:
+  \item{chainLength}{The value of the mcmc argument for \code{\link{MCMCmetrop1R}}.}
+  \item{burnin}{The value of the burnin argument for \code{\link{MCMCmetrop1R}}.}
+  \item{verbosity}{The value of the verbose argument for \code{\link{MCMCmetrop1R}}.}
+  \item{thin}{The value of the thin argument for \code{\link{MCMCmetrop1R}}.}
+  \item{seed}{The value of the seed argument for \code{\link{MCMCmetrop1R}}.}
+  
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{MCMCmetrop1R}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{

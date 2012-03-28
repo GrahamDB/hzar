@@ -8,7 +8,9 @@
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Constructs a \code{clineMetaModel} object for use with
+  \code{\link{hzar.first.fitRequest.old.ML}}.  Said object can be
+  further tailored to the specific model desired, or can be used as-is.
 }
 \usage{
 hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = NULL)
