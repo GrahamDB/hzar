@@ -5,6 +5,8 @@
   Get the region of parameter space close to the maximum likelihood
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -36,6 +38,8 @@ hzar.getLLCutParam(dataGroups, params, cutValue = 2)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -52,36 +56,36 @@ hzar.getLLCutParam(dataGroups, params, cutValue = 2)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (dataGroups, params, cutValue = 2) 
-{
-    params <- as.character(params)
-    if (inherits(dataGroups, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        dataGroups <- hzar.fit2DataGroup(dataGroups)
-    }
-    else if (is.list(dataGroups)) {
-        if (is.character(names(dataGroups))) {
-            return(do.call(rbind, sapply(names(dataGroups), function(x) hzar.getLLCutParam(dataGroups[[x]], 
-                params, cutValue), simplify = FALSE)))
-        }
-        return(do.call(rbind, lapply(dataGroups, hzar.getLLCutParam, 
-            params, cutValue)))
-    }
-    else {
-        stop("hzar.getLLCutParam does not understand class of dataGroups.")
-    }
-    data.param = dataGroups$data.param[dataGroups$data.LL$model.LL > 
-        max(dataGroups$data.LL$model.LL - cutValue), ]
-    tempFunc <- function(x) {
-        res <- list(min(data.param[[x]]), max(data.param[[x]]))
-        names(res) <- paste(x, cutValue, "LL", c("Low", "High"), 
-            sep = "")
-        return(res)
-    }
-    return(do.call(data.frame, do.call(c, lapply(params, tempFunc))))
-  }
+% ## The function is currently defined as
+% function (dataGroups, params, cutValue = 2) 
+% {
+%     params <- as.character(params)
+%     if (inherits(dataGroups, c("hzar.fitRequest", "hzar.dataGroup"))) {
+%         dataGroups <- hzar.fit2DataGroup(dataGroups)
+%     }
+%     else if (is.list(dataGroups)) {
+%         if (is.character(names(dataGroups))) {
+%             return(do.call(rbind, sapply(names(dataGroups), function(x) hzar.getLLCutParam(dataGroups[[x]], 
+%                 params, cutValue), simplify = FALSE)))
+%         }
+%         return(do.call(rbind, lapply(dataGroups, hzar.getLLCutParam, 
+%             params, cutValue)))
+%     }
+%     else {
+%         stop("hzar.getLLCutParam does not understand class of dataGroups.")
+%     }
+%     data.param = dataGroups$data.param[dataGroups$data.LL$model.LL > 
+%         max(dataGroups$data.LL$model.LL - cutValue), ]
+%     tempFunc <- function(x) {
+%         res <- list(min(data.param[[x]]), max(data.param[[x]]))
+%         names(res) <- paste(x, cutValue, "LL", c("Low", "High"), 
+%             sep = "")
+%         return(res)
+%     }
+%     return(do.call(data.frame, do.call(c, lapply(params, tempFunc))))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

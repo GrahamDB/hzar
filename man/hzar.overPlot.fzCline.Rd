@@ -5,6 +5,8 @@
   Plot a cline region for multiple models and / or loci. 
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -52,6 +54,8 @@ fzShadeAngle = ((1:length(dataGroupSet)) * 180)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -68,14 +72,14 @@ fzShadeAngle = ((1:length(dataGroupSet)) * 180)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (dataGroupSet, fzClineSet = sapply(dataGroupSet, hzar.getCredParamRed, 
-    simplify = FALSE), type = "p", fzDens = 8, fzShadeAngle = ((1:length(dataGroupSet)) * 
-    180)\%/\%(1 + length(dataGroupSet)), ...) 
-{
-  }
+% ## The function is currently defined as
+% function (dataGroupSet, fzClineSet = sapply(dataGroupSet, hzar.getCredParamRed, 
+%     simplify = FALSE), type = "p", fzDens = 8, fzShadeAngle = ((1:length(dataGroupSet)) * 
+%     180)\%/\%(1 + length(dataGroupSet)), ...) 
+% {
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

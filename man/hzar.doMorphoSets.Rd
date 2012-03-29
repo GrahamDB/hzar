@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -46,6 +48,8 @@ hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -62,21 +66,21 @@ hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol) 
-{
-    distOfLocation <- tDist[[tDDistCol]]
-    names(distOfLocation) <- tDist[[tDLocCol]]
-    res <- lapply(traitNames, function(id) {
-        tVal <- tValues[!is.na(tValues[[id]]), c(tVLocCol, id)]
-        return(hzar.makeTraitObsData(distOfLocation, locationOfValue = tVal[[tVLocCol]], 
-            values = tVal[[id]]))
-    })
-    names(res) <- traitNames
-    return(res)
-  }
+% ## The function is currently defined as
+% function (traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol) 
+% {
+%     distOfLocation <- tDist[[tDDistCol]]
+%     names(distOfLocation) <- tDist[[tDLocCol]]
+%     res <- lapply(traitNames, function(id) {
+%         tVal <- tValues[!is.na(tValues[[id]]), c(tVLocCol, id)]
+%         return(hzar.makeTraitObsData(distOfLocation, locationOfValue = tVal[[tVLocCol]], 
+%             values = tVal[[id]]))
+%     })
+%     names(res) <- traitNames
+%     return(res)
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

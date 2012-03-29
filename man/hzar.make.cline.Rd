@@ -1,11 +1,14 @@
 \name{hzar.make.cline}
 \alias{hzar.make.cline}
+\alias{hzar.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Make a hzar.cline object.
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -43,6 +46,8 @@ hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(fun
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -59,16 +64,16 @@ hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(fun
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (free.parameters, parameters, func, LL, isValid = is.function(func)) 
-{
-    obj <- list(param.free = free.parameters, param.all = parameters, 
-        clineFunc = func, logLike = LL, isValid = isValid)
-    class(obj) <- "hzar.cline"
-    return(obj)
-  }
+% ## The function is currently defined as
+% function (free.parameters, parameters, func, LL, isValid = is.function(func)) 
+% {
+%     obj <- list(param.free = free.parameters, param.all = parameters, 
+%         clineFunc = func, logLike = LL, isValid = isValid)
+%     class(obj) <- "hzar.cline"
+%     return(obj)
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -40,6 +42,8 @@ hzar.qScores.getScores(xSeries, dSeries, raw.x, raw.wt)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -56,26 +60,26 @@ hzar.qScores.getScores(xSeries, dSeries, raw.x, raw.wt)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (xSeries, dSeries, raw.x, raw.wt) 
-{
-    if (length(xSeries) > 1000) {
-        cutValue <- as.integer(length(xSeries)/2) + 1
-        return(c(hzar.qScores.getScores(xSeries[1:cutValue], 
-            dSeries[1:cutValue], raw.x[raw.x <= xSeries[[cutValue]]], 
-            raw.wt[raw.x <= xSeries[[cutValue]]]), hzar.qScores.getScores(xSeries[cutValue:length(xSeries)], 
-            dSeries[cutValue:length(xSeries)], raw.x[raw.x >= 
-                xSeries[[cutValue]]], raw.wt[raw.x >= xSeries[[cutValue]]])))
-    }
-    getScore <- function(x, xS = xSeries, dS = dSeries, rx = raw.x, 
-        rwt = raw.wt) {
-        data = c(rwt[xS[[x]] == rx], rwt[xS[[x + 1]] == rx])
-        return(mean(exp(data)) * dS[[x]])
-    }
-    return(sapply(1:(length(xSeries) - 1), getScore))
-  }
+% ## The function is currently defined as
+% function (xSeries, dSeries, raw.x, raw.wt) 
+% {
+%     if (length(xSeries) > 1000) {
+%         cutValue <- as.integer(length(xSeries)/2) + 1
+%         return(c(hzar.qScores.getScores(xSeries[1:cutValue], 
+%             dSeries[1:cutValue], raw.x[raw.x <= xSeries[[cutValue]]], 
+%             raw.wt[raw.x <= xSeries[[cutValue]]]), hzar.qScores.getScores(xSeries[cutValue:length(xSeries)], 
+%             dSeries[cutValue:length(xSeries)], raw.x[raw.x >= 
+%                 xSeries[[cutValue]]], raw.wt[raw.x >= xSeries[[cutValue]]])))
+%     }
+%     getScore <- function(x, xS = xSeries, dS = dSeries, rx = raw.x, 
+%         rwt = raw.wt) {
+%         data = c(rwt[xS[[x]] == rx], rwt[xS[[x + 1]] == rx])
+%         return(mean(exp(data)) * dS[[x]])
+%     }
+%     return(sapply(1:(length(xSeries) - 1), getScore))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

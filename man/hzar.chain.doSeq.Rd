@@ -6,7 +6,7 @@
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  To be written.
 }
 \usage{
 hzar.chain.doSeq(hzar.request, count = 3, collapse = FALSE, announce.complete = "Chain Complete")
@@ -40,6 +40,7 @@ hzar.chain.doSeq(hzar.request, count = 3, collapse = FALSE, announce.complete = 
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
 %%  ~~who you are~~
 }
 \note{
@@ -56,44 +57,44 @@ hzar.chain.doSeq(hzar.request, count = 3, collapse = FALSE, announce.complete = 
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (hzar.request, count = 3, collapse = FALSE, announce.complete = "Chain Complete") 
-{
-    if (collapse) {
-        mcmcParam = hzar.request$mcmcParam
-        mcmcParam$chainLength = mcmcParam$chainLength * count
-        mcmcParam$burnin = mcmcParam$burnin * count
-        mdlParam = hzar.request$modelParam
-    }
-    hzar.results <- list()
-    for (iter in 1:count) {
-        print(iter)
-        if (iter > 1) {
-            hzar.request <- NULL
-            print(summary(try(hzar.request <- hzar.next.fitRequest(hzar.results[[iter - 
-                1]]))))
-        }
-        if (!inherits(hzar.request, c("hzar.fitRequest"))) {
-            warning("Failed to generate next fit request. Returning successful runs.")
-            return(hzar.results)
-        }
-        hzar.results[[iter]] <- hzar.request
-        print(summary(try(hzar.results[[iter]] <- hzar.doFit(hzar.request))))
-    }
-    print(announce.complete)
-    if (collapse) {
-        raw.data <- do.call(rbind, lapply(hzar.results, function(x) x$mcmcRaw))
-        rawMCMC <- mcmc(data = raw.data, thin = thin(hzar.results[[count]]$mcmcRaw), 
-            start = mcmcParam$burnin + 1)
-        names(rawMCMC) <- names(hzar.results[[count]]$mcmcRaw)
-        return(list(hzar.make.fitRequest(mdlParam, hzar.results[[count]]$cM, 
-            hzar.results[[count]]$llFunc, mcmcParam, mcmcRaw = rawMCMC, 
-            TRUE, prod(as.logical(lapply(test.fits, attr, "fit.success"))))))
-    }
-    return(hzar.results)
-  }
+% ## The function is currently defined as
+% function (hzar.request, count = 3, collapse = FALSE, announce.complete = "Chain Complete") 
+% {
+%     if (collapse) {
+%         mcmcParam = hzar.request$mcmcParam
+%         mcmcParam$chainLength = mcmcParam$chainLength * count
+%         mcmcParam$burnin = mcmcParam$burnin * count
+%         mdlParam = hzar.request$modelParam
+%     }
+%     hzar.results <- list()
+%     for (iter in 1:count) {
+%         print(iter)
+%         if (iter > 1) {
+%             hzar.request <- NULL
+%             print(summary(try(hzar.request <- hzar.next.fitRequest(hzar.results[[iter - 
+%                 1]]))))
+%         }
+%         if (!inherits(hzar.request, c("hzar.fitRequest"))) {
+%             warning("Failed to generate next fit request. Returning successful runs.")
+%             return(hzar.results)
+%         }
+%         hzar.results[[iter]] <- hzar.request
+%         print(summary(try(hzar.results[[iter]] <- hzar.doFit(hzar.request))))
+%     }
+%     print(announce.complete)
+%     if (collapse) {
+%         raw.data <- do.call(rbind, lapply(hzar.results, function(x) x$mcmcRaw))
+%         rawMCMC <- mcmc(data = raw.data, thin = thin(hzar.results[[count]]$mcmcRaw), 
+%             start = mcmcParam$burnin + 1)
+%         names(rawMCMC) <- names(hzar.results[[count]]$mcmcRaw)
+%         return(list(hzar.make.fitRequest(mdlParam, hzar.results[[count]]$cM, 
+%             hzar.results[[count]]$llFunc, mcmcParam, mcmcRaw = rawMCMC, 
+%             TRUE, prod(as.logical(lapply(test.fits, attr, "fit.success"))))))
+%     }
+%     return(hzar.results)
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

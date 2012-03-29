@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -37,6 +39,8 @@ hzar.dataGroup.add(dataGroup, fitRequest = list(), doPar = FALSE)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -53,48 +57,48 @@ hzar.dataGroup.add(dataGroup, fitRequest = list(), doPar = FALSE)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (dataGroup, fitRequest = list(), doPar = FALSE) 
-{
-    if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        dataGroup <- hzar.fit2DataGroup(dataGroup, doPar = doPar)
-    }
-    else if (is.list(dataGroup) && (length(fitRequest) == 0)) {
-        if (length(dataGroup) == 0) 
-            return(NULL)
-        oldFitRequest <- dataGroup
-        dataGroup <- hzar.fit2DataGroup(dataGroup[[1]], doPar = doPar)
-        if (length(oldFitRequest) > 1) 
-            fitRequest <- lapply(2:length(oldFitRequest), function(x) oldFitRequest[[x]])
-    }
-    else {
-        stop("dataGroup not of apropriate type.")
-    }
-    if (inherits(fitRequest, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        fitRequest <- hzar.fit2DataGroup(fitRequest, doPar = doPar)
-    }
-    else if (is.list(fitRequest)) {
-        lapply(fitRequest, function(x) dataGroup <<- hzar.dataGroup.add(dataGroup, 
-            x, doPar = doPar))
-        return(dataGroup)
-    }
-    else {
-        stop("fitRequest not of appropriate type.")
-    }
-    if (!hzar.sameModel(dataGroup, fitRequest)) 
-        stop("dataGroup and fitRequest must use the same model.")
-    Left.Cline <- hzar.get.ML.cline(dataGroup)
-    Right.Cline <- hzar.get.ML.cline(fitRequest)
-    if (Right.Cline$logLike > Left.Cline$logLike) 
-        Left.Cline <- Right.Cline
-    return(hzar.make.dataGroup(data.mcmc = rbind(dataGroup$data.mcmc, 
-        fitRequest$data.mcmc), llFunc = dataGroup$llFunc, ML.cline = Left.Cline, 
-        data.LL = rbind(dataGroup$data.LL, fitRequest$data.LL), 
-        data.param = rbind(dataGroup$data.param, fitRequest$data.param), 
-        obsData = dataGroup$obsData))
-  }
+% ## The function is currently defined as
+% function (dataGroup, fitRequest = list(), doPar = FALSE) 
+% {
+%     if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
+%         dataGroup <- hzar.fit2DataGroup(dataGroup, doPar = doPar)
+%     }
+%     else if (is.list(dataGroup) && (length(fitRequest) == 0)) {
+%         if (length(dataGroup) == 0) 
+%             return(NULL)
+%         oldFitRequest <- dataGroup
+%         dataGroup <- hzar.fit2DataGroup(dataGroup[[1]], doPar = doPar)
+%         if (length(oldFitRequest) > 1) 
+%             fitRequest <- lapply(2:length(oldFitRequest), function(x) oldFitRequest[[x]])
+%     }
+%     else {
+%         stop("dataGroup not of apropriate type.")
+%     }
+%     if (inherits(fitRequest, c("hzar.fitRequest", "hzar.dataGroup"))) {
+%         fitRequest <- hzar.fit2DataGroup(fitRequest, doPar = doPar)
+%     }
+%     else if (is.list(fitRequest)) {
+%         lapply(fitRequest, function(x) dataGroup <<- hzar.dataGroup.add(dataGroup, 
+%             x, doPar = doPar))
+%         return(dataGroup)
+%     }
+%     else {
+%         stop("fitRequest not of appropriate type.")
+%     }
+%     if (!hzar.sameModel(dataGroup, fitRequest)) 
+%         stop("dataGroup and fitRequest must use the same model.")
+%     Left.Cline <- hzar.get.ML.cline(dataGroup)
+%     Right.Cline <- hzar.get.ML.cline(fitRequest)
+%     if (Right.Cline$logLike > Left.Cline$logLike) 
+%         Left.Cline <- Right.Cline
+%     return(hzar.make.dataGroup(data.mcmc = rbind(dataGroup$data.mcmc, 
+%         fitRequest$data.mcmc), llFunc = dataGroup$llFunc, ML.cline = Left.Cline, 
+%         data.LL = rbind(dataGroup$data.LL, fitRequest$data.LL), 
+%         data.param = rbind(dataGroup$data.param, fitRequest$data.param), 
+%         obsData = dataGroup$obsData))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

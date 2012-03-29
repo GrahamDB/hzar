@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -31,6 +33,8 @@ hzar.get.ML.cline(fitRequest)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -47,32 +51,32 @@ hzar.get.ML.cline(fitRequest)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (fitRequest) 
-{
-    if (inherits(fitRequest, "hzar.fitRequest")) {
-        if (!identical(attr(fitRequest, "fit.success"), TRUE)) {
-            stop("fitRequest needs a successful MCMC sampling chain.")
-        }
-        data.LL <- hzar.eval.clineLL(llFunc = fitRequest$llFunc, 
-            data = fitRequest$mcmcRaw)
-        data.param <- as.data.frame(fitRequest$mcmcRaw)
-    }
-    else if (inherits(fitRequest, "hzar.dataGroup")) {
-        if (!identical(is.null(fitRequest$ML.cline), TRUE)) 
-            return(fitRequest$ML.cline)
-        data.LL <- fitRequest$data.LL
-        data.param <- fitRequest$data.param
-    }
-    else {
-        stop(paste("hzar does not understand objects of type ", 
-            class(fitRequest)))
-    }
-    param.free = data.param[data.LL == max(data.LL), ][1, ]
-    return(hzar.gen.cline(param.free, fitRequest))
-  }
+% ## The function is currently defined as
+% function (fitRequest) 
+% {
+%     if (inherits(fitRequest, "hzar.fitRequest")) {
+%         if (!identical(attr(fitRequest, "fit.success"), TRUE)) {
+%             stop("fitRequest needs a successful MCMC sampling chain.")
+%         }
+%         data.LL <- hzar.eval.clineLL(llFunc = fitRequest$llFunc, 
+%             data = fitRequest$mcmcRaw)
+%         data.param <- as.data.frame(fitRequest$mcmcRaw)
+%     }
+%     else if (inherits(fitRequest, "hzar.dataGroup")) {
+%         if (!identical(is.null(fitRequest$ML.cline), TRUE)) 
+%             return(fitRequest$ML.cline)
+%         data.LL <- fitRequest$data.LL
+%         data.param <- fitRequest$data.param
+%     }
+%     else {
+%         stop(paste("hzar does not understand objects of type ", 
+%             class(fitRequest)))
+%     }
+%     param.free = data.param[data.LL == max(data.LL), ][1, ]
+%     return(hzar.gen.cline(param.free, fitRequest))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

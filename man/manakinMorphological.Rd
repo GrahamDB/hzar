@@ -6,6 +6,7 @@
 %%   ~~ data name/kind ... ~~
 }
 \description{
+  Manakin observed Morphological Traits
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
 }
 \usage{data(manakinMorphological)}
@@ -33,6 +34,7 @@
 %%  ~~ If necessary, more details than the __description__ above ~~
 }
 \source{
+  Brumfield, R. T., R. W. Jernigan, D. B. McDonald, and M. J. Braun. 2001. Evolutionary implications of divergent clines in an avian (Manacus: Aves) hybrid zone. Evolution 55:2070-2087.
 %%  ~~ reference to a publication or URL from which the data were obtained ~~
 }
 \references{
@@ -40,6 +42,7 @@
 }
 \examples{
 data(manakinMorphological)
-## maybe str(manakinMorphological) ; plot(manakinMorphological) ...
+str(manakinMorphological) ;
+
 }
 \keyword{datasets}

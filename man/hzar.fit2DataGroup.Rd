@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -34,6 +36,8 @@ hzar.fit2DataGroup(fitRequest, doPar = FALSE)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -50,28 +54,28 @@ hzar.fit2DataGroup(fitRequest, doPar = FALSE)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (fitRequest, doPar = FALSE) 
-{
-    if (inherits(fitRequest, "hzar.fitRequest")) {
-        if (!identical(attr(fitRequest, "fit.success"), TRUE)) {
-            mcmcPsuedo <- mcmc(as.data.frame(fitRequest$modelParam$init))
-            return(hzar.make.dataGroup(data.mcmc = mcmcPsuedo, 
-                llFunc <- fitRequest$llFunc))
-        }
-        return(hzar.make.dataGroup(data.mcmc = fitRequest$mcmcRaw, 
-            llFunc <- fitRequest$llFunc, doPar = doPar))
-    }
-    else if (inherits(fitRequest, "hzar.dataGroup")) {
-        return(fitRequest)
-    }
-    else {
-        stop(paste("hzar does not understand objects of type ", 
-            class(fitRequest)))
-    }
-  }
+% ## The function is currently defined as
+% function (fitRequest, doPar = FALSE) 
+% {
+%     if (inherits(fitRequest, "hzar.fitRequest")) {
+%         if (!identical(attr(fitRequest, "fit.success"), TRUE)) {
+%             mcmcPsuedo <- mcmc(as.data.frame(fitRequest$modelParam$init))
+%             return(hzar.make.dataGroup(data.mcmc = mcmcPsuedo, 
+%                 llFunc <- fitRequest$llFunc))
+%         }
+%         return(hzar.make.dataGroup(data.mcmc = fitRequest$mcmcRaw, 
+%             llFunc <- fitRequest$llFunc, doPar = doPar))
+%     }
+%     else if (inherits(fitRequest, "hzar.dataGroup")) {
+%         return(fitRequest)
+%     }
+%     else {
+%         stop(paste("hzar does not understand objects of type ", 
+%             class(fitRequest)))
+%     }
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -37,6 +39,8 @@ hzar.eval.clineLL(data, llFunc, doPar = FALSE)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -53,34 +57,34 @@ hzar.eval.clineLL(data, llFunc, doPar = FALSE)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (data, llFunc, doPar = FALSE) 
-{
-    slices <- hzar.wedgeSlice(dim(data)[[1]])
-    useFunc = llFunc
-    useData = data
-    if (doPar) {
-        result <- foreach(tttIndex = slices, .combine = rbind) \%dopar\% 
-            {
-                data.frame(model.LL = as.numeric(lapply(tttIndex, 
-                  function(x) {
-                    useFunc(useData[x, ])
-                  })))
-            }
-    }
-    else {
-        result <- foreach(tttIndex = slices, .combine = rbind) \%do\% 
-            {
-                data.frame(model.LL = as.numeric(lapply(tttIndex, 
-                  function(x) {
-                    useFunc(useData[x, ])
-                  })))
-            }
-    }
-    return(result)
-  }
+% ## The function is currently defined as
+% function (data, llFunc, doPar = FALSE) 
+% {
+%     slices <- hzar.wedgeSlice(dim(data)[[1]])
+%     useFunc = llFunc
+%     useData = data
+%     if (doPar) {
+%         result <- foreach(tttIndex = slices, .combine = rbind) \%dopar\% 
+%             {
+%                 data.frame(model.LL = as.numeric(lapply(tttIndex, 
+%                   function(x) {
+%                     useFunc(useData[x, ])
+%                   })))
+%             }
+%     }
+%     else {
+%         result <- foreach(tttIndex = slices, .combine = rbind) \%do\% 
+%             {
+%                 data.frame(model.LL = as.numeric(lapply(tttIndex, 
+%                   function(x) {
+%                     useFunc(useData[x, ])
+%                   })))
+%             }
+%     }
+%     return(result)
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

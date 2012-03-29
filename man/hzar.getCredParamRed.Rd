@@ -5,6 +5,8 @@
   Create a 95\% credibility hzar.fzCline object
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -49,16 +51,16 @@ hzar.getCredParamRed(dataGroup)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (dataGroup) 
-{
-    junk <- hzar.getCredParam(dataGroup)
-    junk1 <- PP.fzCline.reduce(junk)
-    junk1 <- PP.fzCline.reduce(junk1)
-    res <- hzar.make.fzCline(lapply(1:(dim(junk1)[[1]]), function(x) hzar.gen.cline(junk1[x, 
-        ], dataGroup)))
-    return(res)
-  }
+% ## The function is currently defined as
+% function (dataGroup) 
+% {
+%     junk <- hzar.getCredParam(dataGroup)
+%     junk1 <- PP.fzCline.reduce(junk)
+%     junk1 <- PP.fzCline.reduce(junk1)
+%     res <- hzar.make.fzCline(lapply(1:(dim(junk1)[[1]]), function(x) hzar.gen.cline(junk1[x, 
+%         ], dataGroup)))
+%     return(res)
+%   }
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

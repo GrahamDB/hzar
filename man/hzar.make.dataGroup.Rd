@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -49,6 +51,8 @@ hzar.make.dataGroup(data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, data.LL =
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -65,20 +69,20 @@ hzar.make.dataGroup(data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, data.LL =
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, 
-    data.LL = hzar.eval.clineLL(llFunc = llFunc, data = data.mcmc, 
-        doPar = doPar), data.param = as.data.frame(data.mcmc), 
-    obsData = hzar.extract.obsData(llFunc)) 
-{
-    result <- list(llFunc = llFunc, data.mcmc = data.mcmc, data.param = data.param, 
-        data.LL = data.LL, ML.cline = ML.cline, obsData = obsData)
-    class(result) <- "hzar.dataGroup"
-    result$ML.cline <- hzar.get.ML.cline(result)
-    return(result)
-  }
+% ## The function is currently defined as
+% function (data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, 
+%     data.LL = hzar.eval.clineLL(llFunc = llFunc, data = data.mcmc, 
+%         doPar = doPar), data.param = as.data.frame(data.mcmc), 
+%     obsData = hzar.extract.obsData(llFunc)) 
+% {
+%     result <- list(llFunc = llFunc, data.mcmc = data.mcmc, data.param = data.param, 
+%         data.LL = data.LL, ML.cline = ML.cline, obsData = obsData)
+%     class(result) <- "hzar.dataGroup"
+%     result$ML.cline <- hzar.get.ML.cline(result)
+%     return(result)
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

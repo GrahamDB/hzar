@@ -6,6 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -31,6 +33,8 @@ hzar.dataGroup.null(obsData)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -47,20 +51,20 @@ hzar.dataGroup.null(obsData)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (obsData) 
-{
-    clineLLfunc <- hzar.make.LLfunc.null(obsData)
-    nPS <- 100
-    pSeries <- (1:(nPS - 1))/(nPS)
-    pExpected <- sum(obsData$frame$n * obsData$frame$obsFreq)/sum(obsData$frame$n)
-    pSeries <- c(pSeries, pExpected)
-    data.mcmc <- mcmc(data = data.frame(pVal = pSeries))
-    return(hzar.make.dataGroup(data.mcmc = data.mcmc, llFunc = clineLLfunc, 
-        ML.cline = hzar.gen.cline(list(pVal = pExpected), clineLLfunc)))
-  }
+% ## The function is currently defined as
+% function (obsData) 
+% {
+%     clineLLfunc <- hzar.make.LLfunc.null(obsData)
+%     nPS <- 100
+%     pSeries <- (1:(nPS - 1))/(nPS)
+%     pExpected <- sum(obsData$frame$n * obsData$frame$obsFreq)/sum(obsData$frame$n)
+%     pSeries <- c(pSeries, pExpected)
+%     data.mcmc <- mcmc(data = data.frame(pVal = pSeries))
+%     return(hzar.make.dataGroup(data.mcmc = data.mcmc, llFunc = clineLLfunc, 
+%         ML.cline = hzar.gen.cline(list(pVal = pExpected), clineLLfunc)))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

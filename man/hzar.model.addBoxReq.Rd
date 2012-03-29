@@ -11,6 +11,8 @@
   %%  ~~function to do ... ~~
 }
 \description{
+  To be written.
+
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -53,6 +55,8 @@ hzar.model.addMaxWidth(meta.model, maxValue)
 %% ~put references to the literature/web site here ~
 }
 \author{
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 %%  ~~who you are~~
 }
 \note{
@@ -69,14 +73,14 @@ hzar.model.addMaxWidth(meta.model, maxValue)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (meta.model, low, high) 
-{
-    return(hzar.model.addCenterRange(hzar.model.addMaxDelta(hzar.model.addMaxWidth(meta.model, 
-        high - low), high - low), low, high))
-  }
+% ## The function is currently defined as
+% function (meta.model, low, high) 
+% {
+%     return(hzar.model.addCenterRange(hzar.model.addMaxDelta(hzar.model.addMaxWidth(meta.model, 
+%         high - low), high - low), low, high))
+%   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

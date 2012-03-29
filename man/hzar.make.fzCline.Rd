@@ -6,6 +6,7 @@
 %%  ~~function to do ... ~~
 }
 \description{
+    To be written.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -48,23 +49,23 @@ hzar.make.fzCline(clineList)
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (clineList) 
-{
-    res <- list(clines = clineList, listFuncInt = function(xVal, 
-        funcList = res$clines) {
-        yList <- as.numeric(lapply(funcList, function(x, u) x$clineFunc(u), 
-            u = xVal))
-        return(data.frame(x = xVal, yMin = min(yList), yMax = max(yList)))
-    }, fzCline = function(xVals, listFunc = res$listFuncInt) {
-        xVals <- as.numeric(xVals)
-        if (length(xVals > 1)) return(do.call(rbind, lapply(xVals, 
-            listFunc)))
-        if (length(xVals < 1)) return(numeric(0))
-        return(listFunc(xVals))
-    })
-    return(res)
-  }
+% ## The function is currently defined as
+% function (clineList) 
+% {
+%     res <- list(clines = clineList, listFuncInt = function(xVal, 
+%         funcList = res$clines) {
+%         yList <- as.numeric(lapply(funcList, function(x, u) x$clineFunc(u), 
+%             u = xVal))
+%         return(data.frame(x = xVal, yMin = min(yList), yMax = max(yList)))
+%     }, fzCline = function(xVals, listFunc = res$listFuncInt) {
+%         xVals <- as.numeric(xVals)
+%         if (length(xVals > 1)) return(do.call(rbind, lapply(xVals, 
+%             listFunc)))
+%         if (length(xVals < 1)) return(numeric(0))
+%         return(listFunc(xVals))
+%     })
+%     return(res)
+%   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
