@@ -2,7 +2,7 @@
 \alias{hzar.extract.old.model.req}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Extract tne model requirements from hzar.fitRequest object.
+  Extract the model requirements from hzar.fitRequest object.
 %%  ~~function to do ... ~~
 }
 \description{
@@ -16,7 +16,7 @@ hzar.extract.old.model.req(fitRequest)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
+    
 }
 }
 \details{

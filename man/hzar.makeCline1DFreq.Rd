@@ -90,6 +90,12 @@ hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none", direction = N
     }
 }
 \references{
+Gay, L., P.-A. Crochet, D. A. Bell, and T. Lenormand. 2008. Comparing clines on molecular and phenotypic traits in hybrid zones: a window on tension zone models. Evolution 62:2789-2806.
+
+Szymura, J., and N. H. Barton. 1986. Genetic analysis of a hybrid zone between the fire-bellied toads, Bombina bombina and B. variegata, near Cracow in souhern Poland. Evolution 40:1141-1159.
+
+Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone between the fire-bellied toads Bombina bombina and B. variegata: comparisons between transects and between loci. Evolution 45:237-261.
+
 %% ~put references to the literature/web site here ~
 }
 \author{
