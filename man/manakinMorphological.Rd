@@ -2,32 +2,22 @@
 \alias{manakinMorphological}
 \docType{data}
 \title{
-  Manakin observed Morphological Traits
-%%   ~~ data name/kind ... ~~
+   Manakin observed Morphological Traits
 }
 \description{
-  Manakin observed Morphological Traits
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+   Manakin observed Morphological Traits
 }
 \usage{data(manakinMorphological)}
 \format{
-  A data frame with 213 observations on the following 14 variables.
+  A data frame with 165 observations on the following 7 variables.
   \describe{
-   
-    \item{\code{PopulationID}}{a factor}
-    \item{\code{Location}}{a factor with levels \code{Chiriqui Grande} \code{Costa Rica} \code{Quebrada Pastores} \code{Rio Changuinola} \code{Rio Oeste} \code{Rio Robalo} \code{Rio Sixaola} \code{Rio Teribe} \code{Rio Uyama} \code{Soberania} \code{Tierra Oscura} \code{Valiente Peninsula}}
-    \item{\code{TissueID}}{a factor}
-    \item{\code{Mass}}{a numeric vector}
-    \item{\code{Wing.length}}{a numeric vector}
-    \item{\code{Culmen.length}}{a numeric vector}
-    \item{\code{Bill.depth}}{a numeric vector}
-    \item{\code{Bill.width}}{a numeric vector}
-    \item{\code{Tail.length}}{a numeric vector}
-    \item{\code{Tarsus.length}}{a numeric vector}
-    \item{\code{Epaulet.width}}{a numeric vector}
-    \item{\code{Beard.length}}{a numeric vector}
-    \item{\code{Collar.color}}{a numeric vector}
-    \item{\code{Belly.color}}{a numeric vector}
+    \item{\code{Population}}{a factor with levels \code{A} \code{B} \code{C} \code{D} \code{E} \code{F} \code{G} \code{H} \code{I} \code{J} \code{K} \code{L}}
+    \item{\code{ID}}{a numeric vector}
+    \item{\code{Name}}{a factor with levels \code{Chiriqui_Grande} \code{Costa_Rica} \code{Quebrada_Pastores} \code{Rio_Changuinola} \code{Rio_Oeste} \code{Rio_Robalo} \code{Rio_Sixaola} \code{Rio_Teribe} \code{Rio_Uyama} \code{Soberania} \code{Tierra_Oscura} \code{Valiente_Peninsula}}
+    \item{\code{collar.color}}{a numeric vector}
+    \item{\code{belly.color}}{a numeric vector}
+    \item{\code{epaulet.width}}{a numeric vector}
+    \item{\code{beard.length}}{a numeric vector}
   }
 }
 \details{
@@ -35,14 +25,13 @@
 }
 \source{
   Brumfield, R. T., R. W. Jernigan, D. B. McDonald, and M. J. Braun. 2001. Evolutionary implications of divergent clines in an avian (Manacus: Aves) hybrid zone. Evolution 55:2070-2087.
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+
 }
 \references{
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
 data(manakinMorphological)
-str(manakinMorphological) ;
-
+## maybe str(manakinMorphological) ; plot(manakinMorphological) ...
 }
 \keyword{datasets}
