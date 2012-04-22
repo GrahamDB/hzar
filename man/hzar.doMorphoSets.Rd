@@ -3,12 +3,10 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Make hzar.obsData objects from scalar observations using reference tables 
-%%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Perform a Bernoulli transform on a table of scalar traits of sampled
+  individuals while using a separate table of population locations.
 }
 \usage{
 hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
@@ -16,69 +14,66 @@ hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{traitNames}{
-%%     ~~Describe \code{traitNames} here~~
-}
+    The columns of \code{tValues} to transform.
+  }
   \item{tDist}{
-%%     ~~Describe \code{tDist} here~~
-}
+    A data.frame with a column of population site identifiers and a
+    column of population site distances. See
+    \code{\link{manakinLocations}} for an example. 
+  }
   \item{tDLocCol}{
-%%     ~~Describe \code{tDLocCol} here~~
-}
+    The name of the column of \code{tDist} with population site identifiers.
+  }
   \item{tDDistCol}{
-%%     ~~Describe \code{tDDistCol} here~~
-}
+    The name of the column of \code{tDist} with population site distances.
+  }
   \item{tValues}{
-%%     ~~Describe \code{tValues} here~~
-}
+    A data.frame of observed scalar traits of individuals.  See
+    \code{\link{manakinMorphological}} for an example.
+  }
   \item{tVLocCol}{
-%%     ~~Describe \code{tVLocCol} here~~
+    The name of the column of \code{tValues} with population site
+    identifiers where the sample was taken.
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A list of \code{\link{hzar.obsData}} objects. The values of
+  \code{traitNames} are used as names.  The Bernoulli likelihood
+  function is for each \code{\link{hzar.obsData}} object.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{manakinLocations}}
+  \code{\link{manakinMorphological}}
+  \code{\link{hzar.plot.obsData}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol) 
-% {
-%     distOfLocation <- tDist[[tDDistCol]]
-%     names(distOfLocation) <- tDist[[tDLocCol]]
-%     res <- lapply(traitNames, function(id) {
-%         tVal <- tValues[!is.na(tValues[[id]]), c(tVLocCol, id)]
-%         return(hzar.makeTraitObsData(distOfLocation, locationOfValue = tVal[[tVLocCol]], 
-%             values = tVal[[id]]))
-%     })
-%     names(res) <- traitNames
-%     return(res)
-%   }
+data(manakinMorphological);
+data(manakinLocations);
+mkn <-
+  hzar.doMorphoSets("beard.length",
+                    tDist=manakinLocations,
+                    tDLocCol="PopulationID",
+                    tDDistCol="distance",
+                    tValues=manakinMorphological,
+                    tVLocCol="Population")
+print(str(mkn));
+hzar.plot.obsData(mkn$beard.length);
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

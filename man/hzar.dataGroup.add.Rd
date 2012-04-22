@@ -1,29 +1,35 @@
 \name{hzar.dataGroup.add}
 \alias{hzar.dataGroup.add}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\alias{hzar.fit2DataGroup}
 \title{
-  Create an hzar.dataGroup object.
+  Prepare optimizer output for analysis.
 %%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-
+  Intended to group multiple fits of the same model and the same
+  observation data into a single object.  As it works with
+  \code{\link{hzar.fitRequest}} objects, it is simpler to use than
+  \code{\link{hzar.make.dataGroup}}. 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-hzar.dataGroup.add(dataGroup, fitRequest = list(), doPar = FALSE)
+hzar.dataGroup.add(dataGroup, fitRequestL = list(), doPar = FALSE)
+hzar.fit2DataGroup(fitRequest, doPar = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroup}{
-%%     ~~Describe \code{dataGroup} here~~
-}
+    %%     ~~Describe \code{dataGroup} here~~
+  }
+  \item{fitRequestL}{
+    
+  }
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
-}
+    
+  }
   \item{doPar}{
-%%     ~~Describe \code{doPar} here~~
-}
+    %%     ~~Describe \code{doPar} here~~
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

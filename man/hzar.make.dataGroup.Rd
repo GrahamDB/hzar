@@ -1,5 +1,6 @@
 \name{hzar.make.dataGroup}
 \alias{hzar.make.dataGroup}
+\alias{hzar.dataGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Make a hzar.dataGroup object with given parameters.
@@ -62,7 +63,8 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  %% ~~objects to See Also as
+  \code{\link{hzar.dataGroup.add}}
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
