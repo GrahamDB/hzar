@@ -38,18 +38,12 @@ hzar.next.fitRequest(oldFitRequest)
 }
 \value{
   A \code{\link{hzar.fitRequest}} object.
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
-
 }
 % \note{
 %   The comment about overlapping seed channels is a result of the
@@ -68,42 +62,20 @@ hzar.next.fitRequest(oldFitRequest)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (oldFitRequest) 
-% {
-%     seedChannel <- 1
-%     if (is.list(oldFitRequest$mcmcParam$seed)) {
-%         seedChannel = oldFitRequest$mcmcParam$seed[[2]]
-%     }
-%     if (identical(attr(oldFitRequest, "fit.run"), TRUE)) {
-%         seedChannel <- seedChannel + 1
-%     }
-%     else {
-%         seedChannel <- seedChannel + 10
-%     }
-%     mcmcParam = hzar.make.mcmcParam(oldFitRequest$mcmcParam$chainLength, 
-%         oldFitRequest$mcmcParam$burnin, oldFitRequest$mcmcParam$verbosity, 
-%         oldFitRequest$mcmcParam$thin, seedChannel)
-%     mdlParam <- oldFitRequest$modelParam
-%     covMatrix <- oldFitRequest$cM
-%     if (identical(attr(oldFitRequest, "fit.success"), TRUE)) {
-%         mcmcSubset <- oldFitRequest$mcmcRaw[sample(dim(oldFitRequest$mcmcRaw)[[1]]), 
-%             ]
-%         subLL <- hzar.eval.clineLL(mcmcSubset, oldFitRequest$llFunc)
-%         covData <- hzar.cov.mcmc(oldFitRequest$llFunc, mcmcSubset[subLL > 
-%             max(subLL - 4), ], passCenter = TRUE)
-%         covMatrix <- covData$cov
-%         new.center <- covData$center[names(mdlParam$init)]
-%         if (oldFitRequest$llFunc(new.center) > 1e-06) 
-%             mdlParam$init <- new.center
-%     }
-%     return(hzar.make.fitRequest(mdlParam, covMatrix, oldFitRequest$llFunc, 
-%         mcmcParam))
-%   }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodelFit <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAmodelFit$mcmcParam$chainLength <- 1e5;
+mknAdaAinitialFit <- hzar.doFit(mknAdaAmodelFit);
+str(hzar.next.fitRequest(mknAdaAinitialFit))
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

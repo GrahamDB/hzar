@@ -1,85 +1,50 @@
 \name{hzar.doFit}
 \alias{hzar.doFit}
-
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Run the optimizer.
-%%  ~~function to do ... ~~
 }
 \description{
   To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+ Run the optimizer using the parameters listed in the
+ \code{\link{hzar.fitRequest}} given.
 }
 \usage{
 hzar.doFit(fitRequest)
-
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+    The \code{\link{hzar.fitRequest}} object to be processed
+  }
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  An updated \code{\link{hzar.fitRequest}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{hzar.fitRequest}}
+  \code{\link{MCMCmetrop1R}} 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-% ## The function is currently defined as
-% function (fitRequest) 
-% {
-%     result <- NULL
-%     useParam = fitRequest$mcmcParam
-%     mdlParam = fitRequest$modelParam
-%     try({
-%         result <- MCMCmetrop1R(fun = fitRequest$llFunc, logfun = "true", 
-%             force.samp = TRUE, mcmc = useParam$chainLength, burnin = useParam$burnin, 
-%             verbose = useParam$verbosity, thin = useParam$thin, 
-%             theta.init = mdlParam$init, tune = mdlParam$tune, 
-%             V = fitRequest$cM, seed = useParam$seed, optim.control = list(fnscale = -1, 
-%                 trace = 0, REPORT = 10, maxit = 5000), optim.method = "L-BFGS-B", 
-%             optim.lower = useParam$lower, optim.upper = useParam$upper)
-%         colnames(result) <- names(mdlParam$init)
-%     })
-%     fitRequest$mcmcRaw <- result
-%     attr(fitRequest, "fit.run") <- TRUE
-%     attr(fitRequest, "fit.success") <- FALSE
-%     if (identical(is.null(result), TRUE)) {
-%         warning("Fitting failed.")
-%     }
-%     else {
-%         attr(fitRequest, "fit.success") <- TRUE
-%     }
-%     return(fitRequest)
-%   }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodelFit <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAmodelFit$mcmcParam$chainLength <- 1e5;
+str(hzar.doFit(mknAdaAmodelFit));
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

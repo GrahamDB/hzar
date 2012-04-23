@@ -4,85 +4,77 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Make a hzar.dataGroup object with given parameters.
-%%  ~~function to do ... ~~
 }
 \description{
   To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-hzar.make.dataGroup(data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, data.LL = hzar.eval.clineLL(llFunc = llFunc, data = data.mcmc, doPar = doPar), data.param = as.data.frame(data.mcmc), obsData = hzar.extract.obsData(llFunc))
+hzar.make.dataGroup(data.mcmc,
+                    llFunc,
+                    ML.cline = NULL,
+                    doPar = FALSE,
+                    data.LL = hzar.eval.clineLL(llFunc = llFunc,
+                                                data = data.mcmc,
+                                                doPar = doPar),
+                    data.param = as.data.frame(data.mcmc),
+                    obsData = hzar.extract.obsData(llFunc))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data.mcmc}{
-%%     ~~Describe \code{data.mcmc} here~~
-}
+    %%     ~~Describe \code{data.mcmc} here~~
+  }
   \item{llFunc}{
-%%     ~~Describe \code{llFunc} here~~
-}
+    %%     ~~Describe \code{llFunc} here~~
+  }
   \item{ML.cline}{
-%%     ~~Describe \code{ML.cline} here~~
-}
+    %%     ~~Describe \code{ML.cline} here~~
+  }
   \item{doPar}{
-%%     ~~Describe \code{doPar} here~~
-}
+    %%     ~~Describe \code{doPar} here~~
+  }
   \item{data.LL}{
-%%     ~~Describe \code{data.LL} here~~
-}
+    %%     ~~Describe \code{data.LL} here~~
+  }
   \item{data.param}{
-%%     ~~Describe \code{data.param} here~~
-}
+    %%     ~~Describe \code{data.param} here~~
+  }
   \item{obsData}{
-%%     ~~Describe \code{obsData} here~~
-}
+    %%     ~~Describe \code{obsData} here~~
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
+  Object of class \code{hzar.dataGroup}
+\item{llFunc}{Description of 'comp2'}
+\item{data.mcmc}{Description of 'comp1'}
+\item{data.param}{Description of 'comp2'}
+\item{data.LL}{Description of 'comp2'}
+\item{ML.cline}{Description of 'comp2'}
+\item{obsData}{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  %% ~~objects to See Also as
+  \code{\link{hzar.eval.clineLL}}
+  \code{\link{hzar.extract.obsData}}
   \code{\link{hzar.dataGroup.add}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (data.mcmc, llFunc, ML.cline = NULL, doPar = FALSE, 
-%     data.LL = hzar.eval.clineLL(llFunc = llFunc, data = data.mcmc, 
-%         doPar = doPar), data.param = as.data.frame(data.mcmc), 
-%     obsData = hzar.extract.obsData(llFunc)) 
-% {
-%     result <- list(llFunc = llFunc, data.mcmc = data.mcmc, data.param = data.param, 
-%         data.LL = data.LL, ML.cline = ML.cline, obsData = obsData)
-%     class(result) <- "hzar.dataGroup"
-%     result$ML.cline <- hzar.get.ML.cline(result)
-%     return(result)
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

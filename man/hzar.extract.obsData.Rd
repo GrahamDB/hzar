@@ -48,22 +48,7 @@ hzar.extract.obsData(fitRequest)
 %   % \code{\link{hzar.}}
 % }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (fitRequest) 
-% {
-%     if (inherits(fitRequest, c("hzar.dataGroup", "hzar.obsDataGroup"))) {
-%         return(fitRequest$obsData)
-%     }
-%     if (inherits(fitRequest, c("clineSampleData1D", "clineSampleData1DCLT", 
-%         "hzar.obsData"))) {
-%         return(fitRequest)
-%     }
-%     return(as.list(environment(hzar.extract.modelPrep(fitRequest)$model.LL))$obj)
-%   }
+##TODO
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

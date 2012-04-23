@@ -45,20 +45,20 @@ hzar.doCLTData1DPops(distance, muObs, varObs, nSamples)
 }
 \value{
   A \code{hzar.obsData} object with the following structure.
-  %%  ~Describe the value returned
-  %%  If it is a LIST, use
   \item{frame}{A data.frame composed of the arguments.}
   \item{model.LL}{A function of one argument that returns a log
     likelihood.  The argument is a function of distance that estimates
     either frequency or trait value as appropriate.}
-  %% ...
 }
 \references{
-  Szymura, J., and N. H. Barton. 1986. Genetic analysis of a hybrid zone between the fire-bellied toads, Bombina bombina and B. variegata, near Cracow in souhern Poland. Evolution 40:1141-1159.
+  Szymura, J., and N. H. Barton. 1986. Genetic analysis of a hybrid zone
+  between the fire-bellied toads, Bombina bombina and B. variegata, near
+  Cracow in souhern Poland. Evolution 40:1141-1159. 
 
-  Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone between the fire-bellied toads Bombina bombina and B. variegata: comparisons between transects and between loci. Evolution 45:237-261.
-
-%% ~put references to the literature/web site here ~
+  Szymura, J., and N. H. Barton. 1991. The genetic structure of the
+  hybrid zone between the fire-bellied toads Bombina bombina and
+  B. variegata: comparisons between transects and between
+  loci. Evolution 45:237-261. 
 }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
@@ -71,9 +71,7 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 
 \seealso{
   \code{\link{manakinMolecular}}
-  
   \code{\link{hzar.plot.obsData}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 data(manakinMolecular);
