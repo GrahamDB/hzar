@@ -49,27 +49,27 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+% \examples{
+% ##---- Should be DIRECTLY executable !! ----
+% ##-- ==>  Define data, use random,
+% ##--	or do  help(data=index)  for the standard data sets.
 
-% ## The function is currently defined as
-% function (dataGroup, rejectionPercent = 0.05) 
-% {
-%     if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
-%         dataGroup <- hzar.fit2DataGroup(dataGroup)
-%     }
-%     else if (is.list(dataGroup) && length(dataGroup) > 0 && inherits(dataGroup[[1]], 
-%         c("hzar.fitRequest", "hzar.dataGroup"))) {
-%         warning("Only calculating LL cut for first element in list")
-%         dataGroup <- hzar.fit2DataGroup(dataGroup[[1]])
-%     }
-%     credible.LLcut <- hzar.getCredCut(dataGroup, rejectionPercent)
-%     return(dataGroup$data.param[dataGroup$data.LL$model.LL > 
-%         credible.LLcut, ])
-%   }
-}
+% % ## The function is currently defined as
+% % function (dataGroup, rejectionPercent = 0.05) 
+% % {
+% %     if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
+% %         dataGroup <- hzar.fit2DataGroup(dataGroup)
+% %     }
+% %     else if (is.list(dataGroup) && length(dataGroup) > 0 && inherits(dataGroup[[1]], 
+% %         c("hzar.fitRequest", "hzar.dataGroup"))) {
+% %         warning("Only calculating LL cut for first element in list")
+% %         dataGroup <- hzar.fit2DataGroup(dataGroup[[1]])
+% %     }
+% %     credible.LLcut <- hzar.getCredCut(dataGroup, rejectionPercent)
+% %     return(dataGroup$data.param[dataGroup$data.LL$model.LL > 
+% %         credible.LLcut, ])
+% %   }
+% }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
 % \keyword{ ~kwd1 }

@@ -53,9 +53,7 @@
 % %% ~put references to the literature/web site here ~
 % }
 \author{
-
   Graham Derryberry \email{asterion@alum.mit.edu}
-
 }
 % \note{
 % %%  ~~further notes~~
@@ -66,33 +64,9 @@
 \seealso{
   \code{\link{AIC}}
   \code{\link{hzar.AIC.default}}
-  
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (obsDataGroup, label = "AIC", show.count = FALSE, show.param = FALSE) 
-% {
-%     model.clines <- lapply(obsDataGroup$data.groups, hzar.get.ML.cline)
-%     scores <- as.numeric(lapply(model.clines, hzar.AIC.hzar.cline))
-%     result <- data.frame(AIC = scores)
-%     if (!identical(is.null(label), TRUE)) {
-%         names(result) <- label
-%         colnames(result) <- label
-%     }
-%     if (!identical(is.null(names(obsDataGroup$data.groups)), 
-%         TRUE)) {
-%         rownames(result) <- names(obsDataGroup$data.groups)
-%     }
-%     if (show.count) {
-%         count = as.numeric(lapply(model.clines, function(x) length(x$param.free)))
-%         result <- cbind(result, count = count)
-%     }
-%     return(result)
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

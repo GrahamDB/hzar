@@ -55,32 +55,9 @@ hzar.plot.cline(cline, add = FALSE, ...)
 
 \seealso{
   \code{\link{plot}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-data
-
-% ## The function is currently defined as
-% function (cline, add = FALSE, ...) 
-% {
-%     if (inherits(cline, "hzar.cline")) 
-%         curve(cline$clineFunc(x), add = add, ...)
-%     if (inherits(cline, c("hzar.dataGroup", "hzar.fitRequest"))) {
-%         dataGroup <- hzar.fit2DataGroup(cline)
-%         hzar.plot.obsData(dataGroup, add = add, ...)
-%         hzar.plot.cline(hzar.get.ML.cline(dataGroup), add = TRUE, 
-%             ...)
-%     }
-%     if (inherits(cline, c("hzar.obsDataGroup"))) {
-%         hzar.plot.obsData(cline, add = add, ...)
-%         lapply(cline$data.groups, function(dataGroup) hzar.plot.cline(hzar.get.ML.cline(dataGroup), 
-%             add = TRUE, ...))
-%     }
-%   }
+##TODO
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

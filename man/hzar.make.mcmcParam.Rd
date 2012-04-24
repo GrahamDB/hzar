@@ -3,24 +3,23 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Set the parameters controling the optimizer environment.
-%%  ~~function to do ... ~~
 }
 \description{
-  This method assists in assigning appropriate values for controller \code{\link{MCMCmetrop1R}} optimizer.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This method assists in assigning appropriate values for controller
+  \code{\link{MCMCmetrop1R}} optimizer. 
 }
 \usage{
-hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1, useSeedStream = TRUE, mersenneSeed = 12345, lecuyerSeed = rep(12345, 6))
+hzar.make.mcmcParam(chainLength, burnin, verbosity, thin,
+  seedStreamChannel = 1, useSeedStream = TRUE, mersenneSeed = 12345,
+  lecuyerSeed = rep(12345, 6))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{chainLength}{
     How many generations to run the mcmc process after burn-in.
-    %%     ~~Describe \code{chainLength} here~~
   }
   \item{burnin}{
     How many initial generations are to be considered burn-in and discarded.
-    %%     ~~Describe \code{burnin} here~~
   }
   \item{verbosity}{
     If 0, output nothing while mcmc process is running.
@@ -70,28 +69,11 @@ hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1,
 
 \seealso{
   \code{\link{MCMCmetrop1R}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (chainLength, burnin, verbosity, thin, seedStreamChannel = 1, 
-    useSeedStream = TRUE, mersenneSeed = 12345, lecuyerSeed = rep(12345, 
-        6)) 
-{
-    mcmcParam <- list(chainLength = chainLength, burnin = burnin, 
-        verbosity = verbosity, thin = thin)
-    mcmcParam$seed <- mersenneSeed
-    if (useSeedStream) {
-        mcmcParam$seed <- list(lecuyerSeed, seedStreamChannel)
-    }
-    return(mcmcParam)
-  }
+##TODO
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

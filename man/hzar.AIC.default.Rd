@@ -61,7 +61,6 @@ hzar.AICc.hzar.dataGroup(dataGroup)
 % }
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
-  
 }
 % \note{
 % %%  ~~further notes~~
@@ -73,22 +72,7 @@ hzar.AICc.hzar.dataGroup(dataGroup)
   \code{\link{AIC}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (maxLL, param.count) 
-% {
-%     return(2 * (param.count - maxLL))
-%   }
-
-% ## The function is currently defined as
-% function (maxLL, param.count, nObs) 
-% {
-%     return(2 * (param.count - maxLL + (param.count * (param.count + 
-%         1)/(nObs - param.count - 1))))
-%   }
+##TODO
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

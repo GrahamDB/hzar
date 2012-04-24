@@ -22,39 +22,42 @@ hzar.make.dataGroup(data.mcmc,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data.mcmc}{
+    The mcmc chain to encapsulate.
     %%     ~~Describe \code{data.mcmc} here~~
   }
   \item{llFunc}{
-    %%     ~~Describe \code{llFunc} here~~
+    The log likelihood function of the model.
   }
   \item{ML.cline}{
-    %%     ~~Describe \code{ML.cline} here~~
+    The \code{\link{hzar.cline}} of maximum likelihood.
+    Automatically calculated from \code{data.mcmc} if NULL. 
   }
   \item{doPar}{
-    %%     ~~Describe \code{doPar} here~~
+    Argument passed to \code{\link{hzar.eval.clineLL}}.
   }
   \item{data.LL}{
-    %%     ~~Describe \code{data.LL} here~~
+    The log likelihood of each row of data.mcmc. 
   }
   \item{data.param}{
-    %%     ~~Describe \code{data.param} here~~
+    \code{data.mcmc} as a \code{data.frame}.
   }
   \item{obsData}{
-    %%     ~~Describe \code{obsData} here~~
+    The \code{\link{hzar.obsData}} object backing the
+    \code{hzar.dataGroup} created.
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
   Object of class \code{hzar.dataGroup}
-\item{llFunc}{Description of 'comp2'}
-\item{data.mcmc}{Description of 'comp1'}
-\item{data.param}{Description of 'comp2'}
-\item{data.LL}{Description of 'comp2'}
-\item{ML.cline}{Description of 'comp2'}
-\item{obsData}{Description of 'comp2'}
-%% ...
+\item{llFunc}{\code{llFunc} from above.}
+\item{data.mcmc}{\code{data.mcmc} from above.}
+\item{data.param}{\code{data.mcmc} as a \code{data.frame}.}
+\item{data.LL}{The log likelihood of each row of \code{data.param}.}
+\item{ML.cline}{See \code{\link{hzar.get.ML.cline}}.}
+\item{obsData}{The \code{\link{hzar.obsData}} object backing
+  \code{llFunc}. }
 }
 % \references{
 % %% ~put references to the literature/web site here ~
@@ -72,6 +75,7 @@ Graham Derryberry \email{asterion@alum.mit.edu}
   \code{\link{hzar.eval.clineLL}}
   \code{\link{hzar.extract.obsData}}
   \code{\link{hzar.dataGroup.add}}
+  \code{\link{hzar.fit2DataGroup}}
 }
 \examples{
 ##TODO

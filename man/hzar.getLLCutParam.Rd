@@ -6,8 +6,6 @@
 }
 \description{
   To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 hzar.getLLCutParam(dataGroups, params, cutValue = 2)
@@ -15,75 +13,42 @@ hzar.getLLCutParam(dataGroups, params, cutValue = 2)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroups}{
-%%     ~~Describe \code{dataGroups} here~~
+    Either a \code{\link{hzar.dataGroup}} object, or a list of
+    \code{\link{hzar.dataGroup}} objects.
 }
-  \item{params}{
-%%     ~~Describe \code{params} here~~
+\item{params}{
+  The parameters to report.
 }
-  \item{cutValue}{
-%%     ~~Describe \code{cutValue} here~~
+\item{cutValue}{
+  The number of log likelihood units to retain.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{data.frame}}, with 2 columns for each parameter
+  requested, containing the maximum and minimum parameter value within
+  \code{cutValue} log likelihood units of the maximum likelihood
+  observed. 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{hzar.dataGroup}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (dataGroups, params, cutValue = 2) 
-% {
-%     params <- as.character(params)
-%     if (inherits(dataGroups, c("hzar.fitRequest", "hzar.dataGroup"))) {
-%         dataGroups <- hzar.fit2DataGroup(dataGroups)
-%     }
-%     else if (is.list(dataGroups)) {
-%         if (is.character(names(dataGroups))) {
-%             return(do.call(rbind, sapply(names(dataGroups), function(x) hzar.getLLCutParam(dataGroups[[x]], 
-%                 params, cutValue), simplify = FALSE)))
-%         }
-%         return(do.call(rbind, lapply(dataGroups, hzar.getLLCutParam, 
-%             params, cutValue)))
-%     }
-%     else {
-%         stop("hzar.getLLCutParam does not understand class of dataGroups.")
-%     }
-%     data.param = dataGroups$data.param[dataGroups$data.LL$model.LL > 
-%         max(dataGroups$data.LL$model.LL - cutValue), ]
-%     tempFunc <- function(x) {
-%         res <- list(min(data.param[[x]]), max(data.param[[x]]))
-%         names(res) <- paste(x, cutValue, "LL", c("Low", "High"), 
-%             sep = "")
-%         return(res)
-%     }
-%     return(do.call(data.frame, do.call(c, lapply(params, tempFunc))))
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

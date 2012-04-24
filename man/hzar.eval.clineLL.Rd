@@ -18,71 +18,35 @@ hzar.eval.clineLL(data, llFunc, doPar = FALSE)
   \item{data}{
 %%     ~~Describe \code{data} here~~
 }
-  \item{llFunc}{
-%%     ~~Describe \code{llFunc} here~~
+\item{llFunc}{
+  The log likelihood function to use.
 }
-  \item{doPar}{
-%%     ~~Describe \code{doPar} here~~
+\item{doPar}{
+  If TRUE, use \code{\link{\%dopar\%}} to iterate over the rows of
+  \code{data}. 
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A data.frame with a single column containing the log likelihoods for
+each row of \code{data}.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{\%dopar\%}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (data, llFunc, doPar = FALSE) 
-% {
-%     slices <- hzar.wedgeSlice(dim(data)[[1]])
-%     useFunc = llFunc
-%     useData = data
-%     if (doPar) {
-%         result <- foreach(tttIndex = slices, .combine = rbind) \%dopar\% 
-%             {
-%                 data.frame(model.LL = as.numeric(lapply(tttIndex, 
-%                   function(x) {
-%                     useFunc(useData[x, ])
-%                   })))
-%             }
-%     }
-%     else {
-%         result <- foreach(tttIndex = slices, .combine = rbind) \%do\% 
-%             {
-%                 data.frame(model.LL = as.numeric(lapply(tttIndex, 
-%                   function(x) {
-%                     useFunc(useData[x, ])
-%                   })))
-%             }
-%     }
-%     return(result)
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

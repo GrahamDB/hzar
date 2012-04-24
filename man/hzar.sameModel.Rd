@@ -12,16 +12,15 @@
 \usage{
 hzar.sameModel(fitA, fitB)
 hzar.sameObsData(fitA, fitB)
-
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitA}{
-%%     ~~Describe \code{fitA} here~~
-}
+    An object to compare.
+  }
   \item{fitB}{
-%%     ~~Describe \code{fitB} here~~
-}
+    An object to compare.
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -62,34 +61,9 @@ hzar.sameObsData(fitA, fitB)
 % \seealso{
 % %% ~~objects to See Also as \code{\link{help}}, ~~~
 % }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (fitA, fitB) 
-% {
-%     if (!inherits(fitA, c("hzar.fitRequest", "hzar.dataGroup")) || 
-%         !inherits(fitB, c("hzar.fitRequest", "hzar.dataGroup"))) {
-%         stop("Can only compare hzar.fitRequest or hzar.dataGroup objects.")
-%     }
-%     return(isTRUE(all.equal(hzar.extract.modelPrep(fitA), hzar.extract.modelPrep(fitB))))
-%   }
-
-% ## The function is currently defined as
-% function (fitA, fitB) 
-% {
-%     if (!inherits(fitA, c("hzar.fitRequest", "hzar.dataGroup", 
-%         "clineSampleData1D", "clineSampleData1DCLT", "hzar.obsData", 
-%         "hzar.obsDataGroup")) || !inherits(fitB, c("hzar.fitRequest", 
-%         "hzar.dataGroup", "clineSampleData1D", "clineSampleData1DCLT", 
-%         "hzar.obsData", "hzar.obsDataGroup"))) {
-%         stop("Can only compare hzar data objects.")
-%     }
-%     return(identical(hzar.extract.obsData(fitA)$frame, hzar.extract.obsData(fitB)$frame))
-%   }
-}
+% \examples{
+% ##TODO
+% }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 % \keyword{ ~kwd1 }

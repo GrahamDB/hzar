@@ -3,20 +3,25 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Generate a data frame with sampled parameters and log likelihoods.
-%%  ~~function to do ... ~~
 }
 \description{
-  To be written.
+  To be written. Primarily for internal use.
 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-hzar.mcmc.bindLL(fitRequest, dataGroup = hzar.fit2DataGroup(fitRequest), mcmcData = fitRequest$mcmcRaw, llFunc = dataGroup$llFunc, llData = dataGroup$data.LL, t0 = start(mcmcData), tF = thin(mcmcData))
+hzar.mcmc.bindLL(fitRequest,
+                 dataGroup = hzar.fit2DataGroup(fitRequest),
+                 mcmcData = fitRequest$mcmcRaw,
+                 llFunc = dataGroup$llFunc,
+                 llData = dataGroup$data.LL,
+                 t0 = start(mcmcData),
+                 tF = thin(mcmcData))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
+    
 }
   \item{dataGroup}{
 %%     ~~Describe \code{dataGroup} here~~
@@ -37,47 +42,29 @@ hzar.mcmc.bindLL(fitRequest, dataGroup = hzar.fit2DataGroup(fitRequest), mcmcDat
 %%     ~~Describe \code{tF} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A data.frame, with columns for each free parameter and the log
+  likelihood of each row.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
 
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.dataGroup}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (fitRequest, dataGroup = hzar.fit2DataGroup(fitRequest), 
-%     mcmcData = fitRequest$mcmcRaw, llFunc = dataGroup$llFunc, 
-%     llData = dataGroup$data.LL, t0 = start(mcmcData), tF = thin(mcmcData)) 
-% {
-%     data <- cbind(mcmcData, llData)
-%     result <- mcmc(data = as.matrix(data), start = t0, thin = tF)
-%     return(result)
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

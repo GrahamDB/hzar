@@ -3,13 +3,11 @@
 \alias{hzar.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a hzar.cline object.
+  Make a \code{hzar.cline} object.
 %%  ~~function to do ... ~~
 }
 \description{
   To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(func))
@@ -17,61 +15,49 @@ hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(fun
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{free.parameters}{
-%%     ~~Describe \code{free.parameters} here~~
-}
+    The optimized parameter values for this cline.
+  }
   \item{parameters}{
-%%     ~~Describe \code{parameters} here~~
-}
+    All of the parameter values for this cline.
+  }
   \item{func}{
-%%     ~~Describe \code{func} here~~
-}
+    The estimator function for this cline.
+  }
   \item{LL}{
-%%     ~~Describe \code{LL} here~~
-}
+    The log likelihood of this cline.
+  }
   \item{isValid}{
-%%     ~~Describe \code{isValid} here~~
+    Is this cline valid?
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+ A \code{hzar.cline} object.
+ \item{param.free}{\code{free.parameters}}
+ \item{param.all}{\code{parameters}}
+ \item{clineFunc}{\code{func}}
+ \item{logLike}{\code{LL}}
+ \item{isValid}{\code{isValid}}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+% %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+% \seealso{
+% %% ~~objects to See Also as \code{\link{help}}, ~~~
+% }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-% ## The function is currently defined as
-% function (free.parameters, parameters, func, LL, isValid = is.function(func)) 
-% {
-%     obj <- list(param.free = free.parameters, param.all = parameters, 
-%         clineFunc = func, logLike = LL, isValid = isValid)
-%     class(obj) <- "hzar.cline"
-%     return(obj)
-%   }
+##TODO
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
