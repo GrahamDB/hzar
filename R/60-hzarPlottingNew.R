@@ -60,7 +60,16 @@ hzar.plot.cline<-function(cline,add=FALSE,...){
 }
 
 
-hzar.mcmc.bindLL <-function(fitRequest,dataGroup=hzar.fit2DataGroup(fitRequest),mcmcData=fitRequest$mcmcRaw,llFunc=dataGroup$llFunc,llData=dataGroup$data.LL,t0=start(mcmcData),tF=thin(mcmcData)){
+hzar.mcmc.bindLL <-
+  function(fitRequest,
+           dataGroup=hzar.fit2DataGroup(fitRequest),
+           mcmcData=ifelse(
+             inherits(fitRequest,"hzar.fitRequest"),
+             fitRequest$mcmcRaw,
+             as.mcmc(dataGroup$data.mcmc)),
+           llData=dataGroup$data.LL,
+           t0=start(mcmcData),
+           tF=thin(mcmcData)){
   data<-cbind(mcmcData,llData);
 ## print( data[1:50,]);
   result<-mcmc(data=as.matrix(data),start=t0,thin=tF);

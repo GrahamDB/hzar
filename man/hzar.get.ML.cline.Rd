@@ -6,9 +6,10 @@
 %%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  A method for retrieving the fitted cline object (a
+  \code{\link{hzar.cline}} object) with the maximum likelihood
+  calculated from a fitted cline model (a \code{\link{hzar.dataGroup}}
+  object or a successful \code{\link{hzar.fitRequest}})
 }
 \usage{
 hzar.get.ML.cline(fitRequest)
@@ -16,7 +17,8 @@ hzar.get.ML.cline(fitRequest)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
+    A \code{\link{hzar.dataGroup}} object or a successful
+    \code{\link{hzar.fitRequest}} object.
 }
 }
 % \details{
@@ -35,9 +37,9 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-% \seealso{
-% %% ~~objects to See Also as \code{\link{help}}, ~~~
-% }
+\seealso{
+\code{\link{hzar.gen.cline}}
+}
 % \examples{
 % ##---- Should be DIRECTLY executable !! ----
 % ##-- ==>  Define data, use random,

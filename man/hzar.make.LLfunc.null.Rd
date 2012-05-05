@@ -4,7 +4,6 @@
   Likelihood function for the null model
 }
 \description{
-  To be written.
   Likelihood function for the null model (frequency independent of
   location). 
 }

@@ -5,7 +5,9 @@
   Get the region of parameter space close to the maximum likelihood
 }
 \description{
-  To be written.
+  This function returns the range of parameter values that are within
+  two log likelihood units of the maximum likelihood for a provided
+  character vector of parameters. 
 }
 \usage{
 hzar.getLLCutParam(dataGroups, params, cutValue = 2)

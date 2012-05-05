@@ -5,7 +5,8 @@
   Plot a cline region for multiple models and / or loci. 
 }
 \description{
-  To be written.
+  Generates and plots multiple hzar.fzCline objects on the same graph,
+  using shading lines to identify each cline region.
 }
 \usage{
 hzar.overPlot.fzCline(dataGroupSet,
@@ -64,12 +65,14 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{polygon}}
   \code{\link{hzar.getCredParamRed}}
   \code{\link{hzar.plot.fzCline}}
+  \code{\link{hzar.dataGroup}}
 }
-\examples{
-##TOdO
-}
+% \examples{
+% ##TOdO
+% }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
 % \keyword{ ~kwd1 }

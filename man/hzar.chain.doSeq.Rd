@@ -5,7 +5,9 @@
 
 }
 \description{
-  \code{hzar.chain.doSeq} iteratively calls 
+  \code{hzar.chain.doSeq} cyclically calls \code{\link{hzar.doFit}} and
+  \code{\link{hzar.next.fitRequest}} in order to optimize the covariance
+  matrix driving mcmc process, \code{\link{MCMCmetrop1R}}.
 }
 \usage{
 hzar.chain.doSeq(hzar.request, count = 3, collapse = FALSE, announce.complete = "Chain Complete")

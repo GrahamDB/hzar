@@ -2,11 +2,12 @@
 \alias{hzar.gen.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a hzar.cline object using the given parameters and model.
+  Make a \code{hzar.cline} object using the given parameters and model.
 %%  ~~function to do ... ~~
 }
 \description{
-  To be written.
+  Make a \code{\link{hzar.cline}} object using the given parameters and model.
+
 }
 \usage{
 hzar.gen.cline(free.parameters, fitRequest)
@@ -14,11 +15,13 @@ hzar.gen.cline(free.parameters, fitRequest)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{free.parameters}{
-%%     ~~Describe \code{free.parameters} here~~
-}
+    A named list of free parameter values.
+  }
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
-}
+    An object refering to the model that should be used, such as a
+    \code{\link{hzar.fitRequest}} or \code{\link{hzar.dataGroup}}
+    object. 
+  }
 }
 % \details{
 % %%  ~~ If necessary, more details than the description above ~~

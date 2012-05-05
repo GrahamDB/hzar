@@ -3,10 +3,14 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Transformations of Scalar Data into Bernoulli Trials 
-%%  ~~function to do ... ~~
 }
 \description{
-  To be written.
+  This method operates on a collection of sampled scalar values and the
+  sample location site factor.  It calculates a score for each
+  \quote{cut} value that can split the samples into unique groups, and
+  either returns those scores, the cut value with the best score, or a
+  table of the frequencies of the sample values that are less than the
+  cut value with the best score.
 }
 \usage{
 hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
@@ -14,25 +18,33 @@ hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{values}{
-    %%     ~~Describe \code{values} here~~
+    The sample values to use.
   }
   \item{locations}{
-    %%     ~~Describe \code{locations} here~~
+    The factor grouping sample values by sample site.
   }
   \item{getMax}{
-    %%     ~~Describe \code{getMax} here~~
+    Should this method return the best cut value?
   }
   \item{getProbs}{
-    %%     ~~Describe \code{getProbs} here~~
+    Should this method return the table of frequencies of sample values
+    which are less than the best cut value?
   }
 }
 \details{
-  ##TODO 
+  The score for a cut value is the information of learning the location
+  of a sample conditioned on the knowledge of the whether the sample
+  value is greater or less than the cut value.  This score indicates how
+  little a cut value distinguishes between populations.
+
+  The best scoring cut value is the one that determines the greatest
+  amount of information about the sample location and therefore it is
+  the one with lowest score.
 }
 \value{
-  ##TODO variable output
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
+  Either a vector of scores, a single cut value, or a table of
+  frequencies of the sample values that are less than the cut value with
+  the best score. 
 }
 % \references{
 % %% ~put references to the literature/web site here ~
@@ -49,11 +61,10 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 \seealso{
   \code{\link{hzar.doMorphoSets}}
   \code{\link{hzar.obsData}}
-  %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{
-##TODO
-}
+% \examples{
+% ##TODO
+% }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
 % \keyword{ ~kwd1 }

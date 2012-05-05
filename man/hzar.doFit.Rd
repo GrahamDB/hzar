@@ -4,7 +4,6 @@
   Run the optimizer.
 }
 \description{
-  To be written.
  Run the optimizer using the parameters listed in the
  \code{\link{hzar.fitRequest}} given.
 }
@@ -28,7 +27,6 @@ hzar.doFit(fitRequest)
 \seealso{
   \code{\link{hzar.fitRequest}}
   \code{\link{MCMCmetrop1R}} 
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 

@@ -5,7 +5,6 @@
   Compile and transform raw scalar data
 }
 \description{
-  To be written.
   Compile and transform raw scalar data into a frequency based
   \code{\link{hzar.obsData}} object. 
 }
