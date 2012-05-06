@@ -63,10 +63,12 @@ hzar.plot.cline<-function(cline,add=FALSE,...){
 hzar.mcmc.bindLL <-
   function(fitRequest,
            dataGroup=hzar.fit2DataGroup(fitRequest),
-           mcmcData=ifelse(
-             inherits(fitRequest,"hzar.fitRequest"),
-             fitRequest$mcmcRaw,
-             as.mcmc(dataGroup$data.mcmc)),
+           mcmcData=if(inherits(fitRequest,"hzar.fitRequest")){
+             mcmc(fitRequest$mcmcRaw,
+                  thin=fitRequest$mcmcParam$thin,
+                  start=1+fitRequest$mcmcParam$burnin);
+           }else{
+             as.mcmc(dataGroup$data.mcmc)},
            llData=dataGroup$data.LL,
            t0=start(mcmcData),
            tF=thin(mcmcData)){

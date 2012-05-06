@@ -6,9 +6,8 @@
 %%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Generates a \code{\link{hzar.dataGroup}} object representing a fit of
+  the null model to a \code{\link{hzar.obsData}} object.
 }
 \usage{
 hzar.dataGroup.null(obsData)
@@ -16,8 +15,9 @@ hzar.dataGroup.null(obsData)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obsData}{
-%%     ~~Describe \code{obsData} here~~
-}
+    The \code{\link{hzar.obsData}} object for which to generate a
+    \code{\link{hzar.dataGroup}} object. 
+  }
 }
 % \details{
 % %%  ~~ If necessary, more details than the description above ~~
@@ -40,9 +40,17 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 
 \seealso{
   \code{\link{hzar.dataGroup}}
+  \code{\link{hzar.obsData}}
+  \code{\link{hzar.make.LLfunc.null}}
 }
 \examples{
-##TODO
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mkn.AdaA.null <- hzar.dataGroup.null(mknAdaA)
+hzar.plot.cline(mkn.AdaA.null);
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

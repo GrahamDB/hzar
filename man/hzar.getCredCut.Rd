@@ -3,12 +3,12 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Get the minimum log likelihood of sufficient credibility.
-%%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This method first calculates the cumalitive distribution using the
+  sampled likelihoods and the selects the greatest likelihood that has
+  no more than \code{rejectionPercent} of the cumalitive likelihood
+  distribution less than that likelihood.
 }
 \usage{
 hzar.getCredCut(dataGroup, rejectionPercent = 0.05)
@@ -16,38 +16,34 @@ hzar.getCredCut(dataGroup, rejectionPercent = 0.05)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroup}{
-%%     ~~Describe \code{dataGroup} here~~
-}
+    The \code{\link{hzar.dataGroup}} object to analyze.
+  }
   \item{rejectionPercent}{
-%%     ~~Describe \code{rejectionPercent} here~~
+    The proportion of the cumalitive likelihood distribuition to
+    reject. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The greatest likelihood that has no more than \code{rejectionPercent}
+  of the cumalitive likelihood distribution less than that likelihood.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
-
-%%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.dataGroup}}
 }
 % \examples{
 % ##---- Should be DIRECTLY executable !! ----

@@ -3,11 +3,13 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Copy names from one hzar object to another.
-%%  ~~function to do ... ~~
 }
 \description{
-  To be written.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Set the \code{\link{names}} of the list of
+  \code{\link{hzar.dataGroup}} objects contained in a
+  \code{\link{hzar.obsDataGroup}} object using the names from either a
+  named list of \code{\link{hzar.dataGroup}} objects or another
+  \code{\link{hzar.obsDataGroup}} object.
 }
 \usage{
 hzar.copyModelLabels(group1, group2)
@@ -36,7 +38,9 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+  \code{\link{hzar.dataGroup}}
   \code{\link{hzar.obsDataGroup}}
+  \code{\link{names}}
 }
 % \examples{
 % ##---- Should be DIRECTLY executable !! ----

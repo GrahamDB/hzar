@@ -3,7 +3,6 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Extract the maximum likelihood cline.
-%%  ~~function to do ... ~~
 }
 \description{
   A method for retrieving the fitted cline object (a

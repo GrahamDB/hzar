@@ -7,7 +7,7 @@
 \description{
   This method operates on a collection of sampled scalar values and the
   sample location site factor.  It calculates a score for each
-  \quote{cut} value that can split the samples into unique groups, and
+  "cut" value that can split the samples into unique groups, and
   either returns those scores, the cut value with the best score, or a
   table of the frequencies of the sample values that are less than the
   cut value with the best score.

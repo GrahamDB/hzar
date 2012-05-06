@@ -5,8 +5,9 @@
   Create a 95\% credibility hzar.fzCline object
 }
 \description{
-  To be written.
-
+  Generate a \code{\link{hzar.fzCline}} of the parameter subset selected
+  from a \code{\link{hzar.dataGroup}} by \code{\link{hzar.getCredParam}}
+  with a \code{rejectionPercent} of \code{0.05}.
 }
 \usage{
 hzar.getCredParamRed(dataGroup)
@@ -29,7 +30,6 @@ hzar.getCredParamRed(dataGroup)
 % }
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
-
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -37,11 +37,12 @@ hzar.getCredParamRed(dataGroup)
 \seealso{
   \code{\link{hzar.make.fzCline}}
   \code{\link{hzar.getCredParam}}
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.dataGroup}}
+  \code{\link{hzar.fzCline}}
 }
-\examples{
-##TODO
-}
+% \examples{
+% ##TODO
+% }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
 % \keyword{ ~kwd1 }
