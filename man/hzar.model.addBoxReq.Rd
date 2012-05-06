@@ -81,8 +81,10 @@ mknAdaA <-
                              manakinMolecular$ada.nSamples);
 mknAdaAmodel <-
   hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
-hzar.model.addBoxReq(mknAdaAmodel,-30,600);
+mknAdaAmodelB <-
+  hzar.model.addBoxReq(mknAdaAmodel,-30,600);
 mknAdaAmodel$req;
+mknAdaAmodelB$req;
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
