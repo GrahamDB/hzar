@@ -44,9 +44,9 @@ hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
   \code{traitNames} are used as names.  The Bernoulli likelihood
   function is for each \code{\link{hzar.obsData}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}
 }

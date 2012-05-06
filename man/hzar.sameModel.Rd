@@ -22,9 +22,9 @@ hzar.sameObsData(fitA, fitB)
     An object to compare.
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
   FALSE if the objects can not be compared (either does not have an
   associated model or observed data).
