@@ -29,10 +29,10 @@ hzar.make.obsDataGroup(dataGroups, obsDataGroup = NULL)
     %%     ~~Describe \code{obsDataGroup} here~~
   }
 }
-\details{
+% \details{
   
-%%  ~~ If necessary, more details than the description above ~~
-}
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
   A hzar.obsDataGroup object.
   \item{data.groups}{A list of hzar.dataGroup objects, each with a unique
@@ -60,7 +60,36 @@ Graham Derryberry \email{asterion@alum.mit.edu}
   \code{\link{hzar.dataGroup}}
 }
 \examples{
-##TODO
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+hzar.plot.obsData(mknAdaA);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodel <-
+  hzar.model.addBoxReq(mknAdaAmodel,-30,600);
+mknAdaAmodelFitR <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAmodelFitR$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFit <- hzar.doFit(mknAdaAmodelFitR)
+mknAdaAmodelData <-
+  hzar.dataGroup.add(mknAdaAmodelFit);
+mknAdaAmodelFitL <-
+    hzar.chain.doSeq(hzar.next.fitRequest(mknAdaAmodelFit));
+mknAdaAmodelNull <- hzar.dataGroup.null(mknAdaA);
+mknAdaAdGs <- list(clineModel = mknAdaAmodelData,
+                   nullModel  = mknAdaAmodelNull);
+mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelFit);
+mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelFitL,mknAdaAoDG);
+mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelNull,mknAdaAoDG);
+
+mknAdaAoDG <- hzar.copyModelLabels(mknAdaAdGs,mknAdaAoDG);
+hzar.plot.cline(mknAdaAoDG);
+print(hzar.AICc.hzar.obsDataGroup(mknAdaAoDG));
 
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
