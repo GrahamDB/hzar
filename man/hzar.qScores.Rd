@@ -7,7 +7,8 @@
   Calculate credibility intervals.
 }
 \description{
-  To be written.
+  Calculate the values with an estimated cumulative likelihood
+  equal to \code{probs} for the weighted sampled distribution.
 }
 \usage{
 hzar.qScores(x, wt, probs = c(0, 0.25, 0.5, 0.75, 1))
@@ -23,7 +24,7 @@ hzar.qScores.obsDataGroup(oDG, probs = c(0.025, 0.5, 0.975))
     The log of the weight applied to each value.
   }
   \item{probs}{
-    The frequencies to calculate.
+    The cumalitve probality values for which to calculate intervals.
   }
   \item{dataGroup}{
     The \code{\link{hzar.dataGroup}} to analyze.
@@ -33,21 +34,26 @@ hzar.qScores.obsDataGroup(oDG, probs = c(0.025, 0.5, 0.975))
   }
 }
 \details{
-  TODO
-  
-  hzar.qScores.dataGroup generates quantiles for all of the free
+  hzar.qScores.dataGroup generates intervals for all of the free
   parameters.
   
-  hzar.qScores.obsDataGroup generates quantiles for the cline model with
+  hzar.qScores.obsDataGroup generates intervals for the cline model with
   the best AICc score. 
-
 }
 \value{
-  TODO
+  For \code{hzar.qScores}, the values with an estimated cumulative likelihood
+  equal to \code{probs}.
 
- \item{comp1 }{Description of 'comp1'}
- \item{comp2 }{Description of 'comp2'}
-}
+  For both \code{hzar.qScores.dataGroup} and
+  \code{hzar.qScores.obsDataGroup}, a data.frame with one column "q" for
+  \code{probs}, and one additional column for each free parameter with
+  the values returned by \code{hzar.qScores} for \code{probs}, given the
+  parameter samples and likelihoods.
+  
+} 
+  % \item{comp1 }{Description of 'comp1'}
+  % \item{comp2 }{Description of 'comp2'}
+%} 
 % \references{
 % %% ~put references to the literature/web site here ~
 % }

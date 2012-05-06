@@ -5,9 +5,8 @@
   Generate credibility scores.
 }
 \description{
-  To be written.
-
-  Currently for internal use.
+  Determine the series of weights on a series of intervals from a series
+  of weighted samples. 
 }
 \usage{
 hzar.qScores.getScores(xSeries, dSeries, raw.x, raw.wt)
@@ -21,17 +20,17 @@ hzar.qScores.getScores(xSeries, dSeries, raw.x, raw.wt)
     Widths of locations.
   }
   \item{raw.x}{
-    Data samples for numerical integration.
+    Data samples of the distribution.
   }
   \item{raw.wt}{
-    Log likelihood of weight to apply.
+    Log of the weight to apply to each sample.
   }
 }
 % \details{
 % %%  ~~ If necessary, more details than the description above ~~
 % }
 \value{
-  The values of the weighted integration performed.
+  The weights on the intervals given.
 }
 % \references{
 % %% ~put references to the literature/web site here ~
@@ -53,5 +52,5 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 % }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
-% \keyword{ ~kwd1 }
+\keyword{ internal }
 % \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
