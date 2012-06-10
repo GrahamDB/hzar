@@ -65,15 +65,20 @@ mknAdaAmodelFitR <-
    hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
                                 mknAdaA,
                                 verbose=FALSE);
-mknAdaAmodelFitR$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFitR$mcmcParam$chainLength <- 2e3;
+mknAdaAmodelFitR$mcmcParam$burnin <- 5e2;
 mknAdaAmodelFit <- hzar.doFit(mknAdaAmodelFitR)
 plot(hzar.mcmc.bindLL(mknAdaAmodelFit))
 mknAdaAmodelData <-
+  hzar.dataGroup.add(mknAdaAmodelFit);
+\dontrun{
+mknAdaAmodelData <-
   hzar.dataGroup.add(
-    mknAdaAmodelFit,
+    mknAdaAmodelData,
     hzar.chain.doSeq(hzar.next.fitRequest(mknAdaAmodelFit)));
 hzar.plot.cline(mknAdaAmodelData);
 hzar.plot.fzCline(mknAdaAmodelData);
+}
 print(hzar.getLLCutParam(mknAdaAmodelData,c("center","width")));
 mknAdaAmodelNull <- hzar.dataGroup.null(mknAdaA);
 mknAdaAdGs <- list(clineModel = mknAdaAmodelData,

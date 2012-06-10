@@ -78,8 +78,10 @@ mknAdaAmodelFit <-
    hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
                                 mknAdaA,
                                 verbose=FALSE);
-mknAdaAmodelFit$mcmcParam$chainLength <- 1e5;
-str(hzar.chain.doSeq(mknAdaAmodelFit));
+mknAdaAmodelFit$mcmcParam$chainLength <- 2e3;
+mknAdaAmodelFit$mcmcParam$burnin <- 1e2;
+mknAdaAmodelFit$mcmcParam$thin <- 50;
+str(hzar.chain.doSeq(mknAdaAmodelFit, count=2));
 
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the

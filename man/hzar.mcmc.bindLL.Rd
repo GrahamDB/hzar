@@ -79,7 +79,8 @@ mknAdaAmodelFit <-
    hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
                                 mknAdaA,
                                 verbose=FALSE);
-mknAdaAmodelFit$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFit$mcmcParam$chainLength <- 5e3;
+mknAdaAmodelFit$mcmcParam$burnin <- 5e2;
 plot(hzar.mcmc.bindLL(hzar.doFit(mknAdaAmodelFit)));
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the

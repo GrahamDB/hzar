@@ -74,17 +74,20 @@ mknAdaAmodelFitR <-
    hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
                                 mknAdaA,
                                 verbose=FALSE);
-mknAdaAmodelFitR$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFitR$mcmcParam$chainLength <- 5e3;
+mknAdaAmodelFitR$mcmcParam$burnin <- 5e2;
 mknAdaAmodelFit <- hzar.doFit(mknAdaAmodelFitR)
 mknAdaAmodelData <-
   hzar.dataGroup.add(mknAdaAmodelFit);
+\dontrun{
 mknAdaAmodelFitL <-
-    hzar.chain.doSeq(hzar.next.fitRequest(mknAdaAmodelFit));
+    hzar.chain.doSeq(hzar.next.fitRequest(mknAdaAmodelFit), count=3);
+}
 mknAdaAmodelNull <- hzar.dataGroup.null(mknAdaA);
 mknAdaAdGs <- list(clineModel = mknAdaAmodelData,
                    nullModel  = mknAdaAmodelNull);
 mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelFit);
-mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelFitL,mknAdaAoDG);
+\dontrun{mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelFitL,mknAdaAoDG);}
 mknAdaAoDG <- hzar.make.obsDataGroup(mknAdaAmodelNull,mknAdaAoDG);
 
 mknAdaAoDG <- hzar.copyModelLabels(mknAdaAdGs,mknAdaAoDG);

@@ -71,7 +71,8 @@ mknAdaAmodelFit <-
    hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
                                 mknAdaA,
                                 verbose=FALSE);
-mknAdaAmodelFit$mcmcParam$chainLength <- 1e5;
+mknAdaAmodelFit$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFit$mcmcParam$burnin <- 5e2;
 mknAdaAFit <- hzar.doFit(mknAdaAmodelFit);
 str(hzar.fit2DataGroup(mknAdaAFit));
 }
