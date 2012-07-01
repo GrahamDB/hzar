@@ -2,11 +2,12 @@
 \alias{hzar.gen.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a hzar.cline object using the given parameters and model.
+  Make a \code{hzar.cline} object using the given parameters and model.
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Make a \code{\link{hzar.cline}} object using the given parameters and model.
+
 }
 \usage{
 hzar.gen.cline(free.parameters, fitRequest)
@@ -14,56 +15,58 @@ hzar.gen.cline(free.parameters, fitRequest)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{free.parameters}{
-%%     ~~Describe \code{free.parameters} here~~
-}
+    A named list of free parameter values.
+  }
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
+    An object refering to the model that should be used, such as a
+    \code{\link{hzar.fitRequest}} or \code{\link{hzar.dataGroup}}
+    object. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The \code{\link{hzar.cline}} object requested.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.cline}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (free.parameters, fitRequest) 
-{
-    context <- hzar.extract.modelPrep(fitRequest)
-    cline.func <- NULL
-    cline.param <- c(as.list(free.parameters), context$param.fixed)
-    if (do.call(context$model.req, as.list(free.parameters))) {
-        cline.func <- do.call(context$model.gen, as.list(free.parameters))
-    }
-    return(hzar.make.cline(free.parameters, parameters = cline.param, 
-        func = cline.func, LL = context$llFunc(free.parameters)))
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+hzar.plot.obsData(mknAdaA);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodel <-
+  hzar.model.addBoxReq(mknAdaAmodel,-30,600);
+mknAdaAmodelFitR <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAcline <- hzar.gen.cline(list(center=300,width=10),
+                               mknAdaAmodelFitR);
+str(mknAdaAcline);
+hzar.plot.cline(mknAdaAmodelFitR);
+hzar.plot.cline(mknAdaAcline,add=TRUE);
+
+
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -1,12 +1,16 @@
 \name{hzar.make.cline}
 \alias{hzar.make.cline}
+\alias{hzar.cline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a hzar.cline object.
-%%  ~~function to do ... ~~
+  Make a \code{hzar.cline} object.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This method creates a \code{hzar.cline} object, which describes a
+  cline model with specific parameter values.  A log likelihood of the
+  parameters can be assigned to this object. See
+  \code{\link{hzar.gen.cline}} for a simpler method which just requires
+  the free parameters and a cline model reference.
 }
 \usage{
 hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(func))
@@ -14,61 +18,52 @@ hzar.make.cline(free.parameters, parameters, func, LL, isValid = is.function(fun
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{free.parameters}{
-%%     ~~Describe \code{free.parameters} here~~
-}
+    The optimized parameter values for this cline.
+  }
   \item{parameters}{
-%%     ~~Describe \code{parameters} here~~
-}
+    All of the parameter values for this cline.
+  }
   \item{func}{
-%%     ~~Describe \code{func} here~~
-}
+    The estimator function for this cline.
+  }
   \item{LL}{
-%%     ~~Describe \code{LL} here~~
-}
+    The log likelihood of this cline.
+  }
   \item{isValid}{
-%%     ~~Describe \code{isValid} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (free.parameters, parameters, func, LL, isValid = is.function(func)) 
-{
-    obj <- list(param.free = free.parameters, param.all = parameters, 
-        clineFunc = func, logLike = LL, isValid = isValid)
-    class(obj) <- "hzar.cline"
-    return(obj)
+    Is this cline valid?
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
+\value{
+  A \code{hzar.cline} object.
+  A list with the values:
+  \item{param.free}{See \code{free.parameters} above}
+  \item{param.all}{See \code{parameters} above}
+  \item{clineFunc}{See \code{func} above}
+  \item{logLike}{See \code{LL} above}
+  \item{isValid}{See \code{isValid} above}
+}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
+\author{
+  Graham Derryberry \email{asterion@alum.mit.edu}
+}
+% \note{
+% %%  ~~further notes~~
+% }
+
+% %% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+  \code{\link{hzar.gen.cline}}
+}
+% \examples{
+% ##TODO
+% }
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

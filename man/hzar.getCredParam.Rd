@@ -3,10 +3,10 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Select a credible subset of a collection of parameters.
-%%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Select the subset of the generated samples wuth a likelihood greater
+  that the result of \code{\link{hzar.getCredCut}}. 
 }
 \usage{
 hzar.getCredParam(dataGroup, rejectionPercent = 0.05)
@@ -14,59 +14,58 @@ hzar.getCredParam(dataGroup, rejectionPercent = 0.05)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroup}{
-%%     ~~Describe \code{dataGroup} here~~
-}
+    The \code{\link{hzar.dataGroup}} object to analyze.
+  }
   \item{rejectionPercent}{
-%%     ~~Describe \code{rejectionPercent} here~~
+    The proportion of the cumalitive likelihood distribuition to
+    reject. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{data.frame}} of the subset of the generated samples. 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{data.frame}}
+  \code{\link{hzar.getCredCut}}
+  \code{\link{hzar.dataGroup}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+% \examples{
+% ##---- Should be DIRECTLY executable !! ----
+% ##-- ==>  Define data, use random,
+% ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (dataGroup, rejectionPercent = 0.05) 
-{
-    if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        dataGroup <- hzar.fit2DataGroup(dataGroup)
-    }
-    else if (is.list(dataGroup) && length(dataGroup) > 0 && inherits(dataGroup[[1]], 
-        c("hzar.fitRequest", "hzar.dataGroup"))) {
-        warning("Only calculating LL cut for first element in list")
-        dataGroup <- hzar.fit2DataGroup(dataGroup[[1]])
-    }
-    credible.LLcut <- hzar.getCredCut(dataGroup, rejectionPercent)
-    return(dataGroup$data.param[dataGroup$data.LL$model.LL > 
-        credible.LLcut, ])
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % ## The function is currently defined as
+% % function (dataGroup, rejectionPercent = 0.05) 
+% % {
+% %     if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
+% %         dataGroup <- hzar.fit2DataGroup(dataGroup)
+% %     }
+% %     else if (is.list(dataGroup) && length(dataGroup) > 0 && inherits(dataGroup[[1]], 
+% %         c("hzar.fitRequest", "hzar.dataGroup"))) {
+% %         warning("Only calculating LL cut for first element in list")
+% %         dataGroup <- hzar.fit2DataGroup(dataGroup[[1]])
+% %     }
+% %     credible.LLcut <- hzar.getCredCut(dataGroup, rejectionPercent)
+% %     return(dataGroup$data.param[dataGroup$data.LL$model.LL > 
+% %         credible.LLcut, ])
+% %   }
+% }
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

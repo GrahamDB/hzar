@@ -2,44 +2,45 @@
 \alias{manakinMorphological}
 \docType{data}
 \title{
-  Manakin observed Morphological Traits
-%%   ~~ data name/kind ... ~~
+   Manakin observed Morphological Traits
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+   Morphological Traits observations of individuals sampled from the
+   Manakin Cline.
 }
 \usage{data(manakinMorphological)}
 \format{
-  A data frame with 213 observations on the following 14 variables.
+  A data frame with 165 observations on the following 7 variables.
   \describe{
-   
-    \item{\code{PopulationID}}{a factor}
-    \item{\code{Location}}{a factor with levels \code{Chiriqui Grande} \code{Costa Rica} \code{Quebrada Pastores} \code{Rio Changuinola} \code{Rio Oeste} \code{Rio Robalo} \code{Rio Sixaola} \code{Rio Teribe} \code{Rio Uyama} \code{Soberania} \code{Tierra Oscura} \code{Valiente Peninsula}}
-    \item{\code{TissueID}}{a factor}
-    \item{\code{Mass}}{a numeric vector}
-    \item{\code{Wing.length}}{a numeric vector}
-    \item{\code{Culmen.length}}{a numeric vector}
-    \item{\code{Bill.depth}}{a numeric vector}
-    \item{\code{Bill.width}}{a numeric vector}
-    \item{\code{Tail.length}}{a numeric vector}
-    \item{\code{Tarsus.length}}{a numeric vector}
-    \item{\code{Epaulet.width}}{a numeric vector}
-    \item{\code{Beard.length}}{a numeric vector}
-    \item{\code{Collar.color}}{a numeric vector}
-    \item{\code{Belly.color}}{a numeric vector}
+    \item{\code{Population}}{The id code of the population sample site,
+      a factor with levels \code{A} \code{B} \code{C} \code{D} \code{E}
+      \code{F} \code{G} \code{H} \code{I} \code{J} \code{K} \code{L}} 
+    \item{\code{ID}}{The ID code of the individual sampled}
+    \item{\code{Name}}{The population site name, a factor with levels
+      \code{Chiriqui_Grande} \code{Costa_Rica} \code{Quebrada_Pastores}
+      \code{Rio_Changuinola} \code{Rio_Oeste} \code{Rio_Robalo}
+      \code{Rio_Sixaola} \code{Rio_Teribe} \code{Rio_Uyama}
+      \code{Soberania} \code{Tierra_Oscura} \code{Valiente_Peninsula}} 
+    \item{\code{collar.color}}{The collar color of the individual sampled}
+    \item{\code{belly.color}}{The belly color of the individual sampled}
+    \item{\code{epaulet.width}}{The width of the epaulet of the individual sampled}
+    \item{\code{beard.length}}{The length of the beard of the individual sampled}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the __description__ above ~~
+% }
 \source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+  Brumfield, R. T., R. W. Jernigan, D. B. McDonald, and
+  M. J. Braun. 2001. Evolutionary implications of divergent clines in an
+  avian (Manacus: Aves) hybrid zone. Evolution 55:2070-2087. 
+
 }
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+% \references{
+% %%  ~~ possibly secondary sources and usages ~~
+% }
 \examples{
 data(manakinMorphological)
-## maybe str(manakinMorphological) ; plot(manakinMorphological) ...
+str(manakinMorphological)
 }
 \keyword{datasets}

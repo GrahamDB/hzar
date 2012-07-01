@@ -5,77 +5,75 @@
   Plot a cline region for multiple models and / or loci. 
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Generates and plots multiple hzar.fzCline objects on the same graph,
+  using shading lines to identify each cline region.
 }
 \usage{
 hzar.overPlot.fzCline(dataGroupSet,
-fzClineSet = sapply(
-dataGroupSet, hzar.getCredParamRed, simplify = FALSE),
-type = "p",
-fzDens = 8,
-fzShadeAngle = ((1:length(dataGroupSet)) * 180)
-\%/\% (1 + length(dataGroupSet)),
-...)
+                      fzClineSet = sapply(dataGroupSet,
+                                          hzar.getCredParamRed,
+                                          simplify = FALSE),
+                      type = "p",
+                      fzDens = 8,
+                      fzShadeAngle =
+                        ((1:length(dataGroupSet)) * 180)
+                         \%/\% (1 + length(dataGroupSet)),
+                      ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroupSet}{
-%%     ~~Describe \code{dataGroupSet} here~~
-}
+    The list of \code{\link{hzar.dataGroup}} objects to generate
+    \code{\link{hzar.fzCline}} objects for plotting.
+  }
   \item{fzClineSet}{
-%%     ~~Describe \code{fzClineSet} here~~
-}
+    The list of \code{\link{hzar.fzCline}} objects to plot.
+  }
   \item{type}{
-%%     ~~Describe \code{type} here~~
-}
+    Passed to \code{\link{hzar.plot.obsData}}.
+  }
   \item{fzDens}{
-%%     ~~Describe \code{fzDens} here~~
-}
+    Density of the shading lines. See \code{\link{polygon}}.
+  }
   \item{fzShadeAngle}{
-%%     ~~Describe \code{fzShadeAngle} here~~
-}
+    Angle of the shading lines. See \code{\link{polygon}}.
+  }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+    Additional parameters to pass to \code{\link{hzar.plot.fzCline}}. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
+% \value{
+% %%  ~Describe the value returned
+% %%  If it is a LIST, use
+% %%  \item{comp1 }{Description of 'comp1'}
+% %%  \item{comp2 }{Description of 'comp2'}
+% %% ...
+% }
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{polygon}}
+  \code{\link{hzar.getCredParamRed}}
+  \code{\link{hzar.plot.fzCline}}
+  \code{\link{hzar.dataGroup}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (dataGroupSet, fzClineSet = sapply(dataGroupSet, hzar.getCredParamRed, 
-    simplify = FALSE), type = "p", fzDens = 8, fzShadeAngle = ((1:length(dataGroupSet)) * 
-    180)\%/\%(1 + length(dataGroupSet)), ...) 
-{
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \examples{
+% ##TOdO
+% }
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -216,43 +216,43 @@ hzar.fit2DataGroup<-function(fitRequest,doPar=FALSE){
 ## arguments.  I should also consider adding a class the describes a
 ## set of chains of sequential runs to the fitting methods.
 
-hzar.dataGroup.add<-function(dataGroup, fitRequest=list(),doPar=FALSE){
+hzar.dataGroup.add<-function(dataGroup, fitRequestL=list(),doPar=FALSE){
   if( inherits(dataGroup, c("hzar.fitRequest","hzar.dataGroup")) ){
     dataGroup<-hzar.fit2DataGroup(dataGroup,doPar=doPar);
-  } else if(is.list(dataGroup) && (length(fitRequest)==0)){
+  } else if(is.list(dataGroup) && (length(fitRequestL)==0)){
     if(length(dataGroup)==0)
       return(NULL);
     oldFitRequest<-dataGroup;
     dataGroup<-hzar.fit2DataGroup(dataGroup[[1]],doPar=doPar);
     if(length(oldFitRequest)>1)
-      fitRequest<-lapply(2:length(oldFitRequest),
+      fitRequestL<-lapply(2:length(oldFitRequest),
                          function(x)oldFitRequest[[x]]);
   }else {
     stop("dataGroup not of apropriate type.");
   }
-  if( inherits(fitRequest, c("hzar.fitRequest","hzar.dataGroup")) ){
-    fitRequest<-hzar.fit2DataGroup(fitRequest,doPar=doPar);
-  } else if( is.list(fitRequest) ){
-    lapply(fitRequest,function(x)
+  if( inherits(fitRequestL, c("hzar.fitRequest","hzar.dataGroup")) ){
+    fitRequestL<-hzar.fit2DataGroup(fitRequestL,doPar=doPar);
+  } else if( is.list(fitRequestL) ){
+    lapply(fitRequestL,function(x)
            dataGroup<<-hzar.dataGroup.add(dataGroup,x,doPar=doPar));
     return(dataGroup);
   } else {
-    stop("fitRequest not of appropriate type.");
+    stop("fitRequestL not of appropriate type.");
   }
-  if( !hzar.sameModel(dataGroup,fitRequest))
-    stop("dataGroup and fitRequest must use the same model.");
+  if( !hzar.sameModel(dataGroup,fitRequestL))
+    stop("dataGroup and fitRequestL must use the same model.");
   Left.Cline<-hzar.get.ML.cline(dataGroup);
-  Right.Cline<-hzar.get.ML.cline(fitRequest);
+  Right.Cline<-hzar.get.ML.cline(fitRequestL);
   if(Right.Cline$logLike>Left.Cline$logLike)
     Left.Cline<-Right.Cline;
   return(hzar.make.dataGroup(data.mcmc=rbind(dataGroup$data.mcmc,
-                               fitRequest$data.mcmc),
+                               fitRequestL$data.mcmc),
                              llFunc=dataGroup$llFunc,
                              ML.cline=Left.Cline,
                              data.LL=rbind(dataGroup$data.LL,
-                               fitRequest$data.LL),
+                               fitRequestL$data.LL),
                              data.param=rbind(dataGroup$data.param,
-                               fitRequest$data.param),
+                               fitRequestL$data.param),
                              obsData=dataGroup$obsData));
 }
 ## a collect of hzar.dataGroup objects that share the same obsData
@@ -371,12 +371,12 @@ hzar.AICc.default <- function(maxLL,param.count,nObs){
 
 ## hzar.cline
 
-hzar.AIC.hzar.cline <- function(maxLL){
-  return(hzar.AIC.default(maxLL$logLike,length(maxLL$param.free)));
+hzar.AIC.hzar.cline <- function(cline){
+  return(hzar.AIC.default(cline$logLike,length(cline$param.free)));
 }
 
-hzar.AICc.hzar.cline <- function(maxLL,nObs){
-  return(hzar.AICc.default(maxLL$logLike,length(maxLL$param.free),nObs));
+hzar.AICc.hzar.cline <- function(cline,nObs){
+  return(hzar.AICc.default(cline$logLike,length(cline$param.free),nObs));
 }
 
 ## hzar.dataGroup

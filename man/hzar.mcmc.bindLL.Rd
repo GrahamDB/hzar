@@ -2,80 +2,88 @@
 \alias{hzar.mcmc.bindLL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Generate a data frame with sampled parameters and log likelihoods.
-%%  ~~function to do ... ~~
+  Generate a mcmc object with sampled parameters and log likelihoods.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This function returns the mcmc data with an added a log likelihood
+  column. 
 }
 \usage{
-hzar.mcmc.bindLL(fitRequest, dataGroup = hzar.fit2DataGroup(fitRequest), mcmcData = fitRequest$mcmcRaw, llFunc = dataGroup$llFunc, llData = dataGroup$data.LL, t0 = start(mcmcData), tF = thin(mcmcData))
+hzar.mcmc.bindLL(fitRequest,
+                 dataGroup = hzar.fit2DataGroup(fitRequest),
+                 mcmcData =
+                   if(inherits(fitRequest,"hzar.fitRequest")){
+                     mcmc(fitRequest$mcmcRaw,
+                          thin=fitRequest$mcmcParam$thin,
+                          start=1+fitRequest$mcmcParam$burnin);
+                   }else{
+                     as.mcmc(dataGroup$data.mcmc)},
+                 llData = dataGroup$data.LL,
+                 t0 = start(mcmcData),
+                 tF = thin(mcmcData))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
-}
+    The \code{\link{hzar.fitRequest}} or \code{\link{hzar.dataGroup}} object to use. 
+  }
   \item{dataGroup}{
-%%     ~~Describe \code{dataGroup} here~~
-}
+    The \code{\link{hzar.dataGroup}} object to use.
+  }
   \item{mcmcData}{
-%%     ~~Describe \code{mcmcData} here~~
-}
-  \item{llFunc}{
-%%     ~~Describe \code{llFunc} here~~
-}
+    The \code{\link{mcmc}} object with the series parameter values. 
+  }
   \item{llData}{
-%%     ~~Describe \code{llData} here~~
-}
+    The series of log likelihoods of the parameter values.
+  }
   \item{t0}{
-%%     ~~Describe \code{t0} here~~
-}
+    The \code{\link{start.mcmc}} attribute of the result.
+  }
   \item{tF}{
-%%     ~~Describe \code{tF} here~~
+    The \code{\link{thin.mcmc}} attribute of the result.
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{mcmc}} object, with columns for each free parameter and
+  the log likelihood of each row. 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
+
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.fitRequest}}
+  \code{\link{hzar.dataGroup}}
+  \code{\link{mcmc}}
+  
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (fitRequest, dataGroup = hzar.fit2DataGroup(fitRequest), 
-    mcmcData = fitRequest$mcmcRaw, llFunc = dataGroup$llFunc, 
-    llData = dataGroup$data.LL, t0 = start(mcmcData), tF = thin(mcmcData)) 
-{
-    data <- cbind(mcmcData, llData)
-    result <- mcmc(data = as.matrix(data), start = t0, thin = tF)
-    return(result)
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodelFit <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAmodelFit$mcmcParam$chainLength <- 5e3;
+mknAdaAmodelFit$mcmcParam$burnin <- 5e2;
+plot(hzar.mcmc.bindLL(hzar.doFit(mknAdaAmodelFit)));
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

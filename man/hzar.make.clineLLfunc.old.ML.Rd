@@ -1,97 +1,88 @@
 \name{hzar.make.clineLLfunc.old.ML}
 \alias{hzar.make.clineLLfunc.old.ML}
+\alias{hzar.make.clineLLfunc.old.bayes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Generate a ML Log Likelihood method for the cline model.
+  Generate a Log Likelihood method for the cline model.
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  A low-level method for assembling a cline likelihood method.  See
+  \code{\link{hzar.first.fitRequest.old.ML}} for an easier to use method
+  for working with clines.
+  
+  Using the arguments given, assemble either a maximum likelihood (ML)
+  or bayesian (bayes) function with a single argument theta.  The result
+  is suitable for \code{\link{MCMCmetrop1R}}.
 }
 \usage{
-hzar.make.clineLLfunc.old.ML(param.free.names, param.fixed, param.check.func, meta.cline.func, model.LL, LLrejectedModel = -1e+08)
+hzar.make.clineLLfunc.old.ML(param.free.names, param.fixed,
+  param.check.func, meta.cline.func, model.LL, LLrejectedModel = -1e+08) 
+hzar.make.clineLLfunc.old.bayes(param.free.names, param.fixed,
+  param.check.func, meta.cline.func, model.LL, prior.LL,
+  LLrejectedModel = -1e+08) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{param.free.names}{
-%%     ~~Describe \code{param.free.names} here~~
-}
+    The names of the free parameters.
+  }
   \item{param.fixed}{
-%%     ~~Describe \code{param.fixed} here~~
-}
+    A named list of the fixed parameters.  
+  }
   \item{param.check.func}{
-%%     ~~Describe \code{param.check.func} here~~
-}
+    A boolean function of the parameters, which returns true if the
+  model described is valid.
+  }
   \item{meta.cline.func}{
-%%     ~~Describe \code{meta.cline.func} here~~
-}
+    A function of the parameters, which returns a function of distance
+  estimating frequency.
+  }
   \item{model.LL}{
-%%     ~~Describe \code{model.LL} here~~
-}
+    A function which takes one argument and returns a log
+  likelihood. The argument is a function of distance estimating
+  frequency.    
+  }
   \item{LLrejectedModel}{
-%%     ~~Describe \code{LLrejectedModel} here~~
+    A finite log likelihood of an invalid model.
+  }
+  
+  \item{prior.LL}{
+    A function of the parameters, which returns the log likelihood of
+    those parameters.
+  }
+
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A function with a single argument theta that returns a finite log
+  likelihood.
+
+  Theta is a named list of the free parameters for a cline.
+
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+    Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{MCMCmetrop1R}}
+  \code{\link{hzar.first.fitRequest.old.ML}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (param.free.names, param.fixed, param.check.func, meta.cline.func, 
-    model.LL, LLrejectedModel = -1e+08) 
-{
-    model.req <- param.check.func
-    model.gen <- meta.cline.func
-    eval.clineLL <- model.LL
-    myRejectionLL <- LLrejectedModel
-    old.formals <- formals(model.gen)
-    if (length(old.formals) != (length(param.free.names) + length(param.fixed))) {
-        warning("The length of the method formals does not match the length of the parameters supplied.")
-    }
-    ttt.formals <- old.formals[param.free.names]
-    names(ttt.formals) <- param.free.names
-    new.formals <- c(ttt.formals, param.fixed)
-    formals(model.req) <- new.formals
-    formals(model.gen) <- new.formals
-    llFunc <- function(theta) {
-        if (!do.call(model.req, as.list(theta))) 
-            return(myRejectionLL)
-        model = do.call(model.gen, as.list(theta))
-        result <- eval.clineLL(model)
-        if (identical(is.finite(result), TRUE)) 
-            return(result)
-        return(myRejectionLL)
-    }
-    return(llFunc)
-  }
+##TODO
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

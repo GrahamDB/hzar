@@ -3,17 +3,18 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Set the parameters controling the optimizer environment.
-
 }
-
 \description{
   Defines the general parameters controlling an MCMC process. This
   includes the burnin, chainLength, diangostic output, and the random
-  number generator.
+  number generator seed, as used by the \code{\link{MCMCmetrop1R}} 
+  optimizer. 
   
 }
 \usage{
-hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1, useSeedStream = TRUE, mersenneSeed = 12345, lecuyerSeed = rep(12345, 6))
+hzar.make.mcmcParam(chainLength, burnin, verbosity, thin,
+  seedStreamChannel = 1, useSeedStream = TRUE, mersenneSeed = 12345,
+  lecuyerSeed = rep(12345, 6))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,12 +26,12 @@ hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1,
     the chain. 
   }
   \item{verbosity}{
-    If greater than zero, output a diagnostic message every verbosity'th
-    generation after completing burnin.
+    If 0, output nothing while mcmc process is running.
+    If positive, print the model state every \code{verbosity} generations after burn-in.
   }
-  \item{thin}{ 
-    Instruct the MCMC process to return every state that is n * thin
-    generations after burnin, where n is a natural number.
+  \item{thin}{
+    Keep only states whose number of generations after burn-in is evenly
+    divisible by thin.
   }
   \item{seedStreamChannel}{
     Set the channel number used in the lecuyer random number generator.
@@ -47,51 +48,37 @@ hzar.make.mcmcParam(chainLength, burnin, verbosity, thin, seedStreamChannel = 1,
     numeric of length 6. 
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A list of 5 values:
+  \item{chainLength}{The value of the mcmc argument for \code{\link{MCMCmetrop1R}}.}
+  \item{burnin}{The value of the burnin argument for \code{\link{MCMCmetrop1R}}.}
+  \item{verbosity}{The value of the verbose argument for \code{\link{MCMCmetrop1R}}.}
+  \item{thin}{The value of the thin argument for \code{\link{MCMCmetrop1R}}.}
+  \item{seed}{The value of the seed argument for \code{\link{MCMCmetrop1R}}.}
+  
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{MCMCmetrop1R}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (chainLength, burnin, verbosity, thin, seedStreamChannel = 1, 
-    useSeedStream = TRUE, mersenneSeed = 12345, lecuyerSeed = rep(12345, 
-        6)) 
-{
-    mcmcParam <- list(chainLength = chainLength, burnin = burnin, 
-        verbosity = verbosity, thin = thin)
-    mcmcParam$seed <- mersenneSeed
-    if (useSeedStream) {
-        mcmcParam$seed <- list(lecuyerSeed, seedStreamChannel)
-    }
-    return(mcmcParam)
-  }
+##TODO
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-%\keyword{ ~kwd1 }
-%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

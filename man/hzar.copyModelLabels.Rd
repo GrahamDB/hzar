@@ -3,10 +3,13 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Copy names from one hzar object to another.
-%%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Set the \code{\link{names}} of the list of
+  \code{\link{hzar.dataGroup}} objects contained in a
+  \code{\link{hzar.obsDataGroup}} object using the names from either a
+  named list of \code{\link{hzar.dataGroup}} objects or another
+  \code{\link{hzar.obsDataGroup}} object.
 }
 \usage{
 hzar.copyModelLabels(group1, group2)
@@ -14,59 +17,53 @@ hzar.copyModelLabels(group1, group2)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{group1}{
-%%     ~~Describe \code{group1} here~~
-}
+    An object from which to extract model labels.
+  }
   \item{group2}{
-%%     ~~Describe \code{group2} here~~
+    A \code{\link{hzar.obsDataGroup}} into which the model labels need
+    to be inserted.
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The updated \code{group2}.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.dataGroup}}
+  \code{\link{hzar.obsDataGroup}}
+  \code{\link{names}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+% \examples{
+% ##---- Should be DIRECTLY executable !! ----
+% ##-- ==>  Define data, use random,
+% ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (group1, group2) 
-{
-    if (inherits(group1, c("hzar.obsDataGroup"))) 
-        group1 <- group1$data.groups
-    if (inherits(group2, c("hzar.obsDataGroup"))) {
-        group2$data.groups <- hzar.copyModelLabels(group1, group2$data.groups)
-        return(group2)
-    }
-    if (!is.list(group1) || !is.list(group2)) 
-        stop("group1 or group2 of malformed type")
-    names(group2) <- as.character(lapply(group2, function(x) names(group1)[which(as.logical(lapply(group1, 
-        hzar.sameModel, x)))[1]]))
-    return(group2)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % ## The function is currently defined as
+% % function (group1, group2) 
+% % {
+% %     if (inherits(group1, c("hzar.obsDataGroup"))) 
+% %         group1 <- group1$data.groups
+% %     if (inherits(group2, c("hzar.obsDataGroup"))) {
+% %         group2$data.groups <- hzar.copyModelLabels(group1, group2$data.groups)
+% %         return(group2)
+% %     }
+% %     if (!is.list(group1) || !is.list(group2)) 
+% %         stop("group1 or group2 of malformed type")
+% %     names(group2) <- as.character(lapply(group2, function(x) names(group1)[which(as.logical(lapply(group1, 
+% %         hzar.sameModel, x)))[1]]))
+% %     return(group2)
+% %   }
+% }
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

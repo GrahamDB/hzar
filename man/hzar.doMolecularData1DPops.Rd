@@ -1,81 +1,88 @@
 \name{hzar.doMolecularData1DPops}
 \alias{hzar.doMolecularData1DPops}
+\alias{hzar.obsData}
+\alias{hzar.doCLTData1DPops}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Generate a hzar.obsData object using a table of sample frequencies.
-%%  ~~function to do ... ~~
+  Generate a hzar.obsData object using summary data about each population.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Creates a hzar.obsData object using the observations given.  The
+  likelihood function used is chosen based on the method called.
 }
 \usage{
 hzar.doMolecularData1DPops(distance, pObs, nSamples)
+hzar.doCLTData1DPops(distance, muObs, varObs, nSamples)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  All arguments should be of the same length.
   \item{distance}{
-%%     ~~Describe \code{distance} here~~
-}
+    The distance of each population. If the same distance is given
+    multiple times, then multiple sites are assumed to be at that
+    distance.
+  }
   \item{pObs}{
-%%     ~~Describe \code{pObs} here~~
-}
+    The observed frequency at each site.
+  }
   \item{nSamples}{
-%%     ~~Describe \code{nSamples} here~~
-}
+    The numbered of samples observed at each site.
+  }
+  \item{muObs}{
+    The mean trait value observed at each site.
+  }
+  \item{varObs}{
+    The trait variance observed at each site.
+  }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  For \code{hzar.doCLTData1DPops}, \code{varObs} must not be less than
+  zero, and should be greater than zero. If equal to zero, the method
+  will attempt to estimate the number of significant digits in the
+  observed trait value, and use that to calculate additional variance
+  due to measurement error at each site, and add that variance to the
+  observed variance for each site.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{hzar.obsData} object with the following structure.
+  \item{frame}{A data.frame composed of the arguments.}
+  \item{model.LL}{A function of one argument that returns a log
+    likelihood.  The argument is a function of distance that estimates
+    either frequency or trait value as appropriate.}
 }
 \references{
-%% ~put references to the literature/web site here ~
+  Szymura, J., and N. H. Barton. 1986. Genetic analysis of a hybrid zone
+  between the fire-bellied toads, Bombina bombina and B. variegata, near
+  Cracow in souhern Poland. Evolution 40:1141-1159. 
+
+  Szymura, J., and N. H. Barton. 1991. The genetic structure of the
+  hybrid zone between the fire-bellied toads Bombina bombina and
+  B. variegata: comparisons between transects and between
+  loci. Evolution 45:237-261. 
 }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{manakinMolecular}}
+  \code{\link{hzar.plot.obsData}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (distance, pObs, nSamples) 
-{
-    if ((length(distance) != length(pObs)) || (length(distance) != 
-        length(nSamples)) || (length(pObs) != length(nSamples))) {
-        stop("Distance, pObs and nSamples are not of the same length.")
-    }
-    obj <- list(frame = data.frame(dist = distance, obsFreq = pObs, 
-        n = nSamples))
-    obj$model.LL <- function(model.func) {
-        pEst = model.func(obj$frame$dist)
-        res <- sampleLikelihoodMolecularPop(pEst = as.numeric(pEst), 
-            pObs = as.numeric(obj$frame$obsFreq), N = as.numeric(obj$frame$n))
-        result <- sum(res)
-        if (is.na(result)) 
-            return(-1e+08)
-        return(result)
-    }
-    class(obj) <- c("clineSampleData1D", "hzar.obsData")
-    return(obj)
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+print(str(mknAdaA));
+hzar.plot.obsData(mknAdaA);
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%\keyword{ ~kwd1 }
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

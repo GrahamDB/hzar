@@ -3,10 +3,14 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Transformations of Scalar Data into Bernoulli Trials 
-%%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This method operates on a collection of sampled scalar values and the
+  sample location site factor.  It calculates a score for each
+  "cut" value that can split the samples into unique groups, and
+  either returns those scores, the cut value with the best score, or a
+  table of the frequencies of the sample values that are less than the
+  cut value with the best score.
 }
 \usage{
 hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
@@ -14,88 +18,54 @@ hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{values}{
-%%     ~~Describe \code{values} here~~
-}
+    The sample values to use.
+  }
   \item{locations}{
-%%     ~~Describe \code{locations} here~~
-}
+    The factor grouping sample values by sample site.
+  }
   \item{getMax}{
-%%     ~~Describe \code{getMax} here~~
-}
+    Should this method return the best cut value?
+  }
   \item{getProbs}{
-%%     ~~Describe \code{getProbs} here~~
-}
+    Should this method return the table of frequencies of sample values
+    which are less than the best cut value?
+  }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  The score for a cut value is the information of learning the location
+  of a sample conditioned on the knowledge of the whether the sample
+  value is greater or less than the cut value.  This score indicates how
+  little a cut value distinguishes between populations.
+
+  The best scoring cut value is the one that determines the greatest
+  amount of information about the sample location and therefore it is
+  the one with lowest score.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  Either a vector of scores, a single cut value, or a table of
+  frequencies of the sample values that are less than the cut value with
+  the best score. 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.doMorphoSets}}
+  \code{\link{hzar.obsData}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (values, locations, getMax = FALSE, getProbs = FALSE) 
-{
-    midpoints <- function(x) {
-        y <- as.numeric(sort(unique(x)))
-        return((y[y > min(y)] + y[y < max(y)])/2)
-    }
-    mVal <- midpoints(values)
-    bernoulli.LL <- function(nSuccess, nTotal) {
-        nFailures <- nTotal - nSuccess
-        hSuccess <- ifelse(nSuccess > 0, nSuccess * log(nTotal/nSuccess), 
-            0)
-        hFailure <- ifelse(nFailures > 0, nFailures * log(nTotal/nFailures), 
-            0)
-        return(hSuccess + hFailure)
-    }
-    pL <- lapply(unique(locations), function(x) as.numeric(values[locations == 
-        x]))
-    bLLSum <- function(junk, procList) {
-        nSamples = as.numeric(lapply(procList, length))
-        return(sum(bernoulli.LL(as.numeric(lapply(procList, function(x, 
-            cutValue) sum(x < cutValue), cutValue = junk)), nSamples)))
-    }
-    if (getProbs) {
-        junk <- as.numeric(lapply(mVal, bLLSum, pL))
-        cutValue <- mVal[junk == max(junk)][1]
-        nSamples <- as.numeric(lapply(pL, length))
-        nLow <- as.numeric(lapply(pL, function(x, cutValue) sum(x < 
-            cutValue), cutValue))
-        return(data.frame(locID = unique(locations), pObs = nLow/nSamples, 
-            nLow = nLow, nSamples = nSamples, cutValue = cutValue))
-    }
-    if (getMax) {
-        junk <- as.numeric(lapply(mVal, bLLSum, pL))
-        return(mVal[junk == max(junk)][1])
-    }
-    return(as.numeric(lapply(mVal, bLLSum, pL)))
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \examples{
+% ##TODO
+% }
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

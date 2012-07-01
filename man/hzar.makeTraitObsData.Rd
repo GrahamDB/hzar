@@ -2,11 +2,11 @@
 \alias{hzar.makeTraitObsData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Compile and transform raw scalar data into hzar.obsData objects 
-%%  ~~function to do ... ~~
+  Compile and transform raw scalar data
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Compile and transform raw scalar data into a frequency based
+  \code{\link{hzar.obsData}} object. 
 }
 \usage{
 hzar.makeTraitObsData(distOfLocation, locationOfValue, values)
@@ -14,54 +14,41 @@ hzar.makeTraitObsData(distOfLocation, locationOfValue, values)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{distOfLocation}{
-%%     ~~Describe \code{distOfLocation} here~~
-}
+    A vector mapping population ids to distances of each population. 
+  }
   \item{locationOfValue}{
-%%     ~~Describe \code{locationOfValue} here~~
-}
+    A vector of population ids of each sample.
+  }
   \item{values}{
-%%     ~~Describe \code{values} here~~
+    A vector of trait values for each sample. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+%   TODO
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{hzar.obsData}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.obsData}}
+  \code{\link{hzar.doMorphoSets}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (distOfLocation, locationOfValue, values) 
-{
-    probs <- hzar.dBernoulli.LL(values, locationOfValue, getProbs = TRUE)
-    return(hzar.doMolecularData1DPops(distance = distOfLocation[probs$locID], 
-        pObs = probs$pObs, nSamples = probs$nSamples))
-  }
+##TODO
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -11,7 +11,12 @@
   %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  The intent of these methods is to assist the optimizer in exploring
+  the model parameter space by instructing it to ignore models that are
+  not interesting.  For example, if all of the sampled populations are
+  in a region 100km wide, then a cline width of 110km is probably not
+  interesting.  A cline width of 500km in that scenario would definitely
+  not be interesting at all.
 }
 \usage{
 hzar.model.addBoxReq(meta.model, low, high)
@@ -24,59 +29,64 @@ hzar.model.addMaxWidth(meta.model, maxValue)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{meta.model}{
-%%     ~~Describe \code{meta.model} here~~
-}
-  \item{low}{
-%%     ~~Describe \code{low} here~~
-}
-  \item{high}{
-%%     ~~Describe \code{high} here~~
-}
+    The \code{\link{clineMetaModel}} object to modify.
+  }
   \item{minValue}{
-%%     ~~Describe \code{high} here~~
-}
+    The smallest value to consider.
+  }
   \item{maxValue}{
-%%     ~~Describe \code{high} here~~
-}
+    The greatest value to consider.
+  }
+  The following arguments specifier a range in distances, with ascending
+  values from left to right. 
+  \item{low}{
+    The leftmost location to consider.
+  }
+  \item{high}{
+    The rightmost location to consider.
+  }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  The three center methods only add requirements to the center
+  parameter. Likewise, \code{hzar.model.addMaxWidth} only adds
+  a maximum width requirement. In constrast, \code{hzar.model.addMaxDelta}
+  adds a maximum value requirement to any and all delta parameters
+  present in \code{meta.model}.
+
+  \code{hzar.model.addBoxReq} adds requirements to any and all of
+  the parameters center, width, deltaM, deltaL, and deltaR.  The center
+  requirements are the same as calling
+  \code{hzar.model.addCenterRange(meta.model, low, high)}. The remaining
+  parameters are required to have a maximum value of \code{high-low}.
+  
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The modified \code{\link{clineMetaModel}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{clineMetaModel}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (meta.model, low, high) 
-{
-    return(hzar.model.addCenterRange(hzar.model.addMaxDelta(hzar.model.addMaxWidth(meta.model, 
-        high - low), high - low), low, high))
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodelB <-
+  hzar.model.addBoxReq(mknAdaAmodel,-30,600);
+mknAdaAmodel$req;
+mknAdaAmodelB$req;
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

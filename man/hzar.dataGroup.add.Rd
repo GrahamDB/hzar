@@ -1,100 +1,82 @@
 \name{hzar.dataGroup.add}
 \alias{hzar.dataGroup.add}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\alias{hzar.fit2DataGroup}
 \title{
-  Create an hzar.dataGroup object.
-%%  ~~function to do ... ~~
+  Prepare optimizer output for analysis.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Intended to group multiple fits of the same model and the same
+  observation data into a single object.  As it works with
+  \code{\link{hzar.fitRequest}} objects, it is simpler to use than
+  \code{\link{hzar.make.dataGroup}}. 
 }
 \usage{
-hzar.dataGroup.add(dataGroup, fitRequest = list(), doPar = FALSE)
+hzar.dataGroup.add(dataGroup, fitRequestL = list(), doPar = FALSE)
+hzar.fit2DataGroup(fitRequest, doPar = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataGroup}{
-%%     ~~Describe \code{dataGroup} here~~
-}
+    A single \code{\link{hzar.dataGroup}} object to update.  If
+    \code{fitRequestL} is a list of length 0, this argument may also be
+    a list of \code{\link{hzar.fitRequest}} or
+    \code{\link{hzar.dataGroup}} objects.
+  }
+  \item{fitRequestL}{
+    A \code{\link{hzar.fitRequest}} or \code{\link{hzar.dataGroup}}
+    object, a list of such objects, or a deep list of such objects. 
+  }
   \item{fitRequest}{
-%%     ~~Describe \code{fitRequest} here~~
-}
+    A single \code{\link{hzar.fitRequest}} object. A
+    \code{\link{hzar.dataGroup}} object may also be used.
+  }
   \item{doPar}{
-%%     ~~Describe \code{doPar} here~~
+    This is argument is passed to \code{\link{hzar.eval.clineLL}}.
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+  
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{hzar.dataGroup}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+% \references{
+% %% ~put references to the literature/web site here ~
+% }
 \author{
-%%  ~~who you are~~
+Graham Derryberry \email{asterion@alum.mit.edu}
 }
 \note{
-%%  ~~further notes~~
+   A deep list of \code{T} is a list of length greater > 1 that contains
+   only deep lists of \code{T} or objects of class \code{T}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.fitRequest}}
+  \code{\link{hzar.dataGroup}}
+  \code{\link{hzar.obsDataGroup}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (dataGroup, fitRequest = list(), doPar = FALSE) 
-{
-    if (inherits(dataGroup, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        dataGroup <- hzar.fit2DataGroup(dataGroup, doPar = doPar)
-    }
-    else if (is.list(dataGroup) && (length(fitRequest) == 0)) {
-        if (length(dataGroup) == 0) 
-            return(NULL)
-        oldFitRequest <- dataGroup
-        dataGroup <- hzar.fit2DataGroup(dataGroup[[1]], doPar = doPar)
-        if (length(oldFitRequest) > 1) 
-            fitRequest <- lapply(2:length(oldFitRequest), function(x) oldFitRequest[[x]])
-    }
-    else {
-        stop("dataGroup not of apropriate type.")
-    }
-    if (inherits(fitRequest, c("hzar.fitRequest", "hzar.dataGroup"))) {
-        fitRequest <- hzar.fit2DataGroup(fitRequest, doPar = doPar)
-    }
-    else if (is.list(fitRequest)) {
-        lapply(fitRequest, function(x) dataGroup <<- hzar.dataGroup.add(dataGroup, 
-            x, doPar = doPar))
-        return(dataGroup)
-    }
-    else {
-        stop("fitRequest not of appropriate type.")
-    }
-    if (!hzar.sameModel(dataGroup, fitRequest)) 
-        stop("dataGroup and fitRequest must use the same model.")
-    Left.Cline <- hzar.get.ML.cline(dataGroup)
-    Right.Cline <- hzar.get.ML.cline(fitRequest)
-    if (Right.Cline$logLike > Left.Cline$logLike) 
-        Left.Cline <- Right.Cline
-    return(hzar.make.dataGroup(data.mcmc = rbind(dataGroup$data.mcmc, 
-        fitRequest$data.mcmc), llFunc = dataGroup$llFunc, ML.cline = Left.Cline, 
-        data.LL = rbind(dataGroup$data.LL, fitRequest$data.LL), 
-        data.param = rbind(dataGroup$data.param, fitRequest$data.param), 
-        obsData = dataGroup$obsData))
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodelFit <-
+   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                                mknAdaA,
+                                verbose=FALSE);
+mknAdaAmodelFit$mcmcParam$chainLength <- 1e4;
+mknAdaAmodelFit$mcmcParam$burnin <- 5e2;
+mknAdaAFit <- hzar.doFit(mknAdaAmodelFit);
+str(hzar.fit2DataGroup(mknAdaAFit));
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

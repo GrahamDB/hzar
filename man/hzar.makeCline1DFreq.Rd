@@ -1,92 +1,127 @@
 \name{hzar.makeCline1DFreq}
 \alias{hzar.makeCline1DFreq}
+\alias{hzar.makeCline1DCLT}
+\alias{clineMetaModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Make a frequency cline model with the requested attributes.
-%%  ~~function to do ... ~~
+  Make a cline model with the requested attributes.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Constructs a \code{clineMetaModel} object for use with
+  \code{\link{hzar.first.fitRequest.old.ML}}.  Said object can be
+  further tailored to the specific model desired, or can be used as-is.
 }
 \usage{
-hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none", direction = NULL)
+hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none",
+  direction = NULL) 
+hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none",
+  direction = NULL) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-%%     ~~Describe \code{data} here~~
-}
+    A \code{\link{hzar.obsData}} object, used to determine cline
+    direction and estimate initial values.
+    %%     ~~Describe \code{data} here~~
+  }
   \item{scaling}{
-%%     ~~Describe \code{scaling} here~~
-}
+    Can be one of three strings:
+    \itemize{
+      \item{"none"}{A model with fixed minimum value 0 and maximum value 1
+	is desired.}
+      \item{"fixed"}{A model with minimum and maximum values fixed to the
+	minimum and maxumimum observed mean values of \code{data} is
+	desired.} 
+      \item{"free"}{A model with the minimum and maximum value as free
+	parameters is desired.}
+    }
+    %%     ~~Describe \code{scaling} here~~
+  }
   \item{tails}{
-%%     ~~Describe \code{tails} here~~
-}
+    Can be one of five strings:
+    \itemize{
+      \item{"none"}{A model with no exponential tails is desired}
+      \item{"right"}{A model with just one exponential tail on the right
+	is desired.} 
+      \item{"left"}{A model with just one exponential tail on the left is
+	desired.} 
+      \item{"mirror"}{A model with two exponential tails mirrored about
+	the cline center is desired.}
+      \item{"both"}{A model with two tails with independent parameters is
+	desired.} 
+    }
+  }
   \item{direction}{
-%%     ~~Describe \code{direction} here~~
+    Can be one of three values:
+    \itemize{
+      \item{NULL}{Determine direction using \code{data}}
+      \item{"ascending"}{A model whose estimates increase as the site
+	distance increases is desired.}
+      \item{"descending"}{A model whose estimates decrease as the site
+	distance increases is desired.}
+    }
+    %%     ~~Describe \code{direction} here~~
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+% %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{clineMetaModel} object, which is a list with the following
+  4 components:
+  \item{req}{A boolean function of the model parameters w}
+  \item{prior}{Description of 'comp1'}
+  \item{func}{Description of 'comp1'}
+  \item{parameterTypes}{A list of \code{clineParameter} objects, named
+    with the parameter names.
+    A \code{clineParameter} object structure:
+    \itemize{
+      \item{}{Components:}
+      \item{val}{The initial or fixed value.}
+      \item{w}{The parameter tuning.}
+      \item{}{Attributes:}
+      \item{"param"}{The parameter name.}
+      \item{"fixed"}{TRUE if the parameter is fixed.}
+      \item{"limit.lower"}{The parameter minimum finite value.}
+      \item{"limit.upper"}{The parameter maximum finite value.}
+      \item{"realBTWN01"}{The parameter is restricted to between 0 and
+	1.} 
+      }
+    }
 }
 \references{
+Gay, L., P.-A. Crochet, D. A. Bell, and T. Lenormand. 2008. Comparing clines on molecular and phenotypic traits in hybrid zones: a window on tension zone models. Evolution 62:2789-2806.
+
+Szymura, J., and N. H. Barton. 1986. Genetic analysis of a hybrid zone between the fire-bellied toads, Bombina bombina and B. variegata, near Cracow in souhern Poland. Evolution 40:1141-1159.
+
+Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone between the fire-bellied toads Bombina bombina and B. variegata: comparisons between transects and between loci. Evolution 45:237-261.
+
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.obsData}}
+  \code{\link{hzar.first.fitRequest.old.ML}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (data = NULL, scaling = "none", tails = "none", direction = NULL) 
-{
-    if (identical(tolower(tails), "none")) {
-        return(makeSimpleCline1D(data, scaling, direction))
-    }
-    else if (identical(tolower(tails), "both")) {
-        return(makeTailedCline1D(data, scaling, direction))
-    }
-    else if (identical(tolower(tails), "right")) {
-        myRightCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.rtail.scaled.ascending, hzar.meta.rtail.scaled.descending)
-        attr(myRightCline, "tails") <- "right"
-        return(myRightCline)
-    }
-    else if (identical(tolower(tails), "left")) {
-        myLeftCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.ltail.scaled.ascending, hzar.meta.ltail.scaled.descending)
-        attr(myLeftCline, "tails") <- "left"
-        return(myLeftCline)
-    }
-    else if (identical(tolower(tails), "mirror")) {
-        myMirrorCline <- buildCline1D(data, scaling, direction, 
-            hzar.meta.mtail.scaled.ascending, hzar.meta.mtail.scaled.descending)
-        attr(myMirrorCline, "tails") <- "mirror"
-        return(myMirrorCline)
-    }
-    stop(paste("Cline with", tails, "tail(s) not available."))
-  }
+data(manakinMolecular);
+mknAdaA <-
+  hzar.doMolecularData1DPops(manakinMolecular$distance,
+                             manakinMolecular$ada.A,
+                             manakinMolecular$ada.nSamples);
+mknAdaAmodel <-
+  hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+str(mknAdaAmodel);
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% % Add one or more standard keywords, see file 'KEYWORDS' in the
+% % R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
