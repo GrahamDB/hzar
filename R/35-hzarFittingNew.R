@@ -97,6 +97,7 @@ hzar.make.clineLLfunc.old.ML <-
     model.req<-param.check.func;
     model.gen<-meta.cline.func;
     eval.clineLL<- model.LL;
+    obsData=as.list(environment(model.LL))$obj;
     myRejectionLL<-LLrejectedModel;
     ## Second, modify function signitures to account for fixed
     ## parameters.

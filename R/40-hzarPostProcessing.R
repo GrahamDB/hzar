@@ -114,7 +114,7 @@ hzar.extract.obsData <- function(fitRequest) {
     return(fitRequest);
   }
       
-  return(as.list(environment(cline.extract.modelPrep(fitRequest)$model.LL))$obj);
+  return(cline.extract.modelPrep(fitRequest)$obsData);
 }
 
 ## Cline Object (free parameter values, parameter values, cline
