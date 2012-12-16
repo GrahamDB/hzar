@@ -14,7 +14,7 @@
 \usage{
 hzar.doMolecularData1DPops(distance, pObs, nEff,
                            siteID=paste("P",1:length(distance),sep=""),
-                           yLim=expand.range(c(0,1)))
+                           yLim=extendrange(c(0,1)))
 hzar.doCLTData1DPops(distance, muObs, varObs, nEff)
 hzar.doNormalData1DPops(distance, muObs, varObs, nEff,
                         siteID=paste("P",1:length(distance),sep=""),

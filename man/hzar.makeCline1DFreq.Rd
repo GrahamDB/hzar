@@ -1,6 +1,7 @@
 \name{hzar.makeCline1DFreq}
 \alias{hzar.makeCline1DFreq}
 \alias{hzar.makeCline1DCLT}
+\alias{hzar.makeCline1DNormal}
 \alias{clineMetaModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -15,7 +16,8 @@
 hzar.makeCline1DFreq(data = NULL, scaling = "none", tails = "none",
   direction = NULL) 
 hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none",
-  direction = NULL) 
+  direction = NULL)
+hzar.makeCline1DNormal(data, tails = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -63,9 +65,14 @@ hzar.makeCline1DCLT(data = NULL, scaling = "free", tails = "none",
     %%     ~~Describe \code{direction} here~~
   }
 }
-% \details{
-% %%  ~~ If necessary, more details than the description above ~~
-% }
+\details{
+  The \code{clineMetaModel} object returned by
+  \code{hzar.makeCline1DNormal} has a slightly diffent structure, due to
+  the complexity of the normal cline model.  Use
+  \code{\link{hzar.first.fitRequest.gC}} instead of
+  \code{\link{hzar.first.fitRequest.old.ML}} to construct the
+  \code{\link{hzar.fitRequest}} object needed for \code{\link{hzar.doFit}}.
+}
 \value{
   A \code{clineMetaModel} object, which is a list with the following
   4 components:
@@ -110,6 +117,7 @@ Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone be
 \seealso{
   \code{\link{hzar.obsData}}
   \code{\link{hzar.first.fitRequest.old.ML}}
+  \code{\link{hzar.gC.first.fitRequest}}
 }
 \examples{
 data(manakinMolecular);

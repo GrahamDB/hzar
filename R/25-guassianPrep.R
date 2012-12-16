@@ -15,10 +15,11 @@ obs.g.summary <- function(
          row.names=siteID))
   obj$model.LL <- compileLLfunc(obj)
   if(all.equal(is.null(yLim),TRUE)){
-    attach(obj$frame)
-    yLim=expand.range(c(min(mu-sqrt(var/nEff)),
-      max(mu+sqrt(var/nEff)) ));
-    detach();
+    #attach(obj$frame)
+    f=obj$frame;
+    yLim=extendrange(c(min(f$mu-sqrt(f$var/f$nEff)),
+      max(f$mu+sqrt(f$var/f$nEff)) ));
+    #detach();
   }
   obj$yLim <- yLim;
   class(obj)<-c("guassSampleData1D","hzar.obsData");
@@ -42,8 +43,8 @@ hzar.doNormalData1DRaw <- function(site.dist,traitSite,traitValue){
               muObs=sapply(tV,mean),
               varObs=sapply(tV,var),
               nEff=sapply(tV,length),
-                yLim=c(min(na.omit(traitValue)),
-                       max(na.omit(traitValue)))
+                yLim=extendrange(c(min(na.omit(traitValue)),
+                       max(na.omit(traitValue))))
               )
 }
 

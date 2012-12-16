@@ -97,7 +97,7 @@ naiveHessian <- function(theta,zF,k=0.05){
 ##   solve(-naiveHessian(model$init,LLfunc));
 ## }
 
-gC.fitRequest.first <- function(obsData,model,verbose=TRUE){
+hzar.first.fitRequest.gC <- function(obsData,model,verbose=TRUE){
   if (verbose) {
     mcmcParam <- hzar:::cfg.hzar.default.mcmc
   } else {

@@ -14,7 +14,7 @@ sampleLikelihoodMolecularPop=function(pEst,pObs,N) {
 ## Second, i will setup the data.
 hzar.doMolecularData1DPops<-function(distance,pObs,nEff,
                                      siteID=paste("P",1:length(distance),sep=""),
-                                     yLim=expand.range(c(0,1))){
+                                     yLim=extendrange(c(0,1))){
   if((length(distance) != length(pObs))     ||
      (length(distance) != length(nEff)) ||
      (length(pObs) != length(nEff))  ){
