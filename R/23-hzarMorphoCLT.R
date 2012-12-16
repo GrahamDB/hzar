@@ -21,15 +21,15 @@ t.model<-sqrt(nObs/varObs)*(muObs-muEst);
 
 
 #Make cline data frame
-hzar.doCLTData1DPops<-function(distance,muObs,varObs,nSamples){
+hzar.doCLTData1DPops<-function(distance,muObs,varObs,nEff){
   if((length(distance) != length(muObs))     ||
-     (length(distance) != length(nSamples)) ||
+     (length(distance) != length(nEff)) ||
      (length(distance) != length(varObs))  ){
-    stop("Distance, muObs, varObs and nSamples are not all of the same length.");
+    stop("Distance, muObs, varObs and nEff are not all of the same length.");
   }
-  if(sum(nSamples<2)>0)
+  if(sum(nEff<2)>0)
     stop("There must be at least two samples per population!");
-  if(sum(nSamples<10)>0)
+  if(sum(nEff<10)>0)
     warning("Some populations have less than 10 samples.  More samples would be nice.");
   ## Check for 0 variance singularity
    if(sum(varObs==0)>0){
@@ -45,7 +45,7 @@ hzar.doCLTData1DPops<-function(distance,muObs,varObs,nSamples){
   }
   ## if(sum(varObs==0)>0)
   ##   stop("varObs is 0 for one of the samples! varObs should at least be greater than the variance of the measurement error.");
-  obj<-list(frame=data.frame(dist=distance,obsMean=muObs,obsVariance=varObs,n=nSamples));
+  obj<-list(frame=na.omit(data.frame(dist=distance,obsMean=muObs,obsVariance=varObs,n=nEff)));
   obj$model.LL <- function(model.func){
     muEst=model.func(obj$frame$dist);
 ##res<-numeric(length(pEst));

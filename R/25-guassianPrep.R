@@ -1,34 +1,49 @@
-obs.g.summary <- function(siteID,distance,sampleMean,sampleVariance,sampleSize){
+obs.g.summary <- function(
+                          distance,
+                          muObs,
+                          varObs,
+                          nEff,
+                          siteID=paste("P",1:length(distance),sep=""),
+                          yLim=NULL){
   list()->obj;
   obj$frame <- na.omit(data.frame(
          site=siteID,
          dist=as.numeric(distance),
-         mu=as.numeric(sampleMean),
-         var=as.numeric(sampleVariance),
-         nEff=as.numeric(sampleSize),
+         mu=as.numeric(muObs),
+         var=as.numeric(varObs),
+         nEff=as.numeric(nEff),
          row.names=siteID))
   obj$model.LL <- compileLLfunc(obj)
+  if(all.equal(is.null(yLim),TRUE)){
+    attach(obj$frame)
+    yLim=expand.range(c(min(mu-sqrt(var/nEff)),
+      max(mu+sqrt(var/nEff)) ));
+    detach();
+  }
+  obj$yLim <- yLim;
   class(obj)<-c("guassSampleData1D","hzar.obsData");
   obj
 }
+hzar.doNormalData1DPops <- obs.g.summary
 
-
-map.site.dist <- function(siteID ,distance){
+hzar.mapSiteDist <- function(siteID ,distance){
   distance <- as.numeric(distance);
   names(distance) <- siteID;
   return(distance);
 }
 
-obs.g.raw <- function(site.dist,traitSite,traitValue){
+hzar.doNormalData1DRaw <- function(site.dist,traitSite,traitValue){
   index <- names(site.dist );
   tV <- lapply(index,function(x) na.omit(traitValue[traitSite==x]))
   ## tmp <- (sapply(tV,length)>0)
   ## index <- index[tmp]; tV <- tV[tmp];site.dist <- site.dist[tmp]
   obs.g.summary(siteID=index,
               distance=site.dist,
-              sampleMean=sapply(tV,mean),
-              sampleVariance=sapply(tV,var),
-              sampleSize=sapply(tV,length)
+              muObs=sapply(tV,mean),
+              varObs=sapply(tV,var),
+              nEff=sapply(tV,length),
+                yLim=c(min(na.omit(traitValue)),
+                       max(na.omit(traitValue)))
               )
 }
 
@@ -135,19 +150,20 @@ g.suggest$tauM <- function(...) 0.5
 g.suggest$tauR <- function(...) 0.5
 
 g.suggestAll <- function(obsData,mArgs){
-  index <- intersect(g.names(suggest),names(mArgs))
+  index <- intersect(names(g.suggest),names(mArgs))
   dataL <- alist(data=obsData$data)
   for(iter in index)
     mArgs[[iter]] = do.call(g.suggest[[iter]],c(dataL,mArgs))
   mArgs
 }
 
-buildGCline <- function(obsData,tailType){
+hzar.makeCline1DNormal <- function(obsData,tailType){
   model <- list(mu=0,
                 var=1,
                 
                 args=alist(),
-                req=function()return((width>0)&(varL>0)&(varR>0)&(varH>0)),
+                req=function(varL,varR,varH,width)
+                  return((width>0)&(varL>0)&(varR>0)&(varH>0)),
                 mFunc=function()0,
                 vFunc=function()0,
                 init=list())

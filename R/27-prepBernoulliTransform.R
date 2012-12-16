@@ -87,7 +87,7 @@ hzar.dBernoulli.LL <- function(values,locations,getMax=FALSE,getProbs=FALSE){
     return(data.frame(locID=unique(locations),
                       pObs=nLow/nSamples,
                       nLow=nLow,
-                      nSamples=nSamples,
+                      nEff=nSamples,
                       cutValue=cV));
     
     
@@ -109,7 +109,7 @@ tVec.dBernoulli.LL <- function(tVec,
     return(data.frame(locID=unique(locations),
                       pObs=nLow/nSamples,
                       nLow=nLow,
-                      nSamples=nSamples,
+                      nEff=nSamples,
                       cutValue=cV));
     
     
@@ -145,7 +145,7 @@ old.dBernoulli.LL <- function(values,locations,getMax=FALSE,getProbs=FALSE){
     return(data.frame(locID=unique(locations),
                       pObs=nLow/nSamples,
                       nLow=nLow,
-                      nSamples=nSamples,
+                      nEff=nSamples,
                       cutValue=cutValue));
   }
   if(getMax){
@@ -158,15 +158,17 @@ old.dBernoulli.LL <- function(values,locations,getMax=FALSE,getProbs=FALSE){
 hzar.makeTraitObsData <- function(distOfLocation,locationOfValue,values){
   probs <- hzar.dBernoulli.LL(values,locationOfValue,getProbs=TRUE)
   return(hzar.doMolecularData1DPops(distance=distOfLocation[probs$locID],
-                                  pObs=probs$pObs,
-                                  nSamples=probs$nSamples));
+                                    pObs=probs$pObs,
+                                    nEff=probs$nEff,
+                                    siteID=probs$locID));
 }
 
 tVec.makeTraitObsData <- function(tVec){
   probs <- tVec.dBernoulli.LL(tVec,getProbs=TRUE)
   return(hzar.doMolecularData1DPops(distance=tVec$dLoc[probs$locID],
                                     pObs=probs$pObs,
-                                    nSamples=probs$nSamples));
+                                    nEff=probs$nEff,
+                                    siteID=probs$locID));
 }
 
 
