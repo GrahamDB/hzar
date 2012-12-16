@@ -14,7 +14,7 @@ obs.g.summary <- function(
          nEff=as.numeric(nEff),
          row.names=siteID))
   obj$model.LL <- compileLLfunc(obj)
-  if(all.equal(is.null(yLim),TRUE)){
+  if(identical(is.null(yLim),TRUE)){
     #attach(obj$frame)
     f=obj$frame;
     yLim=extendrange(c(min(f$mu-sqrt(f$var/f$nEff)),
