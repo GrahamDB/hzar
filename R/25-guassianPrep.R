@@ -158,7 +158,7 @@ g.suggestAll <- function(obsData,mArgs){
   mArgs
 }
 
-hzar.makeCline1DNormal <- function(obsData,tailType){
+hzar.makeCline1DNormal <- function(data,tails="none"){
   model <- list(mu=0,
                 var=1,
                 
@@ -170,13 +170,13 @@ hzar.makeCline1DNormal <- function(obsData,tailType){
                 init=list())
   class(model) <- "clineMetaModel";
   
-  if(tailType==0){
+  if(identical(tolower(tails),"none")){
     mV <- gCenterExpF();
     model$mu=mV$muExp
     model$var=mV$vExp
     model$args=gCA$none
     attr(model,"tails")<-"none";
-  }else if(tailType==1 ){
+  }else if(identical(tolower(tails),"left") ){
     mV <- step1VGExpF(quote(x < center  - deltaL),
                       gTailExpF(quote(4*deltaL/width),quote(tauL)),
                       gCenterExpF());
@@ -186,7 +186,7 @@ hzar.makeCline1DNormal <- function(obsData,tailType){
     model=hzar:::model.addReqClause(model,
       quote((deltaL>0)&(tauL>=0)&(tauL<=1)))
     attr(model,"tails")<-"left";
-  }else if(tailType==2 ){
+  }else if(identical(tolower(tails),"right")){
     mV <- step1VGExpF(quote(x > center  + deltaR),
                       gTailExpF(quote(4*deltaR/width),quote(tauR),TRUE),
                       gCenterExpF());
@@ -197,7 +197,7 @@ hzar.makeCline1DNormal <- function(obsData,tailType){
       quote((deltaR>0)&(tauR>=0)&(tauR<=1)))
     attr(model,"tails")<-"right";
 
-  }else if(tailType==3 ){
+  }else if(identical(tolower(tails),"both") ){
 mV <- step1VGExpF(quote(x < center  - deltaL),
                   gTailExpF(quote(4*deltaL/width),quote(tauL)),
                   step1VGExpF(quote(x > center  + deltaR),
@@ -214,7 +214,7 @@ mV <- step1VGExpF(quote(x < center  - deltaL),
       quote((deltaR>0)&(tauR>=0)&(tauR<=1)))
     attr(model,"tails")<-"both";
 
-  }else if(tailType==4 ){
+  }else if(identical(tolower(tails),"mirror")){
 mV <- step1VGExpF(quote(x < center  - deltaM),
                   gTailExpF(quote(4*deltaM/width),quote(tauM)),
                   step1VGExpF(quote(x > center  + deltaM),
@@ -233,7 +233,7 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
   }else {
     stop("Unrecognized type requested.");
   }
-  model$init <- g.suggestAll(obsData,model$args)
+  model$init <- g.suggestAll(data,model$args)
   model$fixed <- rep(FALSE,length(model$init))
   names(model$fixed) <- names( model$init)
   model$tune <- as.list(rep(1.5,length(model$init)))

@@ -117,7 +117,7 @@ Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone be
 \seealso{
   \code{\link{hzar.obsData}}
   \code{\link{hzar.first.fitRequest.old.ML}}
-  \code{\link{hzar.gC.first.fitRequest}}
+  \code{\link{hzar.first.fitRequest.gC}}
 }
 \examples{
 data(manakinMolecular);

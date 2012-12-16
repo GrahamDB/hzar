@@ -97,18 +97,18 @@ naiveHessian <- function(theta,zF,k=0.05){
 ##   solve(-naiveHessian(model$init,LLfunc));
 ## }
 
-hzar.first.fitRequest.gC <- function(obsData,model,verbose=TRUE){
+hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   if (verbose) {
     mcmcParam <- hzar:::cfg.hzar.default.mcmc
   } else {
     mcmcParam <- hzar:::cfg.hzar.quiet.mcmc
   }
   modelParam <- list();
-  modelParam$init <- model$init[!as.logical(model$fixed)];
-  modelParam$tune <- model$tune[!as.logical(model$fixed)];
+  modelParam$init <- gModel$init[!as.logical(gModel$fixed)];
+  modelParam$tune <- gModel$tune[!as.logical(gModel$fixed)];
   
   
-  LLfunc <- g.LLfunc(obsData,model)
+  LLfunc <- g.LLfunc(obsData,gModel)
   cV <-  solve(-naiveHessian(modelParam$init,LLfunc));
   return(hzar.make.fitRequest(modelParam, cV, LLfunc, 
         mcmcParam))
