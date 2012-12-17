@@ -7,23 +7,26 @@ hzar.yLabel<-function(x) {
     ## Add name extractor
     return("Frequency");
   }
-  if(inherits(oD, "clineSampleData1DCLT")){
+  if(inherits(oD,c("guassSampleData1D", "clineSampleData1DCLT"))){
     ## Add name extractor
     return("Trait Value");
   }
   if( is.list(oD)){
     if(prod(as.logical(lapply(oD,inherits,what="clineSampleData1D")))==1)
       return("Frequency");
-    if(prod(as.logical(lapply(oD,inherits,what="clineSampleData1DCLT")))==1)
+    if(prod(as.logical(lapply(oD,inherits,what=c("guassSampleData1D",
+                                            "clineSampleData1DCLT"))))==1)
       return("Trait Value");
     
   }
   return("");
 }
 
-hzar.plot.obsData<-function(x,type="p",pch="+",xlab="Distance",ylab=hzar.yLabel(x),add=FALSE,...){
+hzar.plot.obsData<-function(x,type="p",pch="+",xlab="Distance",ylab=hzar.yLabel(x),add=FALSE,ylim=FALSE,...){
   oD<-hzar.extract.obsData(x);
-  if(inherits(oD,c("hzar.obsData",
+  if(identical(intersect(names(oD),"ylim"),"ylim") && identical(ylim,FALSE))
+    ylim <- oD$ylim;
+  if(inherits(oD,c("guassSampleData1D",
                    "clineSampleData1D",
                    "clineSampleData1DCLT"))){
     oDF<-oD$frame;
@@ -32,6 +35,8 @@ hzar.plot.obsData<-function(x,type="p",pch="+",xlab="Distance",ylab=hzar.yLabel(
       yData<-oDF$obsFreq
     if(inherits(oD,"clineSampleData1DCLT"))
       yData<-oDF$obsMean
+    if(inherits(oD,"guassSampleData1D"))
+      yData<-oDF$mu
     if(add){
       points(y=yData,
            x=oDF$dist,
@@ -39,22 +44,30 @@ hzar.plot.obsData<-function(x,type="p",pch="+",xlab="Distance",ylab=hzar.yLabel(
     }else{
       plot(y=yData,
            x=oDF$dist,
-           type=type,pch=pch,xlab=xlab,ylab=ylab,...);
+           type=type,pch=pch,xlab=xlab,ylab=ylab,ylim=ylim,...);
     }
   }
 }
 
 
-hzar.plot.cline<-function(cline,add=FALSE,...){
+hzar.plot.cline<-function(cline,add=FALSE,ylim=FALSE,...){
   if(inherits(cline,"hzar.cline"))
     curve(cline$clineFunc(x),add=add,...);
   if(inherits(cline,c("hzar.dataGroup","hzar.fitRequest"))){
     dataGroup<-hzar.fit2DataGroup(cline);
-    hzar.plot.obsData(dataGroup,add=add,...);
+    hzar.plot.obsData(dataGroup,add=add,ylim=ylim,...);
     hzar.plot.cline(hzar.get.ML.cline(dataGroup),add=TRUE,...);
   }
   if(inherits(cline,c("hzar.obsDataGroup"))){
-    hzar.plot.obsData(cline,add=add,...);
+    if(identical(ylim,FALSE)){
+      sapply(cline$data.groups,
+             function(x) {
+               ylim <- c(0,1);
+               try(ylim <- x$obsData$ylim );
+               as.numeric(ylim)}) -> yS;
+      ylim <- c(min(yS),max(yS))
+    }
+    hzar.plot.obsData(cline,add=add,ylim=ylim,...);
     lapply(cline$data.groups,function(dataGroup) hzar.plot.cline(hzar.get.ML.cline(dataGroup),add=TRUE,... ));
   }
 }
@@ -80,7 +93,9 @@ hzar.mcmc.bindLL <-
 
               
 
-hzar.plot.fzCline<-function(dataGroup,fzCline=hzar.getCredParamRed(dataGroup) ,type="p",pch="+",col="black",fzCol="gray",...){
+hzar.plot.fzCline<-function(dataGroup,
+                            fzCline=hzar.getCredParamRed(dataGroup) ,
+                            type="p",pch="+",col="black",fzCol="gray",...){
   hzar.plot.obsData(dataGroup,col="transparent",...);
   xSeries<-seq(from=par("usr")[1],to=par("usr")[2],length.out=109)
   if(par("xaxs")=="r")

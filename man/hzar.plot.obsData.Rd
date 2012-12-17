@@ -11,7 +11,7 @@
 \usage{
 hzar.plot.obsData(x, type = "p", pch = "+",
                   xlab = "Distance", ylab = hzar.yLabel(x),
-                  add = FALSE, ...)
+                  add = FALSE, ylim=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,6 +36,10 @@ hzar.plot.obsData(x, type = "p", pch = "+",
   \item{add}{
     Draw on an existing plot.
     %%     ~~Describe \code{add} here~~
+  }
+  \item{ylim}{
+    Grapical parameter passed to \code{\link{plot}}. If FALSE,
+    determine ylim from \code{x} as needed.
   }
   \item{\dots}{
     Additional parameters to pass to plot().

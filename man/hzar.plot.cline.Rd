@@ -12,20 +12,24 @@
   objects, plots the maximum likelihood cline for each model.
 }
 \usage{
-hzar.plot.cline(cline, add = FALSE, ...)
+hzar.plot.cline(cline, add = FALSE, ylim=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cline}{
     A hzar.cline, hzar.dataGroup or hzar.obsDataGroup object.
-}
+  }
   \item{add}{
     Add to an existing plot if TRUE.
-}
-\item{\dots}{
-  Arguments to be passed to methods, such as graphical
-  parameters (see \code{\link{plot}}).
-}
+  }
+  \item{ylim}{
+    Grapical parameter passed to \code{\link{plot}}. If FALSE,
+    determine ylim from \code{cline} if needed.
+  }
+  \item{\dots}{
+    Arguments to be passed to methods, such as graphical
+    parameters (see \code{\link{plot}}).
+  }
 }
 % \details{
 % %%  ~~ If necessary, more details than the description above ~~

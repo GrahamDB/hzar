@@ -5,10 +5,10 @@ g.LLfuncA <- function(obsData, reqExp, muExp, varExp, tFunc, tArgs, tFixed,
     baseFunc <- function(theta) 0;
     
     gLL <-
-      guassianThetaLLExpF(distance=obsData$data$dist,
-                          sampleMean=obsData$data$mu,
-                          sampleVar=obsData$data$var,
-                          nEff=obsData$data$nEff,
+      guassianThetaLLExpF(distance=obsData$frame$dist,
+                          sampleMean=obsData$frame$mu,
+                          sampleVar=obsData$frame$var,
+                          nEff=obsData$frame$nEff,
                           muExp=muExp,
                           varExp=varExp)
     gLL <-  step1VectorExpF(reqExp,gLL,LLrejectedModel)
@@ -33,10 +33,10 @@ g.LLfunc <- function(obsData, model,
     new.formals=tArgs
     
     gLL <-
-      guassianThetaLLExpF(distance=obsData$data$dist,
-                          sampleMean=obsData$data$mu,
-                          sampleVar=obsData$data$var,
-                          nEff=obsData$data$nEff,
+      guassianThetaLLExpF(distance=obsData$frame$dist,
+                          sampleMean=obsData$frame$mu,
+                          sampleVar=obsData$frame$var,
+                          nEff=obsData$frame$nEff,
                           muExp=model$mu,
                           varExp=model$var)
     gLL <-  step1VectorExpF(body(model$req)[[2]],gLL,LLrejectedModel)

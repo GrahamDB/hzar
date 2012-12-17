@@ -4,7 +4,7 @@ obs.g.summary <- function(
                           varObs,
                           nEff,
                           siteID=paste("P",1:length(distance),sep=""),
-                          yLim=NULL){
+                          ylim=NULL){
   list()->obj;
   obj$frame <- na.omit(data.frame(
          site=siteID,
@@ -14,14 +14,14 @@ obs.g.summary <- function(
          nEff=as.numeric(nEff),
          row.names=siteID))
   obj$model.LL <- compileLLfunc(obj)
-  if(identical(is.null(yLim),TRUE)){
+  if(identical(is.null(ylim),TRUE)){
     #attach(obj$frame)
     f=obj$frame;
-    yLim=extendrange(c(min(f$mu-sqrt(f$var/f$nEff)),
+    ylim=extendrange(c(min(f$mu-sqrt(f$var/f$nEff)),
       max(f$mu+sqrt(f$var/f$nEff)) ));
     #detach();
   }
-  obj$yLim <- yLim;
+  obj$ylim <- ylim;
   class(obj)<-c("guassSampleData1D","hzar.obsData");
   obj
 }
@@ -43,7 +43,7 @@ hzar.doNormalData1DRaw <- function(site.dist,traitSite,traitValue){
               muObs=sapply(tV,mean),
               varObs=sapply(tV,var),
               nEff=sapply(tV,length),
-                yLim=extendrange(c(min(na.omit(traitValue)),
+                ylim=extendrange(c(min(na.omit(traitValue)),
                        max(na.omit(traitValue))))
               )
 }
@@ -53,10 +53,10 @@ compileLLfunc <- function(obsData,
                           varExp=quote(clineVar(x)),
                           baseFunc=function(clineMean,clineVar)0){
  body(baseFunc) <-
-   guassianThetaLLExpF(distance=obsData$data$dist,
-                       sampleMean=obsData$data$mu,
-                       sampleVar=obsData$data$var,
-                       nEff=obsData$data$nEff,
+   guassianThetaLLExpF(distance=obsData$frame$dist,
+                       sampleMean=obsData$frame$mu,
+                       sampleVar=obsData$frame$var,
+                       nEff=obsData$frame$nEff,
                        muExp=muExp,
                        varExp=varExp)
  environment(baseFunc) <- .GlobalEnv
@@ -152,7 +152,7 @@ g.suggest$tauR <- function(...) 0.5
 
 g.suggestAll <- function(obsData,mArgs){
   index <- intersect(names(g.suggest),names(mArgs))
-  dataL <- alist(data=obsData$data)
+  dataL <- alist(data=obsData$frame)
   for(iter in index)
     mArgs[[iter]] = do.call(g.suggest[[iter]],c(dataL,mArgs))
   mArgs

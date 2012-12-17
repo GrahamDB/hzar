@@ -14,11 +14,11 @@
 \usage{
 hzar.doMolecularData1DPops(distance, pObs, nEff,
                            siteID=paste("P",1:length(distance),sep=""),
-                           yLim=extendrange(c(0,1)))
+                           ylim=extendrange(c(0,1)))
 hzar.doCLTData1DPops(distance, muObs, varObs, nEff)
 hzar.doNormalData1DPops(distance, muObs, varObs, nEff,
                         siteID=paste("P",1:length(distance),sep=""),
-                        yLim=NULL)
+                        ylim=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,8 +40,8 @@ hzar.doNormalData1DPops(distance, muObs, varObs, nEff,
   \item{varObs}{
     The trait variance observed at each site.
   }
-  \item{yLim}{
-    The yLim to use when plotting the observed data.
+  \item{ylim}{
+    The ylim to use when plotting the observed data.
   }
   \item{siteID}{
     The identifier to use for each sampling site.
