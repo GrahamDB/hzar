@@ -146,9 +146,9 @@ g.suggest$width <- function(data,muL,muR,...) {
 g.suggest$deltaL <- function(width,...)3*width/4
 g.suggest$deltaM <- function(width,...)3*width/4
 g.suggest$deltaR <- function(width,...)3*width/4
-g.suggest$tauL <- function(...) 0.5
-g.suggest$tauM <- function(...) 0.5
-g.suggest$tauR <- function(...) 0.5
+g.suggest$tauL <- function(...) 0.1
+g.suggest$tauM <- function(...) 0.1
+g.suggest$tauR <- function(...) 0.1
 
 g.suggestAll <- function(obsData,mArgs){
   index <- intersect(names(g.suggest),names(mArgs))
@@ -252,6 +252,7 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
                                  expression(res <- function(x) x),
                                  vS,expression(environment(res) <- .GlobalEnv,
                                      return(res))))
-  
+  model$parameterTypes <- CLINEPARAMETERS[intersect(names(CLINEPARAMETERS),
+                                                    names(model$args))]
   model
 }

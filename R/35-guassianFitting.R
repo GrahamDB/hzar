@@ -46,7 +46,10 @@ g.LLfunc <- function(obsData, model,
     names(tMap) <- names(tArgs);
     gLL <- eval(substitute(substitute(LLfunc,tF),
                            list(LLfunc=gLL,tF=c(tFixed,tMap))))
-    body(baseFunc) <-gLL;
+    body(baseFunc) <-as.call(c(as.name("{"),
+                               bquote(res <- .(gLL)),
+                               expression(if(any(is.na(res))) print(theta)),
+                               bquote(ifelse(is.na(res),.(LLrejectedModel),res))));
     llFunc=baseFunc
     ## eval(substitute(substitute(LLfunc,eL),
     ##                                 list(LLfunc=gLL,eL=tMap)))

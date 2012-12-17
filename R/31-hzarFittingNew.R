@@ -410,7 +410,7 @@ hzar.next.fitRequest <- function(oldFitRequest){
     covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
     covMatrix<-covData$cov;
     new.center<-covData$center[names(mdlParam$init)];
-    if(oldFitRequest$llFunc(new.center)>1e-6)
+    if(oldFitRequest$llFunc(new.center)>-1e6)
       mdlParam$init <- new.center;
   }
   return(hzar.make.fitRequest(mdlParam,

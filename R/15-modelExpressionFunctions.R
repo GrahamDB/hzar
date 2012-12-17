@@ -3,7 +3,7 @@ clineLogit <- quote(4*(x-center)/width)
 clineLogitRev <- quote(-4*(x-center)/width)
 
 alphaExpF <-  function ( logitDelta , tailTau )
-  substitute( exp(lD*tT)/(1+exp(lD)), list(lD=logitDelta, tT=tailTau));
+  substitute( exp(lD*(tT-1))/(1+exp(-lD)), list(lD=logitDelta, tT=tailTau));
 
 pTailExpF <-  function( logitDelta , tailTau , logitU)
   substitute(alpha * exp( lU * tT) ,
