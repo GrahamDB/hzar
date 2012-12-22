@@ -133,15 +133,24 @@ g.suggest$varH <- function(data,varL,varR,...) max(data$var)-(varR+varL)/2
 g.suggest$center <- function(data,...) data$dist[which.max(data$var)]
 g.suggest$width <- function(data,muL,muR,...) {
   dist <- data$dist
+  res <- -1
   if(muL<muR){
-    dist <- dist[(5* data$mu > (4*muL+muR))&
-                 (5* data$mu < (4*muR+muL))]
-  }else{
-    dist <- dist[(5* data$mu < (4*muL+muR))&
-                 (5* data$mu > (4*muR+muL))]
+    res <- (min(dist[(5* data$mu >= (4*muR+muL))])
+           -max(dist[(5* data$mu <= (4*muL+muR))]))
+    
+  }else if(muL>muR){
+    res <- (min(dist[(5* data$mu <= (4*muR+muL))])
+           -max(dist[(5* data$mu >= (4*muL+muR))]))
+                 
 
   }
-  return( max(dist)-min(dist))
+  if(all(!is.na(res),!is.nan(res),res>0))return(res)
+  if(length(dist)==0)return(1)
+  dist <- sort(unique(dist))
+  l <- length(dist)
+  if(l==1)return(dist)
+  if(l<4)return(max(dist)-min(dist)+1)  
+  return(min(dist[3:l]-dist[1:(l-2)]))
 }
 g.suggest$deltaL <- function(width,...)3*width/4
 g.suggest$deltaM <- function(width,...)3*width/4
