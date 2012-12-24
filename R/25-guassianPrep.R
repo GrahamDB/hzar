@@ -167,6 +167,28 @@ g.suggestAll <- function(obsData,mArgs){
   mArgs
 }
 
+g.sMuVarL <- function(obsData){
+  data <- obsData$frame
+  data2 <- data[data$var > 0,c("dist","var","nEff")]
+  if(nrow(data2)>0) {
+    i <- which.min(data2$dist)
+    return(data2$var[i]/data2$nEff[i]);
+  } else {
+    return(var(data$mu)/sum(data$nEff));
+  }
+}
+
+g.sMuVarR <- function(obsData){
+  data <- obsData$frame
+  data2 <- data[data$var > 0,c("dist","var","nEff")]
+  if(nrow(data2)>0) {
+    i <- which.max(data2$dist)
+    return(data2$var[i]/data2$nEff[i]);
+  } else {
+    return(var(data$mu)/sum(data$nEff));
+  }
+}
+
 hzar.makeCline1DNormal <- function(data,tails="none"){
   model <- list(mu=0,
                 var=1,
@@ -263,5 +285,18 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
                                      return(res))))
   model$parameterTypes <- CLINEPARAMETERS[intersect(names(CLINEPARAMETERS),
                                                     names(model$args))]
+  muVarL <- g.sMuVarL(data);
+  muVarR <- g.sMuVarR(data);
+  
+  attr(model$parameterTypes$muL,"lower") <- model$init$muL-sqrt(muVarL)
+  attr(model$parameterTypes$muL,"upper") <- model$init$muL+sqrt(muVarL)
+  attr(model$parameterTypes$muR,"lower") <- model$init$muR-sqrt(muVarR)
+  attr(model$parameterTypes$muR,"upper") <- model$init$muR+sqrt(muVarR)
+  attr(model$parameterTypes$varL,"lower") <- model$init$varL/4
+  attr(model$parameterTypes$varL,"upper") <- model$init$varL*4
+  attr(model$parameterTypes$varH,"lower") <- model$init$varH/4
+  attr(model$parameterTypes$varH,"upper") <- model$init$varH*4
+  attr(model$parameterTypes$varR,"lower") <- model$init$varR/4
+  attr(model$parameterTypes$varR,"upper") <- model$init$varR*4
   model
 }

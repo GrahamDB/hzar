@@ -106,13 +106,35 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   } else {
     mcmcParam <- hzar:::cfg.hzar.quiet.mcmc
   }
-  modelParam <- list();
+  for(iter in names(gModel$parameterTypes)){
+    attr(gModel$parameterTypes[[iter]],"fixed") <- gModel$fixed[[iter]]
+  }
+  modelParam <- splitParameters(gModel$parameterTypes);
   modelParam$init <- gModel$init[!as.logical(gModel$fixed)];
   modelParam$tune <- gModel$tune[!as.logical(gModel$fixed)];
   
-  
   LLfunc <- g.LLfunc(obsData,gModel)
-  cV <-  solve(-naiveHessian(modelParam$init,LLfunc));
+
+##   Figure out a better covariance matrix method.
+
+##   I currently first try an approximate Hessian around the initial
+##   parameters.  If that fails, I then try to directly approximate the
+##   covariance matrix using hzar.cov.rect.  If that fails to work, I
+##   should walk back over the parameter space (possibly using the values
+##   pulled by hzar.cov.rect) starting at the maximum likelihood,
+##   searching for the first set of parameters that the first method
+##   produces useful values.
+
+  
+  cV <- NULL;
+  junk <- NULL
+  try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
+  if(!is.null(junk))
+    try({ chol(junk); cV <- junk; },silent=TRUE)
+  if(is.null(cV))
+    try(cV <- hzar.cov.rect(LLfunc, modelParam$lower, 
+                        modelParam$upper, random = 10000))
+
   return(hzar.make.fitRequest(modelParam, cV, LLfunc, 
         mcmcParam))
 }
