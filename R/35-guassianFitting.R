@@ -129,10 +129,14 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   cV <- NULL;
   junk <- NULL
   altInit <- modelParam$init
+  if(verbose) cat("a")
   try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
   if(!is.null(junk))
     try({ chol(junk); cV <- junk; },silent=TRUE)
-  if(is.null(cV))
+  else
+    if(verbose) cat("A")
+  if(is.null(cV)){
+    if(verbose) cat("b")
     try({
       junk <- hzar.cov.rect(LLfunc, modelParam$lower, 
                             modelParam$upper, random = 10000,
@@ -141,22 +145,27 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
       altInit <- junk$center
       
     })
-  junk <- NULL
-  
-  try(junk <- chol(cV),silent=TRUE)
-  if(is.null(junk)){
-    modelParam$init <- altInit
-    try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
-    if(!is.null(junk))
-      try({ chol(junk); cV <- junk; },silent=TRUE)
+    junk <- NULL
     
+    try(junk <- chol(cV),silent=TRUE)
+    if(is.null(junk)){
+      if(verbose) cat("c")
+      modelParam$init <- altInit
+      try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
+      if(!is.null(junk))
+        try({ chol(junk); cV <- junk; },silent=TRUE)
+      else
+        if(verbose) cat("C")
     ## data.mat<-list(dTheta=prod(abs(as.numeric(param.upper)
 ##                      -as.numeric(param.lower)))
-##                    / random,
+      ##                    / random,
 ##                    data=fitter.gen.rParam.uniform(param.lower,
 ##                      param.upper,
 ##                      random));
+    }
+    
   }
+  cat("\n")
   return(hzar.make.fitRequest(modelParam, cV, LLfunc, 
-        mcmcParam))
+                              mcmcParam))
 }
