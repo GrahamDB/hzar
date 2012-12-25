@@ -128,13 +128,35 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   
   cV <- NULL;
   junk <- NULL
+  altInit <- modelParam$init
   try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
   if(!is.null(junk))
     try({ chol(junk); cV <- junk; },silent=TRUE)
   if(is.null(cV))
-    try(cV <- hzar.cov.rect(LLfunc, modelParam$lower, 
-                        modelParam$upper, random = 10000))
-
+    try({
+      junk <- hzar.cov.rect(LLfunc, modelParam$lower, 
+                            modelParam$upper, random = 10000,
+                            passCenter=TRUE);
+      cV <- junk$cov
+      altInit <- junk$center
+      
+    })
+  junk <- NULL
+  
+  try(junk <- chol(cV),silent=TRUE)
+  if(is.null(junk)){
+    modelParam$init <- altInit
+    try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
+    if(!is.null(junk))
+      try({ chol(junk); cV <- junk; },silent=TRUE)
+    
+    ## data.mat<-list(dTheta=prod(abs(as.numeric(param.upper)
+##                      -as.numeric(param.lower)))
+##                    / random,
+##                    data=fitter.gen.rParam.uniform(param.lower,
+##                      param.upper,
+##                      random));
+  }
   return(hzar.make.fitRequest(modelParam, cV, LLfunc, 
         mcmcParam))
 }

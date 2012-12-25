@@ -288,15 +288,15 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
   muVarL <- g.sMuVarL(data);
   muVarR <- g.sMuVarR(data);
   
-  attr(model$parameterTypes$muL,"lower") <- model$init$muL-sqrt(muVarL)
-  attr(model$parameterTypes$muL,"upper") <- model$init$muL+sqrt(muVarL)
-  attr(model$parameterTypes$muR,"lower") <- model$init$muR-sqrt(muVarR)
-  attr(model$parameterTypes$muR,"upper") <- model$init$muR+sqrt(muVarR)
-  attr(model$parameterTypes$varL,"lower") <- model$init$varL/4
-  attr(model$parameterTypes$varL,"upper") <- model$init$varL*4
-  attr(model$parameterTypes$varH,"lower") <- model$init$varH/4
-  attr(model$parameterTypes$varH,"upper") <- model$init$varH*4
-  attr(model$parameterTypes$varR,"lower") <- model$init$varR/4
-  attr(model$parameterTypes$varR,"upper") <- model$init$varR*4
+  attr(model$parameterTypes$muL,"limit.lower") <- model$init$muL-sqrt(muVarL)
+  attr(model$parameterTypes$muL,"limit.upper") <- model$init$muL+sqrt(muVarL)
+  attr(model$parameterTypes$muR,"limit.lower") <- model$init$muR-sqrt(muVarR)
+  attr(model$parameterTypes$muR,"limit.upper") <- model$init$muR+sqrt(muVarR)
+  attr(model$parameterTypes$varL,"limit.lower") <- model$init$varL/4
+  attr(model$parameterTypes$varL,"limit.upper") <- model$init$varL*4
+  attr(model$parameterTypes$varH,"limit.lower") <- model$init$varH/4
+  attr(model$parameterTypes$varH,"limit.upper") <- model$init$varH*4
+  attr(model$parameterTypes$varR,"limit.lower") <- model$init$varR/4
+  attr(model$parameterTypes$varR,"limit.upper") <- model$init$varR*4
   model
 }
