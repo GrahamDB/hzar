@@ -139,7 +139,7 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
     if(verbose) cat("b")
     try({
       junk <- hzar.cov.rect(LLfunc, modelParam$lower, 
-                            modelParam$upper, random = 10000,
+                            modelParam$upper, random = 1000,
                             passCenter=TRUE);
       cV <- junk$cov
       altInit <- junk$center
@@ -165,6 +165,7 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
     }
     
   }
+  
   cat("\n")
   return(hzar.make.fitRequest(modelParam, cV, LLfunc, 
                               mcmcParam))

@@ -275,7 +275,7 @@ fitter.gen.samples.rect <- function(param.lower, param.upper, pDiv=11){
 
 hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,passCenter=FALSE){
   ## print("A");
-
+  cat("0")
   ## Check to make sure we aren't about to do something stupid.
   ## Yes, that means that models with over ten million parameters
   ## will fail spectacularly. We hope that you would have
@@ -285,6 +285,7 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
     stop("Covariance matrix calculation with random sampling requested with far too many samples.  Stopping.")
   }
   if(random>0){
+    cat("a")
     data.mat<-list(dTheta=prod(abs(as.numeric(param.upper)
                      -as.numeric(param.lower)))
                    / random,
@@ -292,6 +293,7 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
                      param.upper,
                      random));
   }else{
+    cat("b")
     ## Stupidity check.  See above
     if((pDiv^length(param.lower))>1e6){
       ## This is recoverable by switching to random sampling.
@@ -302,18 +304,34 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
                            random=1e4,
                            passCenter=passCenter));
     }
+    cat("B")
     data.mat<-fitter.gen.samples.rect(param.lower,param.upper,pDiv);
   }
   param.names<-names(data.mat$data);##print(names(data.mat));
   ## print("A");
   ##data.wt<-fitter.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
+  cat("c",sprintf("%0.1e",data.mat$dTheta))
   data.wt<-hzar.eval.clineLL(data.mat$data,clineLLfunc);
-  data.mat$data<-data.mat$data[data.wt>-1e6,];
-  data.wt<-data.wt[data.wt>-1e6];
-  MIN.DATA<-(1+length(param.upper))
+  data.mat$data<-data.mat$data[data.wt>-1e7,];
+  data.wt<-data.wt[data.wt>-1e7];
+  cat("d")
+  MIN.DATA<-(1+length(param.upper))*4
   if(length(data.wt)<MIN.DATA){
     ## need more samples... recurse.
-    if(random>0){ 
+    
+    if(length(data.wt)>9){
+      cat("-")
+      param.A <- apply(data.mat$data,2,extendrange)
+      
+      if(!any(param.A[1,]==param.A[2,])){
+        param.lower <- param.A[1,]
+        param.upper <- param.A[2,]
+        random=random/2
+      }
+    }
+    
+    if(random>0){
+      cat("Dr")
       ## Double the amount of sampling
       return(hzar.cov.rect(clineLLfunc,
                            param.lower,
@@ -321,6 +339,7 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
                            random=2*random,
                            passCenter=passCenter));
     }else{
+      cat("Dp")
       ##Increase the resolution slightly.
       return(hzar.cov.rect(clineLLfunc,
                            param.lower,
@@ -330,30 +349,52 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
     }
   }
   while(sum(data.wt>-723)<MIN.DATA){
+    cat("+")
     ## insufficient data in finite range
     if(sum(data.wt>609)>0){
       ## scaling won't fix the problem, so more samples needed.
       ## Recurse.
+      
+      if(sum(data.wt>-1000)>9){
+        cat("-")
+        data.mat$data <- data.mat$data[data.wt>-1000,]
+        data.wt <- data.wt[data.wt>-1000]
+      }
+      
+      cat("-")
+      param.A <- apply(data.mat$data,2,extendrange)
+      
+      if(!any(param.A[1,]==param.A[2,])){
+        param.lower <- param.A[1,]
+        param.upper <- param.A[2,]
+      }
       if(random>0){ 
+        cat("Er")
         ## Double the amount of sampling
         return(hzar.cov.rect(clineLLfunc,
                              param.lower,
                              param.upper,
-                             random=2*random,
+                             random=random*2,
                              passCenter=passCenter));
       }else{
+        
+        cat("Ep")
         ##Increase the resolution slightly.
         return(hzar.cov.rect(clineLLfunc,
                              param.lower,
                              param.upper,
-                             pDiv=pDiv+1,
+                             pDiv=pDiv,
                              passCenter=passCenter));
       }
     }
     ## iteratively shift likelihood space to bring samples into finite range.
-    data.wt<-data.wt+100;
+    if(sum(data.wt>-723)==0){
+      data.wt<-data.wt-max(data.wt);
+    }else {data.wt<-data.wt+100}
   }
   ## print("A");
+
+  cat("f")
   VDATA<-cov.wt(x=cbind(data.mat$data,model.LL=data.wt),wt=exp(data.wt))
   ##   *data.mat$dTheta)
   VMATRIX<-VDATA$cov;
@@ -363,6 +404,8 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
   ## counter.inv2<-counter.inv/sqrt(counter.inv["model.LL","model.LL"]);
   ## mat.scaled<-counter.inv%*%VMATRIX%*%counter.inv;
   mat.scaled<-VMATRIX;
+  
+  cat("g")
   if(passCenter)
     return(list(cov=mat.scaled[param.names,param.names],center=VDATA$center[param.names]));
   return(mat.scaled[param.names,param.names]);
