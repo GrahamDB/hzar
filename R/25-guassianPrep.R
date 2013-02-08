@@ -120,16 +120,16 @@ g.suggest <- list();
 g.suggest$muL <- function(data,...) data$mu[which.min(data$dist)]
 g.suggest$muR <- function(data,...) data$mu[which.max(data$dist)]
 g.suggest$varL <- function(data,...) {
-  data2 <- data[data$var > 0,c("dist","var")]
-  if(nrow(data2)>0) return(data2$var[which.min(data2$dist)]);
-  return(0.0001);
+  data2 <- data[data$var > 0.10,c("dist","var")]
+  if(nrow(data2)>0) return(max(1,data2$var[which.min(data2$dist)]));
+  return(1);
 }
 g.suggest$varR <- function(data,...){
-  data2 <- data[data$var > 0,c("dist","var")]
-  if(nrow(data2)>0) return(data2$var[which.max(data2$dist)]);
-  return(0.0001);
+  data2 <- data[data$var > 0.10,c("dist","var")]
+  if(nrow(data2)>0) return(max(1,data2$var[which.max(data2$dist)]));
+  return(1);
 }
-g.suggest$varH <- function(data,varL,varR,...) max(data$var)-(varR+varL)/2
+g.suggest$varH <- function(data,varL,varR,...) max(1,max(data$var)-(varR+varL)/2)
 g.suggest$center <- function(data,...) data$dist[which.max(data$var)]
 g.suggest$width <- function(data,muL,muR,...) {
   dist <- data$dist
@@ -155,9 +155,9 @@ g.suggest$width <- function(data,muL,muR,...) {
 g.suggest$deltaL <- function(width,...)3*width/4
 g.suggest$deltaM <- function(width,...)3*width/4
 g.suggest$deltaR <- function(width,...)3*width/4
-g.suggest$tauL <- function(...) 0.1
-g.suggest$tauM <- function(...) 0.1
-g.suggest$tauR <- function(...) 0.1
+g.suggest$tauL <- function(...) 0.5
+g.suggest$tauM <- function(...) 0.5
+g.suggest$tauR <- function(...) 0.5
 
 g.suggestAll <- function(obsData,mArgs){
   index <- intersect(names(g.suggest),names(mArgs))
@@ -288,15 +288,15 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
   muVarL <- g.sMuVarL(data);
   muVarR <- g.sMuVarR(data);
   
-  attr(model$parameterTypes$muL,"limit.lower") <- model$init$muL-sqrt(muVarL)
-  attr(model$parameterTypes$muL,"limit.upper") <- model$init$muL+sqrt(muVarL)
-  attr(model$parameterTypes$muR,"limit.lower") <- model$init$muR-sqrt(muVarR)
-  attr(model$parameterTypes$muR,"limit.upper") <- model$init$muR+sqrt(muVarR)
-  attr(model$parameterTypes$varL,"limit.lower") <- model$init$varL/4
-  attr(model$parameterTypes$varL,"limit.upper") <- model$init$varL*4
-  attr(model$parameterTypes$varH,"limit.lower") <- model$init$varH/4
-  attr(model$parameterTypes$varH,"limit.upper") <- model$init$varH*4
-  attr(model$parameterTypes$varR,"limit.lower") <- model$init$varR/4
-  attr(model$parameterTypes$varR,"limit.upper") <- model$init$varR*4
+  attr(model$parameterTypes$muL,"limit.lower") <- data$ylim[[1]]#model$init$muL-sqrt(muVarL)
+  attr(model$parameterTypes$muL,"limit.upper") <- data$ylim[[2]]#model$init$muL+sqrt(muVarL)
+  attr(model$parameterTypes$muR,"limit.lower") <- data$ylim[[1]]#model$init$muR-sqrt(muVarR)
+  attr(model$parameterTypes$muR,"limit.upper") <- data$ylim[[2]]#model$init$muR+sqrt(muVarR)
+  attr(model$parameterTypes$varL,"limit.lower") <- min(model$init$varL/100,1e-8)
+  attr(model$parameterTypes$varL,"limit.upper") <- max(model$init$varL*1e4,1e8)
+  attr(model$parameterTypes$varH,"limit.lower") <- min(model$init$varH/100,1e-8)# model$init$varH/100
+  attr(model$parameterTypes$varH,"limit.upper") <- max(model$init$varH*1e4,1e8)
+  attr(model$parameterTypes$varR,"limit.lower") <-  min(model$init$varR/100,1e-8)#model$init$varR/100
+  attr(model$parameterTypes$varR,"limit.upper") <- max(model$init$varR*1e4,1e8)
   model
 }
