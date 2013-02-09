@@ -281,7 +281,7 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
   ## will fail spectacularly. We hope that you would have
   ## considered writing your own software for problems of such
   ## scale.
-  if(random>1e9){
+  if(random>1e5){
     stop("Covariance matrix calculation with random sampling requested with far too many samples.  Stopping.")
   }
   if(random>0){
@@ -448,13 +448,60 @@ hzar.next.fitRequest <- function(oldFitRequest){
   mdlParam<-oldFitRequest$modelParam;
   covMatrix<-oldFitRequest$cM
   if(identical( attr(oldFitRequest,"fit.success") , TRUE)){
-    mcmcSubset<-oldFitRequest$mcmcRaw[sample(dim(oldFitRequest$mcmcRaw)[[1]]),];
+    nGen <- dim(oldFitRequest$mcmcRaw)[[1]]
+    nSam <- min(nGen,5e3)
+    mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen,nSam),];
     subLL<-hzar.eval.clineLL(mcmcSubset,oldFitRequest$llFunc);
-    covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
+    covData <- cov.wt(mcmcSubset[subLL>max(subLL-4),])
+    if(sum(unique(subLL)>max(subLL-4))<4e3){
+      try({
+        if(sum(unique(subLL)>max(subLL-4))>1e3){
+          covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
+        }else {
+          mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen),];
+          subLL<-hzar.eval.clineLL(mcmcSubset,oldFitRequest$llFunc);
+          if(sum(unique(subLL)>max(subLL-4))>1e3){
+            covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
+          }else{
+            covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset,passCenter=TRUE);
+          }
+        }
+      },silent=TRUE)
+    }
     covMatrix<-covData$cov;
     new.center<-covData$center[names(mdlParam$init)];
     if(oldFitRequest$llFunc(new.center)>-1e6)
       mdlParam$init <- new.center;
+    if(!is.null(covMatrix)){
+      junk <- covMatrix;
+      covMatrix <- NULL;
+      try(if(all(diag(junk)>0)){
+        chol(junk);
+        covMatrix <- junk;
+      },silent=TRUE)
+    }
+        
+    
+    if(is.null(covMatrix)){
+      try({ junk <-  solve(-naiveHessian(mdlParam$init,oldFitRequest$llFunc));
+            junk <- appHScale(junk,mdlParam$lower, mdlParam$upper);
+            if(all(diag(junk)>0)){
+              chol(junk);
+              covMatrix <- junk;}
+          },silent=TRUE)
+    }
+    if(is.null(covMatrix)){
+      try({
+        junk <- appThetaWalkerR(mdlParam$init,
+                                oldFitRequest$llFunc,
+                                mdlParam$lower, 
+                                mdlParam$upper, random = 1000,
+                                passCenter=TRUE);
+        covMatrix <- junk$cov
+        mdlParam$init  <- junk$center
+        
+      })
+    }
   }
   return(hzar.make.fitRequest(mdlParam,
                               covMatrix,

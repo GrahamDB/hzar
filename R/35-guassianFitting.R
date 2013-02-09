@@ -274,12 +274,12 @@ appThetaWalkerR <- function(theta,zF,tLower,tUpper,random=1000,passCenter=FALSE)
     if(passCenter){
       if(all(diag(res$cov)>0)) {
         chol(res$cov);
-        res$cov <- appHScale(res$cov)
+        res$cov <- appHScale(res$cov,tLower,tUpper)
         return(res);}
     }else{
       if(all(diag(res)>0)) {
         chol(res);
-        res <- appHScale(res)
+        res <- appHScale(res,tLower,tUpper)
         return(res);}
     } }, silent=TRUE)
     for(iter in names(theta)){
@@ -394,9 +394,14 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   junk <- NULL
   altInit <- modelParam$init
   if(verbose) cat("a")
-  try(  junk <-  solve(-naiveHessian(modelParam$init,LLfunc)),silent=TRUE)
-  if(!is.null(junk))
-    try({ chol(junk); cV <- junk; },silent=TRUE)
+  try({ junk <-  solve(-naiveHessian(modelParam$init,LLfunc));
+        junk <- appHScale(junk,modelParam$lower, modelParam$upper)
+      },silent=TRUE)
+  if(!is.null(junk)){
+    
+      try(if(all(diag(junk)>0)){chol(junk); cV <- junk;},silent=TRUE)
+   
+  }
   else
     if(verbose) cat("A")
   if(is.null(cV)){
