@@ -60,3 +60,40 @@ hzar.model.addCenterRange <- function(meta.model,low,high){
 hzar.model.addBoxReq <- function(meta.model,low,high){
   return(hzar.model.addCenterRange(hzar.model.addMaxDelta(hzar.model.addMaxWidth(meta.model,high-low),high-low),low,high));
 }
+model.addMinParam <- function(meta.model,paramQ,paramN,minValue){
+  clause <- substitute(P>V,list(P=paramQ,V=minValue));
+  attr(meta.model$parameterTypes[[paramN]],"limit.lower") <- minValue;
+  return(model.addReqClause(meta.model,clause));
+}
+model.addMaxParam <- function(meta.model,paramQ,paramN,maxValue){
+  clause <- substitute(P<V,list(P=paramQ,V=maxValue));
+  attr(meta.model$parameterTypes[[paramN]],"limit.upper") <- maxValue;
+  return(model.addReqClause(meta.model,clause));
+}
+
+model.addParamRange <-  function(meta.model,paramQ,paramN,minValue,maxValue){
+  clauseA <- substitute(P>V,list(P=paramQ,V=minValue));
+  attr(meta.model$parameterTypes[[paramN]],"limit.lower") <- minValue;
+  clauseB <- substitute(P<V,list(P=paramQ,V=maxValue));
+  attr(meta.model$parameterTypes[[paramN]],"limit.upper") <- maxValue;
+  return(model.addReqClause(model.addReqClause(meta.model,clauseA),clauseB));
+}
+
+hzar.model.addMaxVariance <- function(meta.model,maxValue){
+  meta.model <- model.addMaxParam(meta.model,quote(varL),"varL",maxValue)
+  meta.model <- model.addMaxParam(meta.model,quote(varH),"varH",maxValue)
+  meta.model <- model.addMaxParam(meta.model,quote(varR),"varR",maxValue)
+  return(meta.model);
+}
+hzar.model.addMuRange <- function(meta.model,low,high){
+  meta.model <- model.addParamRange(meta.model,quote(muL),"muL",low,high)
+  meta.model <- model.addParamRange(meta.model,quote(muR),"muR",low,high)
+  return(meta.model);
+}
+hzar.model.addNormalBox <- function(meta.model,left,right,bottom,top){
+  meta.model <- hzar.model.addBoxReq(meta.model,left,right)
+  meta.model <- hzar.model.addMuRange(meta.model,bottom,top)
+  meta.model <- hzar.model.addMaxVariance(meta.model,(top-bottom)^2)
+  return(meta.model);
+}
+  

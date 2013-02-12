@@ -450,28 +450,36 @@ hzar.next.fitRequest <- function(oldFitRequest){
   if(identical( attr(oldFitRequest,"fit.success") , TRUE)){
     nGen <- dim(oldFitRequest$mcmcRaw)[[1]]
     nSam <- min(nGen,5e3)
-    mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen,nSam),];
+    mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen),];
     subLL<-hzar.eval.clineLL(mcmcSubset,oldFitRequest$llFunc);
-    covData <- cov.wt(mcmcSubset[subLL>max(subLL-4),])
-    if(sum(unique(subLL)>max(subLL-4))<4e3){
+    covData <- NULL
+    try(covData <- cov.wt(mcmcSubset[subLL>max(subLL-4),]))
+    if(sum(unique(subLL)>max(subLL-4))<0.95*nGen){
       try({
+        ## if(sum(unique(subLL)>max(subLL-4))>1e3){
+        ##   covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
+        ## }else {
+        ##   mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen),];
+        ##   subLL<-hzar.eval.clineLL(mcmcSubset,oldFitRequest$llFunc);
         if(sum(unique(subLL)>max(subLL-4))>1e3){
+          wt <- subLL[subLL>max(subLL-4),]
+          wt <- exp(wt-max(wt))
+          covData <- cov.wt(mcmcSubset[subLL>max(subLL-4),],wt)
+        }else if(sum(unique(subLL)>max(subLL-4))>1e2){
           covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
+        }else if(sum(unique(subLL)>max(subLL-10))>1e2){
+          covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-10),],passCenter=TRUE);
         }else {
-          mcmcSubset<-oldFitRequest$mcmcRaw[sample(nGen),];
-          subLL<-hzar.eval.clineLL(mcmcSubset,oldFitRequest$llFunc);
-          if(sum(unique(subLL)>max(subLL-4))>1e3){
-            covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset[subLL>max(subLL-4),],passCenter=TRUE);
-          }else{
-            covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset,passCenter=TRUE);
-          }
+          covData<-hzar.cov.mcmc(oldFitRequest$llFunc,mcmcSubset,passCenter=TRUE);
         }
       },silent=TRUE)
     }
-    covMatrix<-covData$cov;
-    new.center<-covData$center[names(mdlParam$init)];
-    if(oldFitRequest$llFunc(new.center)>-1e6)
-      mdlParam$init <- new.center;
+    if(!is.null(covData)){
+      covMatrix<-covData$cov;
+      new.center<-covData$center[names(mdlParam$init)];
+      if(oldFitRequest$llFunc(new.center)>-1e6)
+        mdlParam$init <- new.center;
+    }
     if(!is.null(covMatrix)){
       junk <- covMatrix;
       covMatrix <- NULL;
