@@ -5,16 +5,16 @@
   Molecular data samples for multiple loci accross the Manakin Cline.
 }
 \description{
-  Allele frequencies for multiple loci from populations sampled in the Manakin Cline.
+  Allele frequencies for multiple loci from localitys sampled in the Manakin Cline.
 }
 \usage{data(manakinMolecular)}
 \format{
   A data frame with 11 observations on the following 30 variables.
   \describe{
-    \item{\code{locationID}}{ID code for the population site, a factor
+    \item{\code{locationID}}{ID code for the locality, a factor
       with levels \code{B} \code{C} \code{D} \code{E} \code{F} \code{G}
       \code{H} \code{I} \code{J} \code{K} \code{L}} 
-    \item{\code{distance}}{The distance from Population site \code{A}}
+    \item{\code{distance}}{The distance from locality \code{A}}
     \item{\code{ada.A}}{The frequency of allelle A of locus Ada}
     \item{\code{ada.B}}{The frequency of allelle B of locus Ada}
     \item{\code{ada.nSamples}}{The number of allelles sampled from locus

@@ -16,7 +16,7 @@
 \description{
   The intent of these methods is to assist the optimizer in exploring
   the model parameter space by instructing it to ignore models that are
-  not interesting.  For example, if all of the sampled populations are
+  not interesting.  For example, if all of the sampled localities are
   in a region 100km wide, then a cline width of 110km is probably not
   interesting.  A cline width of 500km in that scenario would definitely
   not be interesting at all.

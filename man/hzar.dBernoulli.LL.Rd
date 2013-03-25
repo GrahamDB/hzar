@@ -6,7 +6,7 @@
 }
 \description{
   This method operates on a collection of sampled scalar values and the
-  sample location site factor.  It calculates a score for each
+  sample localition site factor.  It calculates a score for each
   "cut" value that can split the samples into unique groups, and
   either returns those scores, the cut value with the best score, or a
   table of the frequencies of the sample values that are less than the
@@ -21,7 +21,7 @@ hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
     The sample values to use.
   }
   \item{locations}{
-    The factor grouping sample values by sample site.
+    The factor grouping sample values by location.
   }
   \item{getMax}{
     Should this method return the best cut value?
@@ -35,7 +35,7 @@ hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
   The score for a cut value is the information of learning the location
   of a sample conditioned on the knowledge of the whether the sample
   value is greater or less than the cut value.  This score indicates how
-  little a cut value distinguishes between populations.
+  little a cut value distinguishes between localities.
 
   The best scoring cut value is the one that determines the greatest
   amount of information about the sample location and therefore it is
@@ -47,7 +47,7 @@ hzar.dBernoulli.LL(values, locations, getMax = FALSE, getProbs = FALSE)
   the best score. 
 }
 % \references{
-% %% ~put references to the literature/web site here ~
+%
 % }
 \author{
 Graham Derryberry \email{asterion@alum.mit.edu}

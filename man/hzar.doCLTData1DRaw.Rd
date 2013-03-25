@@ -43,10 +43,10 @@ hzar.mapSiteDist(siteID, distance)
 \details{
   For \code{hzar.doCLTData1DRaw}:
   
-  If for any population site, there is only a small number of samples
+  If for any locality, there is only a small number of samples
   taken, warnings will be issued.
 
-  If at any population site, the sample variance is 0, a warning is
+  If at any locality, the sample variance is 0, a warning is
   issued, and additional variance is included by estimating the amount
   of variance ignored due to measurement error.
 

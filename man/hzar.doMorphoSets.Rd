@@ -6,7 +6,7 @@
 }
 \description{
   Perform a Bernoulli transform on a table of scalar traits of sampled
-  individuals while using a separate table of population locations.
+  individuals while using a separate table of localities.
 }
 \usage{
 hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
@@ -17,22 +17,22 @@ hzar.doMorphoSets(traitNames, tDist, tDLocCol, tDDistCol, tValues, tVLocCol)
     The columns of \code{tValues} to transform.
   }
   \item{tDist}{
-    A data.frame with a column of population site identifiers and a
-    column of population site distances. See
+    A data.frame with a column of locality identifiers and a
+    column of locality distances. See
     \code{\link{manakinLocations}} for an example. 
   }
   \item{tDLocCol}{
-    The name of the column of \code{tDist} with population site identifiers.
+    The name of the column of \code{tDist} with locality identifiers.
   }
   \item{tDDistCol}{
-    The name of the column of \code{tDist} with population site distances.
+    The name of the column of \code{tDist} with locality distances.
   }
   \item{tValues}{
     A data.frame of observed scalar traits of individuals.  See
     \code{\link{manakinMorphological}} for an example.
   }
   \item{tVLocCol}{
-    The name of the column of \code{tValues} with population site
+    The name of the column of \code{tValues} with locality
     identifiers where the sample was taken.
   }
 }
@@ -68,10 +68,10 @@ data(manakinLocations);
 mkn <-
   hzar.doMorphoSets("beard.length",
                     tDist=manakinLocations,
-                    tDLocCol="PopulationID",
+                    tDLocCol="LocalityID",
                     tDDistCol="distance",
                     tValues=manakinMorphological,
-                    tVLocCol="Population")
+                    tVLocCol="Locality")
 print(str(mkn));
 hzar.plot.obsData(mkn$beard.length);
 }

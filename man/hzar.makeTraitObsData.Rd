@@ -14,10 +14,10 @@ hzar.makeTraitObsData(distOfLocation, locationOfValue, values)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{distOfLocation}{
-    A vector mapping population ids to distances of each population. 
+    A vector mapping locality ids to distances of each locality. 
   }
   \item{locationOfValue}{
-    A vector of population ids of each sample.
+    A vector of locality ids of each sample.
   }
   \item{values}{
     A vector of trait values for each sample. 

@@ -12,11 +12,11 @@
 \format{
   A data frame with 165 observations on the following 7 variables.
   \describe{
-    \item{\code{Population}}{The id code of the population sample site,
+    \item{\code{Locality}}{The id code of the locality,
       a factor with levels \code{A} \code{B} \code{C} \code{D} \code{E}
       \code{F} \code{G} \code{H} \code{I} \code{J} \code{K} \code{L}} 
     \item{\code{ID}}{The ID code of the individual sampled}
-    \item{\code{Name}}{The population site name, a factor with levels
+    \item{\code{Name}}{The locality name, a factor with levels
       \code{Chiriqui_Grande} \code{Costa_Rica} \code{Quebrada_Pastores}
       \code{Rio_Changuinola} \code{Rio_Oeste} \code{Rio_Robalo}
       \code{Rio_Sixaola} \code{Rio_Teribe} \code{Rio_Uyama}

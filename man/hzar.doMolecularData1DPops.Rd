@@ -5,7 +5,7 @@
 \alias{hzar.doNormalData1DPops}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Generate a hzar.obsData object using summary data about each population.
+  Generate a hzar.obsData object using summary data about each locality,.
 }
 \description{
   Creates a hzar.obsData object using the observations given.  The
@@ -24,15 +24,15 @@ hzar.doNormalData1DPops(distance, muObs, varObs, nEff,
 \arguments{
   All arguments should be of the same length.
   \item{distance}{
-    The distance of each population. If the same distance is given
-    multiple times, then multiple sites are assumed to be at that
+    The distance of each locality. If the same distance is given
+    multiple times, then multiple localities are assumed to be at that
     distance.
   }
   \item{pObs}{
-    The observed frequency at each site.
+    The observed frequency at each locality.
   }
   \item{nEff}{
-    The effective number of samples observed at each site.
+    The effective number of samples observed at each locality.
   }
   \item{muObs}{
     The mean trait value observed at each site.

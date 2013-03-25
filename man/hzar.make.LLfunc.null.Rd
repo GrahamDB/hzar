@@ -30,7 +30,7 @@ hzar.make.LLfunc.null(obsData,
 % }
 \value{
   A function of \code{pEst}, that returns the likelihood that
-  \code{pEst} is the mean frequency at all observed populations.  
+  \code{pEst} is the mean frequency at all observed localities.  
 }
 % \references{
 % %% ~put references to the literature/web site here ~
