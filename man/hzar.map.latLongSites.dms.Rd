@@ -1,5 +1,5 @@
-\name{hzar.map.greatCircleDistance}
-\alias{hzar.map.greatCircleDistance}
+\name{hzar.map.latLongSites.dms}
+\alias{hzar.map.latLongSites.dms}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,27 +8,15 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-hzar.map.greatCircleDistance(lat1, long1, lat2, long2, units = "Km", degrees = TRUE)
+hzar.map.latLongSites.dms(siteIDs, coordinates)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{lat1}{
-%%     ~~Describe \code{lat1} here~~
+  \item{siteIDs}{
+%%     ~~Describe \code{siteIDs} here~~
 }
-  \item{long1}{
-%%     ~~Describe \code{long1} here~~
-}
-  \item{lat2}{
-%%     ~~Describe \code{lat2} here~~
-}
-  \item{long2}{
-%%     ~~Describe \code{long2} here~~
-}
-  \item{units}{
-%%     ~~Describe \code{units} here~~
-}
-  \item{degrees}{
-%%     ~~Describe \code{degrees} here~~
+  \item{coordinates}{
+%%     ~~Describe \code{coordinates} here~~
 }
 }
 \details{
@@ -62,7 +50,7 @@ hzar.map.greatCircleDistance(lat1, long1, lat2, long2, units = "Km", degrees = T
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-"hzar.map.greatCircleDistance"
+"hzar.map.latLongSites.dms"
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

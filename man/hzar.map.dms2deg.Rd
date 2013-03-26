@@ -1,28 +1,56 @@
 \name{hzar.map.dms2deg}
 \alias{hzar.map.dms2deg}
-\docType{data}
+%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%   ~~ data name/kind ... ~~
+  Convert degrees, minutes, seconds, direction to degrees.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
-\usage{data(hzar.map.dms2deg)}
-\format{
-  The format is:
- chr "hzar.map.dms2deg"
+\usage{
+hzar.map.dms2deg(deg, min, sec, dir)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{deg}{
+%%     ~~Describe \code{deg} here~~
+}
+  \item{min}{
+%%     ~~Describe \code{min} here~~
+}
+  \item{sec}{
+%%     ~~Describe \code{sec} here~~
+}
+  \item{dir}{
+%%     ~~Describe \code{dir} here~~
+}
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
+%%  ~~ If necessary, more details than the description above ~~
 }
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
 }
-\references{
-%%  ~~ possibly secondary sources and usages ~~
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-data(hzar.map.dms2deg)
-## maybe str(hzar.map.dms2deg) ; plot(hzar.map.dms2deg) ...
+
+hzar.map.dms2deg(9,24,0,"N")
+
+hzar.map.dms2deg(82,33,50,"W")
+
 }
-\keyword{datasets}

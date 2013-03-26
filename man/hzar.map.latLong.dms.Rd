@@ -1,28 +1,55 @@
 \name{hzar.map.latLong.dms}
 \alias{hzar.map.latLong.dms}
-\docType{data}
+%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%   ~~ data name/kind ... ~~
+%%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
-\usage{data(hzar.map.latLong.dms)}
-\format{
-  The format is:
- chr "hzar.map.latLong.dms"
+\usage{
+hzar.map.latLong.dms(coordinates)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{coordinates}{
+%%     ~~Describe \code{coordinates} here~~
+}
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
+%%  ~~ If necessary, more details than the description above ~~
 }
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
 }
 \references{
-%%  ~~ possibly secondary sources and usages ~~
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-data(hzar.map.latLong.dms)
-## maybe str(hzar.map.latLong.dms) ; plot(hzar.map.latLong.dms) ...
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+"hzar.map.latLong.dms"
 }
-\keyword{datasets}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
