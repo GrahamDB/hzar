@@ -1,11 +1,11 @@
 \name{hzar.map.latLong.dms}
 \alias{hzar.map.latLong.dms}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+  Convert D-M-S C strings to degrees
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Translate a character vector of typical map coordinate(s) to a matrix
+  of numeric values.
 }
 \usage{
 hzar.map.latLong.dms(coordinates)
@@ -13,43 +13,40 @@ hzar.map.latLong.dms(coordinates)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{coordinates}{
-%%     ~~Describe \code{coordinates} here~~
+    A character vector, with each string containing one or more
+    latitude / longitude measurements, seperated by the cardinal
+    direction of the measurement (N/S for latitude, E/W for longitude).  
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+  A NxM matrix of numeric values, where N is the number of strings in
+  \code{coordinates} and M is the greatest number of measurements in a
+  single string.
+  Each row contains the measurements from each string in
+  \code{coordinates}, filling one column from left to right for each
+  measurement.  The remaining columns (if any) in a row have the value
+  \code{NA}. 
+  %% ...
 }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.map.dms2deg}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-"hzar.map.latLong.dms"
+# A single value:
+hzar.map.latLong.dms(c("9-52 N"))
+# A 1:2 matrix:
+hzar.map.latLong.dms(c("9-52 N 82 W"))
+# A 2:2 matrix with NA for the upper right corner:
+hzar.map.latLong.dms(c("9-52-34 E" ,"9-52 N 82 W"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

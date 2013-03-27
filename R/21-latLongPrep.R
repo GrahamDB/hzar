@@ -26,20 +26,24 @@ hzar.map.dms2deg <- function(deg,min,sec,dir){
 
 pdms2deg <- function(x){
   if(length(x)==2)
-    return(hzar.dms2deg(as.numeric(x[1]),0,0,x[2]))
+    return(hzar.map.dms2deg(as.numeric(x[1]),0,0,x[2]))
   if(length(x)==3)
-    return(hzar.dms2deg(as.numeric(x[1]),as.numeric(x[2]),0,x[3]))
+    return(hzar.map.dms2deg(as.numeric(x[1]),as.numeric(x[2]),0,x[3]))
   if(length(x)==4)
-    return(hzar.dms2deg(as.numeric(x[1]),as.numeric(x[2]),as.numeric(x[3]),x[4]))
-  stop(paste(paste(x,collapse=" "),"not understood."))
+    return(hzar.map.dms2deg(as.numeric(x[1]),as.numeric(x[2]),as.numeric(x[3]),x[4]))
+  stop(paste(paste("[",x,"]",collapse=" "),"not understood."))
 }
   
 
 hzar.map.latLong.dms <- function(coordinates){
-  res <- lapply(strsplit(test.coor,"(?<=[NSEW]) ",perl=TRUE), strsplit,"-| ")
-  result <- matrix(NA,nrow=length(coordinates),max(sapply(res,length)))
+  ## cat("A\n")
+##   print(coordinates)
+  res <- lapply(strsplit(coordinates,"(?i)(?<=[NSEW]) +",perl=TRUE), strsplit,"-| +")
+  result <- matrix(NA,nrow=length(coordinates),ncol=max(sapply(res,length)))
+##   print(result)
   res <- lapply(res,lapply,pdms2deg)
   for(iter in 1:length(coordinates)){
+##     print(as.numeric(res[[iter]]))
     result[iter,1:length(res[[iter]])] <- as.numeric(res[[iter]])
   }
   return(result)
@@ -49,10 +53,17 @@ hzar.map.latLongSites <- function(siteIDs,site.lat,site.long,degrees=TRUE){
   cbind(site=siteIDs,latLong.p(site.lat,site.long,degrees))
 }
 hzar.map.latLongSites.dms <- function(siteIDs,coordinates){
-  res <- hzar.latLong.dms(coordinates)
+  if(!is.character(coordinates))
+    stop("Argument coordinates is not a character vector.")
+  if(!all(valid <- grepl("^\\d+(\\.\\d*)?((-| )\\d+(\\.\\d*)?((-| )\\d+(\\.\\d*)?)?)?(-| )[NS]\\w* \\d+(\\.\\d*)?((-| )\\d+(\\.\\d*)?((-| )\\d+(\\.\\d*)?)?)?(-| )[EW]\\w*$",coordinates,ignore.case=TRUE)))
+    stop(paste("Line",which(!valid),":",coordinates[which(!valid)],"malformed.",collapse="\n"))
+  
+##   print(coordinates)
+  res <- hzar.map.latLong.dms(coordinates)
+##   print(res)
 ##   if(length(siteIDs)!=nrow(res))
 ##     stop(
-  cbind(site=siteIDs,latLong.p(site.lat,site.long,TRUE))
+  cbind(site=siteIDs,latLong.p(res[,1],res[,2],TRUE))
 }
 hzar.map.distanceFromSite <-  function(latLongSites,site0,units="Km"){
   if(is.character(site0)&&site0[[1]] %in% latLongSites$site){
@@ -74,16 +85,28 @@ earthSphd.ep= (2*earthSphd.r -1)/(earthSphd.r-1)^2
 ## }
 
 latLong.p <- function(lat,long,degrees=TRUE){
-  if(degrees){
-    latD=lat;longD=long;
-    lat=pi*lat/180
-    long=pi*long/180
-    return(data.frame(lat.rad=lat,long.rad=long,lat.deg=latD,long.deg=longD));
+  if(!degrees){
+    
+    lat=180*lat/pi
+    long=180*long/pi
   }
+##   cat(lat,"\n",long,"\n")
+  latD=lat%%360;
+  longD=long%%360;
+  longD=ifelse((latD>=270) |(latD <=90),
+    ifelse(longD>180,longD-360,longD),
+    longD-180)
   
-  latD=180*lat/pi
-  longD=180*long/pi
+  latD=ifelse(latD>=270,
+    latD-360,
+    ifelse(latD>90,180-latD,latD))
+  
+  lat=pi*lat/180
+  long=pi*long/180
   return(data.frame(lat.rad=lat,long.rad=long,lat.deg=latD,long.deg=longD));
+  ##}
+  
+  ##return(data.frame(lat.rad=lat,long.rad=long,lat.deg=latD,long.deg=longD));
 }
 
 

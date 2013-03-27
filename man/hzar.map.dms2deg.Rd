@@ -5,7 +5,8 @@
   Convert degrees, minutes, seconds, direction to degrees.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This method converts angular measurements from degree, minute, second,
+  direction notation to decimal notation.
 }
 \usage{
 hzar.map.dms2deg(deg, min, sec, dir)
@@ -13,39 +14,40 @@ hzar.map.dms2deg(deg, min, sec, dir)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{deg}{
-%%     ~~Describe \code{deg} here~~
-}
+    The degrees of the angular measurement.
+  }
   \item{min}{
-%%     ~~Describe \code{min} here~~
-}
+    The minutes of the angular measurement.
+  }
   \item{sec}{
-%%     ~~Describe \code{sec} here~~
-}
+    The seconds of the angular measurement.
+  }
   \item{dir}{
-%%     ~~Describe \code{dir} here~~
+    A character vector indicating the direction of the angular
+    measurement. 
+    The case insensitive values \code{"N"}, \code{"S"}, \code{"E"},
+    \code{"W"}, \code{"West"}, \code{"North"}, \code{"South"} and
+    \code{"East"} are all valid, any others will result in an error. 
+  }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+% \details{
+%   %%  ~~ If necessary, more details than the description above ~~
+% }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A numeric vector of angular measurements.
 }
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
-\note{
-%%  ~~further notes~~
-}
+% \note{
+% %%  ~~further notes~~
+% }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.map.latLong.dms}}
+  \code{\link{hzar.map.latLongSites.dms}}
 }
 \examples{
 

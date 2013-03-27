@@ -7,7 +7,12 @@
   Generate a table of site locations.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Methods for processing tables of site location:
+  Generate a table of latitude and longitude of site locations from
+  either precalculated values or GPS coordinates.
+  Generate a table of distances from an included site, using a table of
+  latitude and longitude of site locations. 
+  
 }
 \usage{
 hzar.map.latLongSites(siteIDs, site.lat, site.long, degrees = TRUE)
@@ -29,58 +34,60 @@ hzar.map.distanceFromSite(latLongSites, site0, units = "Km")
   }
   \item{degrees}{
     Are \code{site.lat} and \code{site.long} in degrees? If
-  \code{FALSE}, \code{site.lat} and \code{site.long} should be in radians.
+    \code{FALSE}, \code{site.lat} and \code{site.long} should be in radians.
   }
   
   \item{coordinates}{
-    A character vector the same length as \code(siteIDs}. Each value
-  must contain the latitude and longitude in DMS format, such as:
-  \code{9-22 N 82-34-50 W}
+    A character vector the same length as \code{siteIDs}. Each value
+    must contain the latitude and longitude in DMS format, such as:
+    \code{9-22 N 82-34-50 W}
   }
   \item{latLongSites}{
-    
+    The result of either the \code{hzar.map.latLongSites} or
+    \code{hzar.map.latLongSites.dms} method. 
   }
   \item{site0}{
-    %%     ~~Describe \code{site0} here~~
+    The ID string for the site place at 0.
   }
   \item{units}{
-    %%     ~~Describe \code{units} here~~
+    The units of distances returned.  Only the case sensitive values
+    \code{"Km"} for kilometers, \code{"miles"} for miles, and
+    \code{"nautical"} for nautical miles are valid.
   }
 }
 \details{
   %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A \code{\link{data.frame}}:
+  For all methods:
+  \item{site }{A character vector used to identify each site.}
+  For \code{hzar.map.latLongSites} and \code{hzar.map.latLongSites.dms}:
+  \item{lat.rad}{ The site latitude in radians. }
+  \item{long.rad}{The site longitude in radians. }
+  \item{lat.deg}{ The site latitude in degrees. }
+  \item{long.deg}{The site longitude in degrees. }
+  For \code{hzar.map.distanceFromSite}:
+  \item{distance }{ The distance to each site from a common origin. }
+  
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
+  Graham Derryberry \email{asterion@alum.mit.edu}
 }
 \note{
-%%  ~~further notes~~
+  Distances in \code{hzar.map.distanceFromSite} are calcutated using the
+  method \code{\link{hzar.map.greatCircleDistance}}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{hzar.map.greatCircleDistance}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-"hzar.map.latLongSites"
+a=hzar.map.latLongSites(c("Norway"),60.4,11)
+b=hzar.map.latLongSites.dms(c("Norway","Sweden"),c("60-24 N 11 E","58 N 15 E"))
+hzar.map.distanceFromSite(b,"Norway")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
