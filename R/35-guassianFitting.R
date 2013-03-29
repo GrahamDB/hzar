@@ -29,33 +29,37 @@ g.LLfunc <- function(obsData, model,
     model.gen=model$mFunc
     model.obsData=obsData
     param.fixed=tFixed
-    
+    frame=obsData$frame
     new.formals=tArgs
     
     gLL <-
-      guassianThetaLLExpF(distance=obsData$frame$dist,
-                          sampleMean=obsData$frame$mu,
-                          sampleVar=obsData$frame$var,
-                          nEff=obsData$frame$nEff,
+      guassianThetaLLExpF(distance=quote(frame$dist),
+                          sampleMean=quote(frame$mu),
+                          sampleVar=quote(frame$var),
+                          nEff=quote(frame$nEff),
                           muExp=model$mu,
                           varExp=model$var)
     gLL <-  step1VectorExpF(body(model$req)[[2]],gLL,LLrejectedModel)
-    gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
-    
-    lapply(1:length(tArgs),function(x) bquote(theta[[.(x)]]))->tMap
-    names(tMap) <- names(tArgs);
-    gLL <- eval(substitute(substitute(LLfunc,tF),
-                           list(LLfunc=gLL,tF=c(tFixed,tMap))))
+    ## gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
+    gLL <- ll.compile.theta(tArgs,tFixed,gLL)
     body(baseFunc) <-as.call(c(as.name("{"),
                                bquote(res <- .(gLL)),
                                expression(if(any(is.na(res))) print(theta)),
                                bquote(ifelse(is.na(res),.(LLrejectedModel),res))));
     llFunc=baseFunc
+    
     ## eval(substitute(substitute(LLfunc,eL),
     ##                                 list(LLfunc=gLL,eL=tMap)))
     ## body(baseFunc) <- substitute(evalq(LLfunc,envir=theta),list(LLfunc=gLL))
     ## environment(baseFunc) <- .GlobalEnv 
     baseFunc
+}
+ll.compile.theta <- function(tArgs,tFixed,gLL){
+
+    lapply(1:length(tArgs),function(x) bquote(theta[[.(x)]]))->tMap
+    names(tMap) <- names(tArgs);
+    return(eval(substitute(substitute(LLfunc,tF),
+                           list(LLfunc=gLL,tF=c(tFixed,tMap)))))
 }
 
 
