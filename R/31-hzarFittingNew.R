@@ -312,8 +312,8 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
   ##data.wt<-fitter.getCovWeights(data.mat$data,clineLLfunc,data.mat$dTheta);
   cat("c",sprintf("%0.1e",data.mat$dTheta))
   data.wt<-hzar.eval.clineLL(data.mat$data,clineLLfunc);
-  data.mat$data<-data.mat$data[data.wt>-1e7,];
-  data.wt<-data.wt[data.wt>-1e7];
+  data.mat$data<-data.mat$data[data.wt>-1e7, ,drop=FALSE];
+  data.wt<-data.wt[data.wt>-1e7,drop=FALSE];
   cat("d")
   MIN.DATA<-(1+length(param.upper))*4
   if(length(data.wt)<MIN.DATA){
@@ -357,8 +357,8 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
       
       if(sum(data.wt>-1000)>9){
         cat("-")
-        data.mat$data <- data.mat$data[data.wt>-1000,]
-        data.wt <- data.wt[data.wt>-1000]
+        data.mat$data <- data.mat$data[data.wt>-1000, ,drop=FALSE]
+        data.wt <- data.wt[data.wt>-1000,drop=FALSE]
       }
       
       cat("-")
@@ -407,8 +407,8 @@ hzar.cov.rect<-function(clineLLfunc,param.lower,param.upper,pDiv=11,random=0,pas
   
   cat("g")
   if(passCenter)
-    return(list(cov=mat.scaled[param.names,param.names],center=VDATA$center[param.names]));
-  return(mat.scaled[param.names,param.names]);
+    return(list(cov=mat.scaled[param.names,param.names,drop=FALSE],center=VDATA$center[param.names,drop=FALSE]));
+  return(mat.scaled[param.names,param.names,drop=FALSE]);
 }
 
 cfg.hzar.default.mcmc <- hzar.make.mcmcParam(chainLength=1e6,

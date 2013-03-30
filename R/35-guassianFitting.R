@@ -374,12 +374,12 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   } else {
     mcmcParam <- hzar:::cfg.hzar.quiet.mcmc
   }
-  for(iter in names(gModel$parameterTypes)){
-    attr(gModel$parameterTypes[[iter]],"fixed") <- gModel$fixed[[iter]]
-  }
+  ## for(iter in names(gModel$parameterTypes)){
+##     attr(gModel$parameterTypes[[iter]],"fixed") <- gModel$fixed[[iter]]
+##   }
   modelParam <- splitParameters(gModel$parameterTypes);
-  modelParam$init <- gModel$init[!as.logical(gModel$fixed)];
-  modelParam$tune <- gModel$tune[!as.logical(gModel$fixed)];
+#  modelParam$init <- gModel$init[!as.logical(gModel$fixed)];
+#  modelParam$tune <- gModel$tune[!as.logical(gModel$fixed)];
   
   LLfunc <- g.LLfunc(obsData,gModel)
 

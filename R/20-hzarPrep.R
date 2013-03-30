@@ -77,6 +77,32 @@ CLINEPARAMETERS<-list(center=mkParam("center",10,1.5,-1e8,1e8),
                       tauR  =mkParam("tauR", 0.5,1.1,  0,   1,isRB01=TRUE),
                       tauM  =mkParam("tauM", 0.5,1.1,  0,   1,isRB01=TRUE));
 
+## Internal getter and setter methods for parameters 
+
+param.check <- function(x){
+  if(!inherits(x,"clineParameter"))
+    stop("Argument x is not a clineParameter")
+}
+param.init <- function(x){ param.check(x); x$val }
+"param.init<-" <- function(x,value){ param.check(x); x$val<-value; x }
+param.tune <- function(x){ param.check(x); x$w }
+"param.tune<-" <- function(x,value){ param.check(x); x$w<-value; x }
+param.fix <- function(x){ param.check(x); attr(x,"fixed") }
+"param.fix<-" <- function(x,value){ param.check(x);  attr(x,"fixed")<-as.logical(value); x }
+param.upper <- function(x){ param.check(x); attr(x,"limit.upper") }
+"param.upper<-" <- function(x,value){ param.check(x);  attr(x,"limit.upper")<-value; x }
+param.lower <- function(x){ param.check(x); attr(x,"limit.lower") }
+"param.lower<-" <- function(x,value){ param.check(x);  attr(x,"limit.lower")<-value; x }
+param.name <- function(x){ param.check(x); attr(x,"param") }
+print.clineParameter <- function(x,...){
+  print(data.frame(param=param.name(x),
+                   init=param.init(x),
+                   tune=param.tune(x),
+                   fixed=param.fix(x),
+                   lower=param.lower(x),
+                   upper=param.upper(x)));
+  invisible(x);
+}
 
 ## suggest upper and lower bounds for cov matrix based on observed data:
 ## have vector of distances (obsData$frame$dist),
@@ -119,6 +145,103 @@ cline.suggestionFunc1D <-
 ## objCMeta$req<-function(center,width);
 ## objCMeta$func<-function(center,width);
 ## class(objCMeta)<-"clineMetaModel";
+
+## Internal dispatch methods for handling parameters
+
+
+meta.check <- function(x){
+  if(!inherits(x,"clineMetaModel"))
+    stop("Argument x is not a clineMetaModel")
+}
+
+meta.param.names <- function(x) names(x$parameterTypes)
+meta.check.names <- function(x,cVec) {
+  meta.param.names(x)-> pNames;
+  if(length(pNames)!=length(cVec)
+     || !all(pNames %in% cVec)
+     || !all(cVec %in% pNames) )
+    stop(paste("Invalid Assignment of names:", paste(cVec,collapse=", "),"\n"))
+  return(TRUE)
+}
+
+meta.fixValue <- function(x,value,tC=is.numeric){
+  if(tC(value)&&length(value)==1){
+    value<-as.list(rep(value,length(x$parameterTypes)))
+    names(value) <- meta.param.names(x);
+  }else{
+    if(!is.list(value)) value <- as.list(value)
+    meta.check.names(x,names(value))
+  }
+  value
+}
+meta.param.m <- function(x,pF){
+  res <- lapply(x$parameterTypes,pF);
+  names(res)<-meta.param.names(x);
+  res
+}
+
+ 
+
+meta.init <- function(x) meta.param.m(x,param.init)
+"meta.init<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.init(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+meta.tune <- function(x) meta.param.m(x,param.tune)
+"meta.tune<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.tune(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+meta.fix <- function(x) meta.param.m(x,param.fix)
+"meta.fix<-" <- function(x,value) { 
+  value <- meta.fixValue(x,value,is.logical)
+  for(iter in meta.param.names(x))
+    param.fix(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+meta.lower <- function(x) meta.param.m(x,param.lower)
+"meta.lower<-" <- function(x,value) { 
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.lower(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+meta.upper <- function(x) meta.param.m(x,param.upper)
+"meta.upper<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.upper(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+print.clineMetaModel <- function(x,...){
+  for(iter in names(x)){
+    if(iter!="parameterTypes"){
+      cat(paste(iter,":\n",sep=""));
+      print(x[[iter]],...)
+    }
+  }
+  cat("Cline Parameters:\n")
+  print(data.frame(row.names=hzar:::meta.param.names(x),
+                   init=as.numeric(hzar:::meta.init(x)),
+                   tune=as.numeric(hzar:::meta.tune(x)),
+                   fixed=as.logical(hzar:::meta.fix(x)),
+                   lower=as.numeric(hzar:::meta.lower(x)),
+                   upper=as.numeric(hzar:::meta.upper(x))),...);
+  invisible(x);
+}
+
+
+
+
 
 cline.meta.simple.scaled.ascending =
   list(

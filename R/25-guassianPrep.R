@@ -264,11 +264,13 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
   }else {
     stop("Unrecognized type requested.");
   }
-  model$init <- g.suggestAll(data,model$args)
-  model$fixed <- rep(FALSE,length(model$init))
-  names(model$fixed) <- names( model$init)
-  model$tune <- as.list(rep(1.5,length(model$init)))
-  names(model$tune) <- names( model$init)
+  model$parameterTypes <- CLINEPARAMETERS[intersect(names(CLINEPARAMETERS),
+                                                    names(model$args))]
+  meta.init(model) <- g.suggestAll(data,model$args)
+  meta.fix(model) <- FALSE;#rep(FALSE,length(model$init))
+  ## names(model$fixed) <- names( model$init)
+  meta.tune(model) <- 1.5; #$tune <- as.list(rep(1.5,length(model$init)))
+  ## names(model$tune) <- names( model$init)
   
   formals(model$req,envir=.GlobalEnv) <- model$args
   formals(model$mFunc,envir=.GlobalEnv) <- model$args
@@ -283,20 +285,21 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
                                  expression(res <- function(x) x),
                                  vS,expression(environment(res) <- .GlobalEnv,
                                      return(res))))
-  model$parameterTypes <- CLINEPARAMETERS[intersect(names(CLINEPARAMETERS),
-                                                    names(model$args))]
   muVarL <- g.sMuVarL(data);
   muVarR <- g.sMuVarR(data);
-  
-  attr(model$parameterTypes$muL,"limit.lower") <- data$ylim[[1]]#model$init$muL-sqrt(muVarL)
-  attr(model$parameterTypes$muL,"limit.upper") <- data$ylim[[2]]#model$init$muL+sqrt(muVarL)
-  attr(model$parameterTypes$muR,"limit.lower") <- data$ylim[[1]]#model$init$muR-sqrt(muVarR)
-  attr(model$parameterTypes$muR,"limit.upper") <- data$ylim[[2]]#model$init$muR+sqrt(muVarR)
-  attr(model$parameterTypes$varL,"limit.lower") <- min(model$init$varL/100,1e-8)
-  attr(model$parameterTypes$varL,"limit.upper") <- max(model$init$varL*1e4,1e8)
-  attr(model$parameterTypes$varH,"limit.lower") <- min(model$init$varH/100,1e-8)# model$init$varH/100
-  attr(model$parameterTypes$varH,"limit.upper") <- max(model$init$varH*1e4,1e8)
-  attr(model$parameterTypes$varR,"limit.lower") <-  min(model$init$varR/100,1e-8)#model$init$varR/100
-  attr(model$parameterTypes$varR,"limit.upper") <- max(model$init$varR*1e4,1e8)
+  meta.lower(model)$muL <- data$ylim[[1]]
+  meta.lower(model)$muR <- data$ylim[[1]]
+  meta.upper(model)$muL <- data$ylim[[2]]
+  meta.upper(model)$muR <- data$ylim[[2]]
+##   attr(model$parameterTypes$muL,"limit.lower") <- data$ylim[[1]]#model$init$muL-sqrt(muVarL)
+##   attr(model$parameterTypes$muL,"limit.upper") <- data$ylim[[2]]#model$init$muL+sqrt(muVarL)
+##   attr(model$parameterTypes$muR,"limit.lower") <- data$ylim[[1]]#model$init$muR-sqrt(muVarR)
+##   attr(model$parameterTypes$muR,"limit.upper") <- data$ylim[[2]]#model$init$muR+sqrt(muVarR)
+  meta.lower(model)$varL<- min(model$init$varL/100,1e-8)
+  meta.upper(model)$varL<- max(model$init$varL*1e4,1e8)
+  meta.lower(model)$varH<- min(model$init$varH/100,1e-8)# model$init$varH/100
+  meta.upper(model)$varH<- max(model$init$varH*1e4,1e8)
+  meta.lower(model)$varR<-  min(model$init$varR/100,1e-8)#model$init$varR/100
+  meta.upper(model)$varR<- max(model$init$varR*1e4,1e8)
   model
 }
