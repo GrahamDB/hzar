@@ -432,8 +432,10 @@ hzar.cov.mcmc<-function(clineLLfunc,mcmcRaw,pDiv=15,random=1e4,passCenter=FALSE)
 }
 hzar.next.fitRequest <- function(oldFitRequest){
   seedChannel<-1;
+  baseSeed=rep(12345,6)
   if(is.list(oldFitRequest$mcmcParam$seed)){
     seedChannel=oldFitRequest$mcmcParam$seed[[2]];
+    baseSeed=oldFitRequest$mcmcParam$seed[[1]]
   }
   if(identical( attr(oldFitRequest,"fit.run") , TRUE)){
     seedChannel<-seedChannel+1;
@@ -444,7 +446,7 @@ hzar.next.fitRequest <- function(oldFitRequest){
     oldFitRequest$mcmcParam$burnin,
     oldFitRequest$mcmcParam$verbosity,
     oldFitRequest$mcmcParam$thin,
-    seedChannel);
+    seedChannel,lecuyerSeed=baseSeed);
   mdlParam<-oldFitRequest$modelParam;
   covMatrix<-oldFitRequest$cM
   if(identical( attr(oldFitRequest,"fit.success") , TRUE)){
@@ -530,7 +532,137 @@ freqCompileLLEdge <- function(nObs,pExp){
 freqCompilePDF <- function(dist,pExp,target){
   bquote(.(target) <- .(eval(substitute(substitute(A,list(x=dist)),list(A=pExp)))))
 }
+#s.LIB=list(paren=
+s.exp.LIB<-list()
+s.exp.SYM <- c();
+## sym=list(),use=list(),run=list()
+s.exp.LIB.add <- function(sym,use,run){
+  s.exp.LIB<<-c(s.exp.LIB,list(list(sym=c(sym),use=use,run=run)))
+  s.exp.SYM<<-unique(c(s.exp.SYM,sym))
+}
 
+s.exp2NumArg <- function(x) length(x)==3 && is.numeric(x[[2]]) && is.numeric(x[[3]])
+s.exp1NumArg <- function(x) length(x)==2 && is.numeric(x[[2]])
+s.expNumSimpA <- function(x) length(x)==3 && is.numeric(x[[2]]) && length(x[[2]])==1
+s.expNumSimpB <- function(x) length(x)==3 && is.numeric(x[[3]]) && length(x[[3]])==1
+s.exp1LangArg <- function(x) length(x)==2 && !is.symbol(x[[2]]) && is.language(x[[2]])
+
+s.exp2boolArg <- function(x) length(x)==3 && is.logical(x[[2]]) && is.logical(x[[3]])
+s.exp1boolArg <- function(x) length(x)==2 && is.logical(x[[2]])
+s.expBoolSimpA <- function(x) length(x)==3 && is.logical(x[[2]]) && length(x[[2]])==1
+s.expBoolSimpB <- function(x) length(x)==3 && is.logical(x[[3]]) && length(x[[3]])==1
+
+s.exp.LIB.add(sym=as.name("+"),use=s.exp2NumArg,run=function(x) x[[2]]+x[[3]])
+s.exp.LIB.add(sym=as.name("-"),use=s.exp2NumArg,run=function(x) x[[2]]-x[[3]])
+s.exp.LIB.add(sym=as.name("-"),use=s.exp1NumArg,run=function(x) -x[[2]])
+s.exp.LIB.add(sym=as.name("-"),
+              use=s.exp1LangArg,
+              run=function(x) {
+                if(x[[2]][[1]]==as.name("*")||x[[2]][[1]]==as.name("/")){
+                  if(is.numeric(x[[2]][[2]])) {
+                    x[[2]][[2]]=-x[[2]][[2]];
+                    return(x[[2]])
+                  }
+                  if(is.numeric(x[[2]][[3]])) {
+                    x[[2]][[3]]=-x[[2]][[3]];
+                    return(x[[2]])
+                  }
+                }
+                if(x[[2]][[1]]==as.name("-")){
+                  if(length(x[[2]])==2)
+                    return(x[[2]][[2]])
+                  junk=x[[2]][[3]]
+                  x[[2]][[3]]=x[[2]][[2]]
+                  x[[2]][[2]]=junk
+                  return(x[[2]])
+                }
+                if(x[[2]][[1]]==as.name("(")&&x[[2]][[2]][[1]]==as.name("-")){
+                  if(length(x[[2]][[2]])==2)
+                    return(x[[2]][[2]][[2]])
+                  junk=x[[2]][[2]][[3]]
+                  x[[2]][[2]][[3]]=x[[2]][[2]][[2]]
+                  x[[2]][[2]][[2]]=junk
+                  return(x[[2]][[2]])
+                }
+                x})
+s.exp.LIB.add(sym=as.name("*"),use=s.exp2NumArg,run=function(x) x[[2]]*x[[3]])
+s.exp.LIB.add(sym=as.name("/"),use=s.exp2NumArg,run=function(x) x[[2]]/x[[3]])
+
+s.exp.LIB.add(sym=as.name("+"),use=s.expNumSimpA,run=function(x) {if(x[[2]]==0) return(x[[3]]); x})
+s.exp.LIB.add(sym=as.name("-"),use=s.expNumSimpA,run=function(x) {if(x[[2]]==0) return(c(as.name("-"),x[[3]])); x})
+s.exp.LIB.add(sym=c(as.name("+"),as.name("-")),use=s.expNumSimpB,run=function(x) {if(x[[3]]==0) return(x[[2]]); x})
+
+s.exp.LIB.add(sym=as.name("*"),
+              use=s.expNumSimpA,
+              run=function(x) {
+                if(x[[2]]==0) return(0);
+                if(x[[2]]==1) return(x[[3]]);
+                if(!is.symbol(x[[3]])&&is.language(x[[3]])){
+                  if((x[[3]][[1]]==as.name("*")||x[[3]][[1]]==as.name("/"))
+                     &&is.numeric(x[[3]][[2]])) {
+                    x[[3]][[2]]=x[[2]]*x[[3]][[2]];
+                    return(x[[3]])
+                  }
+                  if(x[[3]][[1]]==as.name("*")&&is.numeric(x[[3]][[3]])) {
+                    x[[3]][[3]]=x[[2]]*x[[3]][[3]];
+                    return(x[[3]])
+                  }
+                }
+                x})
+## s.exp.LIB.add(sym=as.name("*"),use=s.expNumSimpA,run=function(x) {if(x[[2]]==1) return(x[[3]]); x})
+s.exp.LIB.add(sym=as.name("*"),use=s.expNumSimpB,run=function(x) {if(x[[3]]==0) return(0); x})
+s.exp.LIB.add(sym=c(as.name("*"),as.name("/")),
+              use=s.expNumSimpB,
+              run=function(x) {
+                if(x[[3]]==1) return(x[[2]]);
+                if(x[[3]]==-1) return(c(as.name("-"),x[[2]]));
+                x})
+
+s.exp.LIB.add(sym=as.name("!"),use=s.exp1boolArg,run=function(x) !x[[2]])
+s.exp.LIB.add(sym=as.name("|"),use=s.exp2boolArg,run=function(x) x[[2]]|x[[3]])
+s.exp.LIB.add(sym=as.name("&"),use=s.exp2boolArg,run=function(x) x[[2]]&x[[3]])
+s.exp.LIB.add(sym=c(as.name("&&"),as.name("&")),use=s.expBoolSimpA,run=function(x) {if(x[[2]])return(x[[3]]);FALSE})
+s.exp.LIB.add(sym=c(as.name("||"),as.name("|")),use=s.expBoolSimpA,run=function(x) {if(!x[[2]])return(x[[3]]);TRUE})
+s.exp.LIB.add(sym=c(as.name("&&"),as.name("&")),use=s.expBoolSimpB,run=function(x) {if(x[[3]])return(x[[2]]);FALSE})
+s.exp.LIB.add(sym=c(as.name("||"),as.name("|")),use=s.expBoolSimpB,run=function(x) {if(!x[[3]])return(x[[2]]);TRUE})
+s.exp.LIB.add(sym=as.name("<"),use=s.exp2NumArg,run=function(x) x[[2]]<x[[3]])
+s.exp.LIB.add(sym=as.name(">"),use=s.exp2NumArg,run=function(x) x[[2]]>x[[3]])
+s.exp.LIB.add(sym=as.name(">="),use=s.exp2NumArg,run=function(x) x[[2]]>=x[[3]])
+s.exp.LIB.add(sym=as.name("<="),use=s.exp2NumArg,run=function(x) x[[2]]<=x[[3]])
+s.exp.LIB.add(sym=as.name("=="),use=s.exp2NumArg,run=function(x) x[[2]]==x[[3]])
+s.exp.LIB.add(sym=as.name("!="),use=s.exp2NumArg,run=function(x) x[[2]]!=x[[3]])
+
+
+s.exp.LIB.add(
+  sym=as.name("("),
+  use=function(x) length(x)==2 && x[[1]]==as.name("(") && (is.symbol(x[[2]]) || !is.language(x[[2]])),
+  run=function(x) x[[2]])
+
+
+simplify.exp <- function(expL){
+  ##cat("l")
+  if(is.symbol(expL)||is.numeric(expL)||is.logical(expL))return(expL)
+  ##cat("L")
+  proposed <- lapply(expL,simplify.exp)
+  ##cat("\ns")
+  if(is.symbol(proposed[[1]])&&all(proposed[1]%in% s.exp.SYM )){
+    for(iter in 1:length(s.exp.LIB)){
+      
+      ##cat("_")
+      layer=s.exp.LIB[[iter]]
+      
+      if(is.symbol(proposed[[1]])&&all(proposed[1]%in% layer$sym) && layer$use(proposed)){
+        ##cat("+")
+        ##str(proposed)
+        proposed <- layer$run(proposed)
+      }
+      if(is.symbol(proposed))return(proposed)
+      if(is.language(proposed))proposed <- as.list(proposed)
+      if(!is.list(proposed))return(proposed)
+    }
+  }
+  return(as.call(proposed))
+}
 
 freq.LLfunc <- function(obsData, model,tInit,tFixed,
                         LLrejectedModel = -1e+08){
@@ -584,11 +716,11 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
     print(gLL)
     ## gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
     ##print(gLL)
-    body(baseFunc) <-as.call(c(as.name("{"),
+    body(baseFunc) <-simplify.exp(as.call(c(as.name("{"),
                                pDF,
                                bquote(res <- .(gLL)),
                                expression(if(any(is.na(res))) print(theta)),
-                               bquote(ifelse(is.na(res),.(LLrejectedModel),res))));
+                               bquote(ifelse(is.na(res),.(LLrejectedModel),res)))));
     llFunc=baseFunc
     old.formals=formals(model.req)
     formals(model.req) <- c(old.formals[names(tInit)],tFixed)
