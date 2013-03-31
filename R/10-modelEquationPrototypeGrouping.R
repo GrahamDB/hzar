@@ -78,18 +78,18 @@ cline.exp.upper <- function(u,d1,tau1)
                    bquote( 1/(1+exp(4*.(d1)/width))),
                    bquote( .(tau1) /(1+exp(-4*.(d1)/width)) ))
 ##step1VectorExpF
-cline.exp.stepBoth <- function(u,d.lo,d.up,lowerTail,upperTail)
-  step1VectorExpF(bquote(- 4*.(d.lo)/width > .(u)),
+cline.exp.stepBoth <- function(u,du,d.lo,d.up,lowerTail,upperTail)
+  step1VectorExpF(bquote(.(d.lo) < - .(du)),
                   lowerTail,
-                  step1VectorExpF(bquote( 4*.(d.up)/width < .(u)),
+                  step1VectorExpF(bquote( .(d.up) < .(du)),
                                   upperTail,
                                   cline.exp.sigmoid(u)))
-cline.exp.stepLow <-function(u,d.lo,lowerTail)
-  step1VectorExpF(bquote(- 4*.(d.lo)/width > .(u)),
+cline.exp.stepLow <-function(u,du,d.lo,lowerTail)
+  step1VectorExpF(bquote(.(d.lo) < - .(du)),
                   lowerTail,
                   cline.exp.sigmoid(u))
-cline.exp.stepUp <-function(u,d.up,upperTail)
-  step1VectorExpF(bquote( 4*.(d.up)/width < .(u)),
+cline.exp.stepUp <-function(u,du,d.up,upperTail)
+  step1VectorExpF(bquote( .(d.up) < .(du)),
                   upperTail,
                   cline.exp.sigmoid(u))
 

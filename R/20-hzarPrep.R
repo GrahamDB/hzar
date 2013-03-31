@@ -252,7 +252,9 @@ cline.func.gen <- function(model){
   model
 }
 cline.u.ascend <- quote((x - center) * 4/width)
+cline.du.ascend <- quote(x - center)
 cline.u.descend <- quote((x - center) * -4/width)
+cline.du.descend <- quote(center-x)
 cline.meta.simple.scaled.ascending =
   cline.func.gen(
   list(
@@ -302,7 +304,7 @@ cline.meta.tailed.scaled.ascending =
          ## return(-2*log(width/2)-2*(deltaL+deltaR)/width);
        },
        pExp=cline.exp.scale(cline.exp.stepBoth(
-         cline.u.ascend,
+         cline.u.ascend,cline.du.ascend,
          quote(deltaL),
          quote(deltaR),
          cline.exp.lower(cline.u.ascend,quote(deltaL),quote(tauL)),
@@ -334,7 +336,7 @@ cline.meta.tailed.scaled.descending =
          ## return(-2*log(width/2)-2*(deltaL+deltaR)/width);
        },
        pExp=cline.exp.scale(cline.exp.stepBoth(
-         cline.u.descend,
+         cline.u.descend,cline.du.descend,
          quote(deltaR),
          quote(deltaL),
          cline.exp.lower(cline.u.descend,quote(deltaR),quote(tauR)),
@@ -365,7 +367,7 @@ cline.meta.mtail.scaled.descending =
        prior=function(center,width,pMin,pMax,deltaM,tauM){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepBoth(
-         cline.u.descend,
+         cline.u.descend,cline.du.descend,
          quote(deltaM),
          quote(deltaM),
          cline.exp.lower(cline.u.descend,quote(deltaM),quote(tauM)),
@@ -393,7 +395,7 @@ cline.meta.mtail.scaled.ascending =
        prior=function(center,width,pMin,pMax,deltaM,tauM){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepBoth(
-         cline.u.ascend,
+         cline.u.ascend,cline.du.ascend,
          quote(deltaM),
          quote(deltaM),
          cline.exp.lower(cline.u.ascend,quote(deltaM),quote(tauM)),
@@ -423,7 +425,7 @@ cline.meta.ltail.scaled.descending =
        prior=function(center,width,pMin,pMax,deltaL,tauL){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepUp(
-         cline.u.descend,
+         cline.u.descend,cline.du.descend,
          quote(deltaL),
          cline.exp.upper(cline.u.descend,quote(deltaL),quote(tauL)))),
       ## func=function(center,width,pMin,pMax,deltaL,tauL)
@@ -449,7 +451,7 @@ cline.meta.ltail.scaled.ascending =
        prior=function(center,width,pMin,pMax,deltaL,tauL){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepLow(
-         cline.u.ascend,
+         cline.u.ascend,cline.du.ascend,
          quote(deltaL),
          cline.exp.lower(cline.u.ascend,quote(deltaL),quote(tauL)))),
 ##       func=function(center,width,pMin,pMax,deltaL,tauL)
@@ -476,7 +478,7 @@ cline.meta.rtail.scaled.ascending =
        prior=function(center,width,pMin,pMax,deltaR,tauR){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepUp(
-         cline.u.ascend,
+         cline.u.ascend,cline.du.ascend,
          quote(deltaR),
          cline.exp.upper(cline.u.ascend,quote(deltaR),quote(tauR)))),
 ##       func=function(center,width,pMin,pMax,deltaR,tauR)
@@ -502,7 +504,7 @@ cline.meta.rtail.scaled.descending =
        prior=function(center,width,pMin,pMax,deltaR,tauR){
   return(0); },
        pExp=cline.exp.scale(cline.exp.stepLow(
-         cline.u.descend,
+         cline.u.descend,cline.du.descend,
          quote(deltaR),
          cline.exp.lower(cline.u.descend,quote(deltaR),quote(tauR)))),
 ##       func=function(center,width,pMin,pMax,deltaR,tauR)

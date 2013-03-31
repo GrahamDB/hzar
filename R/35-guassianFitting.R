@@ -30,7 +30,8 @@ g.LLfunc <- function(obsData, model,modelParam=splitParameters(model),
     model.obsData=obsData
     param.fixed=tFixed
     frame=obsData$frame
-    new.formals=tArgs
+    new.formals=c(formals(model.req)[names(tArgs)],tFixed)
+      
     
     gLL <-
       guassianThetaLLExpF(distance=quote(frame$dist),

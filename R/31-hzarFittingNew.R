@@ -548,7 +548,8 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
     gLLc<-list()
     pDF <- list()
     frame=subset(frame,frame$obsFreq !=0 & frame$obsFreq != 1)
-    new.formals=tInit
+    new.formals=c(formals(model.req)[names(tInit)],tFixed)
+    ## new.formals=tInit
     if(nrow(frame) > 1){
       pDF <- c(pDF,freqCompilePDF(quote(frame$dist), pExp,quote(pFunc)))
       gLLc <- c(gLLc,freqCompileLLF(quote(frame$obsFreq),quote(frame$n), quote(pFunc)))

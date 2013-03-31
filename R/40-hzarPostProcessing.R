@@ -164,7 +164,7 @@ hzar.get.ML.cline <- function(fitRequest){
                class(fitRequest)));
   }
   ## get parameters corresponding to max value
-  param.free = data.param[data.LL==max(data.LL),][1,];
+  param.free = data.param[data.LL==max(data.LL), ,drop=FALSE][1, ,drop=FALSE];
   ## generate cline
   return(hzar.gen.cline(param.free,fitRequest));
 }
