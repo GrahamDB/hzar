@@ -17,7 +17,7 @@ hzar.doFit <- function(fitRequest){
       MCMCmetrop1R(fun=fitRequest$llFunc, logfun="true", force.samp=TRUE,
                    mcmc=useParam$chainLength, burnin=useParam$burnin,
                    verbose=useParam$verbosity, thin=useParam$thin,
-                   theta.init=mdlParam$init, tune=mdlParam$tune,
+                   theta.init=mdlParam$init, tune=as.numeric(mdlParam$tune),
                    V=fitRequest$cM, seed=useParam$seed,
                    optim.control=list(fnscale=-1,trace=0,REPORT=10,maxit=5000),
                    optim.method="L-BFGS-B",
@@ -516,7 +516,88 @@ hzar.next.fitRequest <- function(oldFitRequest){
                               oldFitRequest$llFunc,
                               mcmcParam));
 }
-  
+
+
+
+freqCompileLLF <- function(pObs,nObs,pExp){
+  return(substitute((1-pObs)*log((1-pEst)/(1-pObs))*nObs+pObs*log(pEst/pObs)*nObs,
+                    list(pObs=pObs,nObs=nObs,pEst=pExp)));
+}
+
+freqCompileLLEdge <- function(nObs,pExp){
+  return(substitute(nObs*log(pEst),list(nObs=nObs,pEst=pExp)));
+}
+freqCompilePDF <- function(dist,pExp,target){
+  bquote(.(target) <- .(eval(substitute(substitute(A,list(x=dist)),list(A=pExp)))))
+}
+
+
+freq.LLfunc <- function(obsData, model,tInit,tFixed,
+                        LLrejectedModel = -1e+08){
+    baseFunc <- function(theta) 0;
+    model.req=model$req;
+    model.gen=model$func
+    model.obsData=obsData
+    param.fixed=tFixed
+    frame=obsData$frame
+    frameA=subset(frame,frame$obsFreq == 0)
+    frameB=subset(frame,frame$obsFreq == 1)
+    pExp=model$pExp
+    pExp <- ll.compile.theta(tInit,tFixed,pExp)
+    print(pExp)
+    gLLc<-list()
+    pDF <- list()
+    frame=subset(frame,frame$obsFreq !=0 & frame$obsFreq != 1)
+    new.formals=tInit
+    if(nrow(frame) > 1){
+      pDF <- c(pDF,freqCompilePDF(quote(frame$dist), pExp,quote(pFunc)))
+      gLLc <- c(gLLc,freqCompileLLF(quote(frame$obsFreq),quote(frame$n), quote(pFunc)))
+    }else if(nrow(frame) == 1){
+      pDF <- c(pDF,freqCompilePDF(frame$dist, pExp,quote(pFunc)))
+      gLLc <- c(gLLc,freqCompileLLF(frame$obsFreq,frame$n, quote(pFunc)))
+    }
+    if(nrow(frameA)>1){
+      qExp=bquote(1-.(pExp))
+      pDF <- c(pDF,freqCompilePDF(quote(frameA$dist), qExp,quote(qEdge)))
+      gLLc <- c(gLLc,freqCompileLLEdge(quote(frameA$n), quote(qEdge)))
+    }else if(nrow(frameA)==1){
+      qExp=bquote(1-.(pExp))
+      pDF <- c(pDF,freqCompilePDF(frameA$dist, qExp,quote(qEdge)))
+      gLLc <- c(gLLc,freqCompileLLEdge(frameA$n, quote(qEdge)))
+    }
+    if(nrow(frameB)>1){
+      pDF <- c(pDF,freqCompilePDF(quote(frameB$dist), qExp,quote(pEdge)))
+      gLLc <- c(gLLc,freqCompileLLEdge(quote(frameB$n), quote(pEdge)))
+    }else if(nrow(frameB)==1){
+      pDF <- c(pDF,freqCompilePDF(frameB$dist, qExp,quote(pEdge)))
+      gLLc <- c(gLLc,freqCompileLLEdge(frameB$n, quote(pEdge)))
+    }
+    print(pDF)
+    print(gLLc)
+    if(length(gLLc)==0) stop("No observed data?")
+    gLL <- as.call(c(quote(sum),gLLc))
+    print(gLL)
+    gLL <-  step1VectorExpF(ll.compile.theta(tInit,tFixed,body(model$req)[[2]]),
+                            gLL,
+                            LLrejectedModel)
+    print(gLL)
+    ## gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
+    ##print(gLL)
+    body(baseFunc) <-as.call(c(as.name("{"),
+                               pDF,
+                               bquote(res <- .(gLL)),
+                               expression(if(any(is.na(res))) print(theta)),
+                               bquote(ifelse(is.na(res),.(LLrejectedModel),res))));
+    llFunc=baseFunc
+    old.formals=formals(model.req)
+    formals(model.req) <- c(old.formals[names(tInit)],tFixed)
+    formals(model.gen) <- c(old.formals[names(tInit)],tFixed)
+    ## eval(substitute(substitute(LLfunc,eL),
+    ##                                 list(LLfunc=gLL,eL=tMap)))
+    ## body(baseFunc) <- substitute(evalq(LLfunc,envir=theta),list(LLfunc=gLL))
+    ## environment(baseFunc) <- .GlobalEnv 
+    baseFunc
+}
 hzar.first.fitRequest.old.ML <-function(model,obsData,verbose=TRUE){
   
   if(verbose){
@@ -528,11 +609,12 @@ hzar.first.fitRequest.old.ML <-function(model,obsData,verbose=TRUE){
   
   modelParam<-splitParameters(model$parameterTypes);
    ## print("A");
-  clineLLfunc<-hzar.make.clineLLfunc.old.ML(names(modelParam$init),
-                                            modelParam$fixed,
-                                            model$req,
-                                            model$func,
-                                            obsData$model.LL);
+  clineLLfunc <- freq.LLfunc(obsData,model,modelParam$init,modelParam$fixed)
+  ## clineLLfunc<-hzar.make.clineLLfunc.old.ML(names(modelParam$init),
+##                                             modelParam$fixed,
+##                                             model$req,
+##                                             model$func,
+##                                             obsData$model.LL);
    ## print("A");
   covMatrix<-NULL;
   try(  covMatrix<-hzar.cov.rect(clineLLfunc,modelParam$lower,modelParam$upper,random=1e4));

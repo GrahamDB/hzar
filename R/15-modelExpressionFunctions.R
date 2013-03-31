@@ -78,10 +78,6 @@ varExpF <-  function( leftVar , rightVar , kappaE, clineExp, vClineExp)
 
 ## qV$MRTCe <-  quote(x > center  + deltaM)
 
-step1VectorExpF <- function( conditionalExp, trueExp, falseExp )
-  substitute(ifelse( cE, tE , fE ) ,
-             list(cE=conditionalExp,tE = trueExp, fE=falseExp))
-
 
 guassianLLExpF <-  function( tValues, muExp, varExp )
   substitute( (-log(2*pi*vE) - (tV - mE)^2/ vE)/2,

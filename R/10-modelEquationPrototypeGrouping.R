@@ -53,13 +53,45 @@ cline.pUpper <- function(upperU,upperA,upperK) {
   return( 1 - upperA * exp( -upperK * upperU)) }
 
 
+step1VectorExpF <- function( conditionalExp, trueExp, falseExp )
+  substitute(ifelse( cE, tE , fE ) ,
+             list(cE=conditionalExp,tE = trueExp, fE=falseExp))
 
+cline.exp.scale <- function(f) bquote(pMin+(pMax-pMin)*.(f))
+cline.exp.sigmoid <- function(u) bquote(1/(1+ exp(-.(u))))
+
+cline.exp.pLower    <- function(lowerU,lowerA,lowerK) bquote( .(lowerA) * exp( .(lowerK) * .(lowerU)))
+
+cline.exp.pUpper <- function(upperU,upperA,upperK) bquote( 1 - .(upperA) * exp( -.(upperK) * .(upperU))) 
 ## Frame evaluation methods
 
 ## gamma     <- eval.gamma(width,pMin, pMax)
 
 ## lambda    <- eval.lambda(gamma,direction)
+cline.exp.lower <- function(u,d1,tau1)
+  cline.exp.pLower( bquote( .(u) + 4*.(d1)/width),
+                   bquote( 1/(1+exp(4*.(d1)/width))),
+                   bquote( .(tau1) /(1+exp(-4*.(d1)/width)) ))
 
+cline.exp.upper <- function(u,d1,tau1)
+  cline.exp.pUpper(bquote( .(u) - 4*.(d1)/width),
+                   bquote( 1/(1+exp(4*.(d1)/width))),
+                   bquote( .(tau1) /(1+exp(-4*.(d1)/width)) ))
+##step1VectorExpF
+cline.exp.stepBoth <- function(u,d.lo,d.up,lowerTail,upperTail)
+  step1VectorExpF(bquote(- 4*.(d.lo)/width > .(u)),
+                  lowerTail,
+                  step1VectorExpF(bquote( 4*.(d.up)/width < .(u)),
+                                  upperTail,
+                                  cline.exp.sigmoid(u)))
+cline.exp.stepLow <-function(u,d.lo,lowerTail)
+  step1VectorExpF(bquote(- 4*.(d.lo)/width > .(u)),
+                  lowerTail,
+                  cline.exp.sigmoid(u))
+cline.exp.stepUp <-function(u,d.up,upperTail)
+  step1VectorExpF(bquote( 4*.(d.up)/width < .(u)),
+                  upperTail,
+                  cline.exp.sigmoid(u))
 
 meta.tail.lower <- function(gamma,d1,tau1){
   lowerStep <- gamma*d1

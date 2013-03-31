@@ -20,9 +20,9 @@ g.LLfuncA <- function(obsData, reqExp, muExp, varExp, tFunc, tArgs, tFixed,
     environment(baseFunc) <- .GlobalEnv
     baseFunc
 }
-g.LLfunc <- function(obsData, model,
-           tFixed=model$init[as.logical(model$fixed)],
-           tArgs=model$init[!as.logical(model$fixed)],
+g.LLfunc <- function(obsData, model,modelParam=splitParameters(model),
+           tFixed=modelParam$fixed,
+           tArgs=modelParam$init,
            LLrejectedModel = -1e+08){
     baseFunc <- function(theta) 0;
     model.req=model$req;
@@ -364,24 +364,15 @@ naiveHessian <- function(theta,zF,k=0.05){
 
 }
 
-## gC.V <- function(model,LLfunc){
-##   solve(-naiveHessian(model$init,LLfunc));
-## }
-
 hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   if (verbose) {
     mcmcParam <- hzar:::cfg.hzar.default.mcmc
   } else {
     mcmcParam <- hzar:::cfg.hzar.quiet.mcmc
   }
-  ## for(iter in names(gModel$parameterTypes)){
-##     attr(gModel$parameterTypes[[iter]],"fixed") <- gModel$fixed[[iter]]
-##   }
   modelParam <- splitParameters(gModel$parameterTypes);
-#  modelParam$init <- gModel$init[!as.logical(gModel$fixed)];
-#  modelParam$tune <- gModel$tune[!as.logical(gModel$fixed)];
   
-  LLfunc <- g.LLfunc(obsData,gModel)
+  LLfunc <- g.LLfunc(obsData,gModel,modelParam)
 
 ##   Figure out a better covariance matrix method.
 
@@ -392,8 +383,7 @@ hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
 ##   pulled by hzar.cov.rect) starting at the maximum likelihood,
 ##   searching for the first set of parameters that the first method
 ##   produces useful values.
-  #modelParam$init$var
-  
+
   cV <- NULL;
   junk <- NULL
   altInit <- modelParam$init
