@@ -15,8 +15,8 @@ g.LLfuncA <- function(obsData, reqExp, muExp, varExp, tFunc, tArgs, tFixed,
     gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
     lapply(1:length(tArgs),function(x) bquote(theta[.(x)]))->tMap
     names(tMap) <- tArgs;
-    body(baseFunc) <- eval(substitute(substitute(LLfunc,eL),
-                                      list(LLfunc=gLL,eL=tMap)))
+    body(baseFunc) <- simplify.exp(eval(substitute(substitute(LLfunc,eL),
+                                      list(LLfunc=gLL,eL=tMap))))
     environment(baseFunc) <- .GlobalEnv
     baseFunc
 }
