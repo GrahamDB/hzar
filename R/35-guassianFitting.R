@@ -31,7 +31,6 @@ g.LLfunc <- function(obsData, model,modelParam=splitParameters(model),
     param.fixed=tFixed
     frame=obsData$frame
     new.formals=c(formals(model.req)[names(tArgs)],tFixed)
-      
     
     gLL <-
       guassianThetaLLExpF(distance=quote(frame$dist),
@@ -48,6 +47,8 @@ g.LLfunc <- function(obsData, model,modelParam=splitParameters(model),
                                expression(if(any(is.na(res))) print(theta)),
                                bquote(ifelse(is.na(res),.(LLrejectedModel),res))));
     llFunc=baseFunc
+    formals(model.req) <- new.formals
+    formals(model.gen) <- new.formals
     
     ## eval(substitute(substitute(LLfunc,eL),
     ##                                 list(LLfunc=gLL,eL=tMap)))

@@ -135,7 +135,12 @@ hzar.gen.cline<-function(free.parameters,fitRequest){
   context<-cline.extract.modelPrep(fitRequest);
   cline.func<-NULL;
   cline.param<-c(as.list(free.parameters),context$param.fixed)
-  
+  if(!all(identical(formals(context$model.req),context$new.formals),
+          identical(formals(context$model.gen),context$new.formals))){
+    formals(context$model.req) <- context$new.formals
+    formals(context$model.gen) <- context$new.formals
+  }
+     
   if(do.call(context$model.req,as.list(free.parameters))){
     cline.func<-do.call(context$model.gen,as.list(free.parameters));
   }
@@ -294,7 +299,11 @@ hzar.make.obsDataGroup<-function(dataGroups,obsDataGroup=NULL){
       if(length(dataGroups)==1)
         return(obsDataGroup);
       otherDataGroups<-lapply(2:length(dataGroups),
-                              function(x,y) y[[x]],
+                              function(x,y) {
+                                if(inherits(y[[x]], c("hzar.fitRequest","hzar.dataGroup")))
+                                  return(hzar.fit2DataGroup(y[[x]]));
+                                y[[x]]
+                              },
                               y=dataGroups);
       return(hzar.make.obsDataGroup(otherDataGroups,obsDataGroup));
     }
@@ -305,6 +314,20 @@ hzar.make.obsDataGroup<-function(dataGroups,obsDataGroup=NULL){
     }
     if(inherits(dataGroups, c("hzar.fitRequest","hzar.dataGroup"))){
       dataGroups<-list(hzar.fit2DataGroup(dataGroups));
+    } else if(is.list(dataGroups)&&
+              inherits(dataGroups[[1]],
+                       c("hzar.fitRequest","hzar.dataGroup"))) {
+      if(!all(isDG <- sapply(dataGroups,
+                             inherits,
+                             c("hzar.fitRequest","hzar.dataGroup")))){
+        obsDataGroup <-
+          hzar.make.obsDataGroup(lapply(which(isDG),
+                                        function(x) hzar.fit2DataGroup(dataGroups[[x]])),
+                                 obsDataGroup)
+        dataGroups <- lapply(which(!isDG),function(x) dataGroups[[x]])
+      } else {
+        dataGroups <- lapply(dataGroups,hzar.fit2DataGroup)
+      }
     }
     if(! hzar.sameObsData(obsDataGroup,dataGroups[[1]]) )
       stop("All dataGroups must be from the same observation data." );
