@@ -699,10 +699,10 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
       gLLc <- c(gLLc,freqCompileLLEdge(frameA$n, quote(qEdge)))
     }
     if(nrow(frameB)>1){
-      pDF <- c(pDF,freqCompilePDF(quote(frameB$dist), qExp,quote(pEdge)))
+      pDF <- c(pDF,freqCompilePDF(quote(frameB$dist), pExp,quote(pEdge)))
       gLLc <- c(gLLc,freqCompileLLEdge(quote(frameB$n), quote(pEdge)))
     }else if(nrow(frameB)==1){
-      pDF <- c(pDF,freqCompilePDF(frameB$dist, qExp,quote(pEdge)))
+      pDF <- c(pDF,freqCompilePDF(frameB$dist, pExp,quote(pEdge)))
       gLLc <- c(gLLc,freqCompileLLEdge(frameB$n, quote(pEdge)))
     }
     print(pDF)
