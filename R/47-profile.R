@@ -99,3 +99,101 @@ optimizeTrace <- function(fitRequest,...){
                                ...))
   }
 }
+
+
+
+profile.model <- function(parent.model, parameter,fixed.value){
+  if(length(fixed.value)>1)
+    return(lapply(fixed.value,profile.model,parent.model=parent.model,parameter=parameter))
+  res=parent.model
+  hzar:::meta.init(res)[[parameter]] <- fixed.value
+  hzar:::meta.fix(res)[[parameter]] <- TRUE
+  hzar:::meta.tune(res) <- 1.1
+  res
+}
+
+
+profile.fitRequest <- function(model,obsData, old.mcmc, mcmcParam =hzar.make.mcmcParam(1e5,1e4,5e4,100) ){
+ ##print(summary(old.mcmc)) 
+  mdlParam<-hzar:::splitParameters(model$parameterTypes);
+  if(inherits(obsData,"guassSampleData1D")){
+    clineLLfunc <- hzar:::g.LLfunc(obsData, model,modelParam=mdlParam)
+  }else if(inherits(obsData,"clineSampleData1D")){
+    clineLLfunc <- hzar:::freq.LLfunc(obsData,model,mdlParam$init,mdlParam$fixed)
+  } else {
+    stop(paste("Failed to process obsData class: <",paste(class(obsData),collapse=", "),">"))
+  }
+  covMatrix<-NULL;
+  if(all(c("model.LL")%in%colnames(old.mcmc) ))
+    mcmc.LL <- old.mcmc[,"model.LL"]
+  else
+    mcmc.LL <- NULL
+  if((is.numeric(old.mcmc)||is.data.frame(old.mcmc))&&nrow(old.mcmc)>20){
+    old.mcmc <- old.mcmc[,names(mdlParam$init),drop=FALSE]
+    nGen <- dim(old.mcmc)[[1]]
+    if(is.null(mcmc.LL)){
+      nSam <- min(nGen,5e3)
+      sCut <- sample(nGen,nSam)
+      mcmcSubset<-old.mcmc[sCut, ,drop=FALSE];
+      subLL<-hzar.eval.clineLL(mcmcSubset,clineLLfunc);
+    }else{
+      mcmcSubset <- old.mcmc
+      subLL <- mcmc.LL
+    }
+        covData <- NULL
+    if(sum(unique(subLL)>max(subLL-4))<0.95*nGen){
+      try({
+        if(sum(unique(subLL)>max(subLL-4))>1e3){
+          wt <- subLL[subLL>max(subLL-4),]
+          wt <- exp(wt-max(wt))
+          covData <- cov.wt(mcmcSubset[subLL>max(subLL-4), ,drop=FALSE],wt)
+        }else if(sum(unique(subLL)>max(subLL-4))>1e2){
+          covData<-hzar.cov.mcmc(clineLLfunc,mcmcSubset[subLL>max(subLL-4), ,drop=FALSE],passCenter=TRUE);
+        }else if(sum(unique(subLL)>max(subLL-10))>1e2){
+          covData<-hzar.cov.mcmc(clineLLfunc,mcmcSubset[subLL>max(subLL-10), ,drop=FALSE],passCenter=TRUE);
+        }else {
+          covData<-hzar.cov.mcmc(clineLLfunc,mcmcSubset,passCenter=TRUE);
+        }
+      },silent=TRUE)
+    }
+    if(is.null(covData))
+      try(covData <- cov.wt(mcmcSubset[subLL>max(subLL-4), ,drop=FALSE]))
+    if(!is.null(covData)){
+      covMatrix<-covData$cov;
+      new.center<-covData$center[names(mdlParam$init)];
+      if(clineLLfunc(new.center)>-1e6)
+        mdlParam$init <- new.center;
+    }
+    if(!is.null(covMatrix)){
+      junk <- covMatrix;
+      covMatrix <- NULL;
+      try(if(all(diag(junk)>0)){
+        chol(junk);
+        covMatrix <- junk;
+      },silent=TRUE)
+    }
+    if(is.null(covMatrix)){
+      try({ junk <-  solve(-hzar:::naiveHessian(mdlParam$init,clineLLfunc));
+            junk <- hzar:::appHScale(junk,mdlParam$lower, mdlParam$upper);
+            if(all(diag(junk)>0)){
+              chol(junk);
+              covMatrix <- junk;}
+          },silent=TRUE)
+    }
+    if(is.null(covMatrix)){
+      try({
+        junk <- hzar:::appThetaWalkerR(mdlParam$init,
+                                clineLLfunc,
+                                mdlParam$lower, 
+                                mdlParam$upper, random = 1000,
+                                passCenter=TRUE);
+        covMatrix <- junk$cov
+        mdlParam$init  <- junk$center
+        
+      })
+    }
+  }else{
+    try(  covMatrix<-hzar.cov.rect(clineLLfunc,mdlParam$lower,mdlParam$upper,random=1e4));
+  }
+  return(hzar.make.fitRequest(mdlParam,covMatrix,clineLLfunc,mcmcParam));
+}
