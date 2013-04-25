@@ -5,10 +5,8 @@
   The distance between two points on the Earth's surface.
 }
 \description{
-  The distance along a great
-  circle between two points on a spheroid approximation of the Earth's
-  surface.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  The distance along a great circle between two points on a spheroid
+  approximation of the Earth's surface.
 }
 \usage{
 hzar.map.greatCircleDistance(lat1, long1, lat2, long2, units = "Km", degrees = TRUE)
@@ -39,31 +37,31 @@ hzar.map.greatCircleDistance(lat1, long1, lat2, long2, units = "Km", degrees = T
 \details{
   The Lambert formula is the approximation used to calculate the
   distance, due to its high accuracy and robustness.
-  \code{
-    #Geometry of Earth's surface
-    R = 6371.009 #Earth radius in kilometers
-    earthSphd.r = 298.257223563 #WGS84
-    earthSphd.ep= (2*earthSphd.r -1)/(earthSphd.r-1)^2
 
-    dLat=p2$lat.rad-p1$lat.rad;
-    dLong=p2$long.rad-p1$long.rad;
-    dLong=ifelse( dLong>pi, dLong-2*pi, ifelse(-dLong>pi, dLong+2*pi, dLong));
-	   
+  Geometry of Earth
+  \code{R = 6371.009 #Earth radius in kilometers}
+  \code{earthSphd.r = 298.257223563 #WGS84}
+  \code{earthSphd.ep= (2*earthSphd.r -1)/(earthSphd.r-1)^2}
   
-    mLat=(p2$lat.rad+p1$lat.rad)/2;
-    
-    reLat1=atan((earthSphd.r -1)*tan(p1$lat.rad) /earthSphd.r )
-    reLat2=atan((earthSphd.r -1)*tan(p2$lat.rad) /earthSphd.r )
-    cenNum=sqrt((cos(reLat2)*sin(dLong))^2+(cos(reLat1)*sin(reLat2)-cos(reLat2)*sin(reLat1)*cos(dLong))^2);
-    cenDen=sin(reLat1)*sin(reLat2)+cos(reLat2)*cos(reLat1)*cos(dLong);
-    central <- atan2(cenNum,cenDen);
-    lFP <- (reLat1+ reLat2)/2 ;
-    lFQ <- (-reLat1+ reLat2)/2 ;
-    lFX <- (central-sin(central))*sin(lFP)^2*cos(lFQ)^2/cos(central/2)^2;
-    lFY <- (central+sin(central))*cos(lFP)^2*sin(lFQ)^2/sin(central/2)^2;
-    
-    lambertFormulaeD <- ifelse(central==0,0,R*(central-(lFX+lFY)/(2*earthSphd.r)));
-  }
+  \code{dLat=p2$lat.rad-p1$lat.rad;}
+  \code{dLong=p2$long.rad-p1$long.rad;}
+  \code{dLong=ifelse( dLong>pi, dLong-2*pi, ifelse(-dLong>pi, dLong+2*pi, dLong));}
+  
+  
+  \code{mLat=(p2$lat.rad+p1$lat.rad)/2;}
+  
+  \code{reLat1=atan((earthSphd.r -1)*tan(p1$lat.rad) /earthSphd.r )}
+  \code{reLat2=atan((earthSphd.r -1)*tan(p2$lat.rad) /earthSphd.r )}
+  \code{cenNum=sqrt((cos(reLat2)*sin(dLong))^2+(cos(reLat1)*sin(reLat2)-cos(reLat2)*sin(reLat1)*cos(dLong))^2);}
+  \code{cenDen=sin(reLat1)*sin(reLat2)+cos(reLat2)*cos(reLat1)*cos(dLong);}
+  \code{central <- atan2(cenNum,cenDen);}
+  \code{lFP <- (reLat1+ reLat2)/2 ;}
+  \code{lFQ <- (-reLat1+ reLat2)/2 ;}
+  \code{lFX <- (central-sin(central))*sin(lFP)^2*cos(lFQ)^2/cos(central/2)^2;}
+  \code{lFY <- (central+sin(central))*cos(lFP)^2*sin(lFQ)^2/sin(central/2)^2;}
+  
+  \code{lambertFormulaeD <- ifelse(central==0,0,R*(central-(lFX+lFY)/(2*earthSphd.r)));}
+  
 }
 \value{
   The great circle distance between points 1 and 2.
