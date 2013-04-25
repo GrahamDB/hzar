@@ -55,9 +55,9 @@ hzar.map.distanceFromSite(latLongSites, site0, units = "Km")
     \code{"nautical"} for nautical miles are valid.
   }
 }
-\details{
-  %%  ~~ If necessary, more details than the description above ~~
-}
+%% \details{
+%%   %%  ~~ If necessary, more details than the description above ~~
+%% }
 \value{
   A \code{\link{data.frame}}:
   For all methods:
