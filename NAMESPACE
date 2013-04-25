@@ -1,1 +1,4 @@
 exportPattern("^hzar")
+S3method(print,clineParameter)
+
+S3method(print,clineMetaModel)
