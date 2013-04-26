@@ -11,7 +11,7 @@
 \usage{
 hzar.multiFitRequest(fitL, each = 1, baseSeed = c(1234, 2345, 3456,
 4567, 5678, 6789, 7890, 8901, 9012, 123), rotateSeed = TRUE, baseChannel
-= 50, adjChannel = 50) 
+= 50, adjChannel = 50, skip = 0) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,6 +47,10 @@ hzar.multiFitRequest(fitL, each = 1, baseSeed = c(1234, 2345, 3456,
   }
   \item{adjChannel}{
     Amount to increment the stream channel
+  }
+  \item{skip}{
+    Assume \code{skip} sets of unique values have already been drawn
+    from \code{baseSeed}.
   }
 }
 \details{

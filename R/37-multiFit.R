@@ -3,7 +3,8 @@ hzar.multiFitRequest <- function(fitL,each=1,
                                  baseSeed=c(1234,2345,3456,4567,5678,6789,7890,8901,9012,123),
                                  rotateSeed=TRUE,
                                  baseChannel=50,
-                                 adjChannel=50){
+                                 adjChannel=50,
+                                 skip=0){
   
   if(inherits(fitL,"hzar.fitRequest")) {
     fitL <- list(fitL)
@@ -25,13 +26,16 @@ hzar.multiFitRequest <- function(fitL,each=1,
   
   if(is.numeric(baseSeed)){
     if(rotateEverySeed){
-      baseSeed <- rep(baseSeed,length.out=5+length(fitL)*each)
-      seedList <- lapply(1:(length(fitL)*each),function(x) baseSeed[x:(x+5)])
+      baseSeed <- unique(baseSeed)
+      L <- length(baseSeed)## baseSeed <- rep(baseSeed,length.out=5+length(fitL)*each)
+      seedList <- lapply(skip + 1:(length(fitL)*each),
+                         function(x) baseSeed[(cumsum((iter-1) %/% L^(0:5))+0:5) %% L +1])
     }else if(rotateSeed && length(fitL)>1){
-      baseSeed <- rep(baseSeed,length.out=5+length(fitL))
+      baseSeed <- unique(baseSeed)
+      L <- length(baseSeed)## <- rep(baseSeed,length.out=5+length(fitL))
       rotateSeed <- FALSE
       for(iter in 1:length(fitL))
-        fitL[[iter]]$mcmcParam$seed[[1]]= baseSeed[iter:(iter+5)]
+        fitL[[iter]]$mcmcParam$seed[[1]]= baseSeed[(cumsum((skip+iter-1) %/% L^(0:5))+0:5) %% L +1]
     }else{
       baseSeed <- rep(baseSeed,length.out=6)
       rotateSeed <- FALSE
