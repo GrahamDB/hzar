@@ -28,7 +28,7 @@ hzar.doChain.multi(mFitR, doPar = FALSE, inOrder = TRUE, ...)
     results are returned in the order of completion. See
     \code{\link{foreach}} for more information.
   }
-  \item{...}{
+  \item{\dots}{
     Additional arguments to pass to \code{\link{hzar.chain.doSeq}}
   }
 }
