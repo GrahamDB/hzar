@@ -197,3 +197,66 @@ profile.fitRequest <- function(model,obsData, old.mcmc, mcmcParam =hzar.make.mcm
   }
   return(hzar.make.fitRequest(mdlParam,covMatrix,clineLLfunc,mcmcParam));
 }
+
+hzar.profile.dataGroup <- function(dG, parameter,
+                                   pVals=NULL,pDivs=NULL, nDiv=20,appeture=NULL,
+                                   doPar=FALSE,...){
+  dG.trace <- as.data.frame(hzar.mcmc.bindLL(dG))
+
+  ##Get parameter space
+  param.trace <- dG.trace[[parameter]]
+  ##Get parameter intervals
+  if(is.list(pDivs)){
+    param.divs <- pDivs
+    nDiv <- length(pDivs)
+  }else if(is.numeric(pDivs)){
+    param.divs <- lapply(2:length(pDivs),function(x) pDivs[c(-1,0)+x])
+    nDiv <- length(param.divs)
+  }else if(is.numeric(pVals)){
+    pVals=sort(unique(pVals))
+    if(!all(is.numeric(appeture),length(appeture)==1,appeture>0))
+      appeture=median(pVals[2:length(pVals)]-pVals[1:(length(pVals)-1)])
+    param.divs <- lapply(pVals,function(x) c(x-appeture,x+appeture))
+    nDiv <- length(param.divs)
+  }else{
+    param.divs <- levels(equal.count(param.trace,nDiv))
+  }
+  param.subsets <- lapply(param.divs,function(x) which(param.trace>=x[1] &param.trace<=x[2]))
+  if(is.numeric(pVals)){
+    if(length(pVals)!=nDiv) stop("length mismatch between pVals and pDivs")
+  } else{
+    pVals=lapply(param.divs,mean)
+  }
+  
+  
+  ##Get parent model
+  parent.model <- hzar:::cline.extract.modelPrep(dG)$model
+  
+  obsData <- hzar.extract.obsData(dG)
+
+  ##Build multi fit request
+
+  profileFitR <- list();
+
+  lP <- foreach(param.divs=param.divs,param.val=pVals,
+                mcmc.subset=lapply(param.subsets,
+                  function(x) dG.trace[x, ,drop=FALSE]),
+                .packages="hzar")
+  exec <- expression({
+    temp.model <- profile.model(parent.model,parameter,param.val)
+    ##Get non-profile parameters
+    param.fixed <- as.logical(hzar:::meta.fix(temp.model))
+    param.names <- names(param.fixed)[!param.fixed]
+ 
+    param.init <- mcmc.subset[which.max(mcmc.subset$model.LL),param.names,drop=FALSE]
+    for(tk in param.names)hzar:::meta.init(temp.model)[[tk]] <- param.init[1,tk]
+
+    profile.fitRequest(temp.model,obsData,mcmc.subset)
+  })
+  ## deps=c("
+  if(doPar)
+    profileFitR <- lP %dopar% eval(exec)
+  else
+    profileFitR <- lP %do% eval(exec)
+  hzar.multiFitRequest(profileFitR,...)
+}
