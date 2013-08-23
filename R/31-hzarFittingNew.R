@@ -664,6 +664,94 @@ simplify.exp <- function(expL){
   return(as.call(proposed))
 }
 
+#s.LIB=list(paren=
+rA.exp.LIB<-list()
+rA.exp.SYM <- c();
+## sym=list(),use=list(),run=list()
+rA.exp.LIB.add <- function(sym,use,run){
+  rA.exp.LIB<<-c(rA.exp.LIB,list(list(sym=c(sym),use=use,run=run)))
+  rA.exp.SYM<<-unique(c(rA.exp.SYM,sym))
+}
+
+rA.exp2Arg <- function(x) length(x)==3
+rA.exp.LIB.add(sym=c(as.name(">"),as.name(">=")),
+               use=rA.exp2Arg,
+               run=function(x) bquote(ifelse(
+                 .(x[[2]]) %lt% .(x[[3]]),
+                 .(x[[2]]) -.(x[[3]])-1e6,
+                 0)))
+rA.exp.LIB.add(sym=c(as.name("<"),as.name("<=")),
+               use=rA.exp2Arg,
+               run=function(x) bquote(ifelse(
+                 .(x[[2]]) %gt% .(x[[3]]),
+                 .(x[[3]])-1e6 -.(x[[2]]),
+                 0)))
+rA.exp.LIB.add(sym=as.name("|"),use=rA.exp2Arg,run=function(x) bquote (.(x[[2]])*.(x[[3]])))
+rA.exp.LIB.add(sym=as.name("&"),use=rA.exp2Arg,run=function(x) bquote (.(x[[2]])+.(x[[3]])))
+
+#s.LIB=list(paren=
+rB.exp.LIB<-list()
+rB.exp.SYM <- c();
+## sym=list(),use=list(),run=list()
+rB.exp.LIB.add <- function(sym,use,run){
+  rB.exp.LIB<<-c(rB.exp.LIB,list(list(sym=c(sym),use=use,run=run)))
+  rB.exp.SYM<<-unique(c(rB.exp.SYM,sym))
+}
+
+rB.exp2Arg <- function(x) length(x)==3
+rB.exp.LIB.add(sym=as.name("%gt%"),
+               use=rB.exp2Arg,
+               run=function(x) bquote(.(x[[2]]) > .(x[[3]]) ))
+
+rB.exp.LIB.add(sym=as.name("%lt%"),
+               use=rB.exp2Arg,
+               run=function(x) bquote(.(x[[2]]) < .(x[[3]]) ))
+               
+
+req.Expand.exp <- function(expL){
+  if(is.symbol(expL)||is.numeric(expL)||is.logical(expL))return(expL)
+  proposed <- lapply(expL,req.Expand.exp)
+  if(is.symbol(proposed[[1]])&&all(proposed[1]%in% rA.exp.SYM )){
+    for(iter in 1:length(rA.exp.LIB)){
+      layer=rA.exp.LIB[[iter]]
+      
+      if(is.symbol(proposed[[1]])&&all(proposed[1]%in% layer$sym) && layer$use(proposed)){
+        ##cat("+")
+        ##str(proposed)
+        proposed <- layer$run(proposed)
+      }
+      if(is.symbol(proposed))return(proposed)
+      if(is.language(proposed))proposed <- as.list(proposed)
+      if(!is.list(proposed))return(proposed)
+    }
+  }
+  return(as.call(proposed))
+}
+
+req.Collapse.exp <- function(expL){
+  if(is.symbol(expL)||is.numeric(expL)||is.logical(expL))return(expL)
+  proposed <- lapply(expL,req.Collapse.exp)
+  if(is.symbol(proposed[[1]])&&all(proposed[1]%in% rB.exp.SYM )){
+    for(iter in 1:length(rB.exp.LIB)){
+      layer=rB.exp.LIB[[iter]]
+      
+      if(is.symbol(proposed[[1]])&&all(proposed[1]%in% layer$sym) && layer$use(proposed)){
+        ##cat("+")
+        ##str(proposed)
+        proposed <- layer$run(proposed)
+      }
+      if(is.symbol(proposed))return(proposed)
+      if(is.language(proposed))proposed <- as.list(proposed)
+      if(!is.list(proposed))return(proposed)
+    }
+  }
+  return(as.call(proposed))
+}
+
+req.edge.exp <- function(expL) simplify.exp(req.Collapse.exp(req.Expand.exp(expL)))
+
+
+
 freq.LLfunc <- function(obsData, model,tInit,tFixed,
                         LLrejectedModel = -1e+08){
     baseFunc <- function(theta) 0;
@@ -710,7 +798,9 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
     if(length(gLLc)==0) stop("No observed data?")
     gLL <- as.call(c(quote(sum),gLLc))
     print(gLL)
-    gLL <-  step1VectorExpF(ll.compile.theta(tInit,tFixed,body(model$req)[[2]]),
+    reqL <- ll.compile.theta(tInit,tFixed,body(model$req)[[2]])
+    LLrejectedModel <- bquote(.(LLrejectedModel)+.(req.edge.exp(reqL)))
+    gLL <-  step1VectorExpF(reqL,
                             gLL,
                             LLrejectedModel)
     print(gLL)

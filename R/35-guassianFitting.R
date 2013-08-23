@@ -39,6 +39,10 @@ g.LLfunc <- function(obsData, model,modelParam=splitParameters(model),
                           nEff=quote(frame$nEff),
                           muExp=model$mu,
                           varExp=model$var)
+    
+    
+    LLrejectedModel <- bquote(.(LLrejectedModel)+
+                              .(req.edge.exp(body(model$req)[[2]])))
     gLL <-  step1VectorExpF(body(model$req)[[2]],gLL,LLrejectedModel)
     ## gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
     gLL <- ll.compile.theta(tArgs,tFixed,gLL)
