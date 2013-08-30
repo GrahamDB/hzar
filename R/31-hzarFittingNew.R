@@ -764,7 +764,7 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
     frameB=subset(frame,frame$obsFreq == 1)
     pExp=model$pExp
     pExp <- ll.compile.theta(tInit,tFixed,pExp)
-    print(pExp)
+    ## print(pExp)
     gLLc<-list()
     pDF <- list()
     frame=subset(frame,frame$obsFreq !=0 & frame$obsFreq != 1)
@@ -793,17 +793,17 @@ freq.LLfunc <- function(obsData, model,tInit,tFixed,
       pDF <- c(pDF,freqCompilePDF(frameB$dist, pExp,quote(pEdge)))
       gLLc <- c(gLLc,freqCompileLLEdge(frameB$n, quote(pEdge)))
     }
-    print(pDF)
-    print(gLLc)
+    ## print(pDF)
+    ## print(gLLc)
     if(length(gLLc)==0) stop("No observed data?")
     gLL <- as.call(c(quote(sum),gLLc))
-    print(gLL)
+    ## print(gLL)
     reqL <- ll.compile.theta(tInit,tFixed,body(model$req)[[2]])
     LLrejectedModel <- bquote(.(LLrejectedModel)+.(req.edge.exp(reqL)))
     gLL <-  step1VectorExpF(reqL,
                             gLL,
                             LLrejectedModel)
-    print(gLL)
+    ## print(gLL)
     ## gLL <- eval(substitute(substitute(LLfunc,tF),list(LLfunc=gLL,tF=tFixed)))
     ##print(gLL)
     body(baseFunc) <-simplify.exp(as.call(c(as.name("{"),
