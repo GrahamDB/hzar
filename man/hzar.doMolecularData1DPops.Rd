@@ -5,7 +5,7 @@
 \alias{hzar.doNormalData1DPops}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Generate a hzar.obsData object using summary data about each locality,.
+  Generate a hzar.obsData object using summary data about each locality
 }
 \description{
   Creates a hzar.obsData object using the observations given.  The

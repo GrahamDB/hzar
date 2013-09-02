@@ -222,6 +222,19 @@ meta.upper <- function(x) meta.param.m(x,param.upper)
   x
 } 
 
+
+hzar.meta.tune <- meta.tune
+hzar.meta.fix <- meta.fix
+hzar.meta.init <- meta.init
+hzar.meta.lower <- meta.lower
+hzar.meta.upper <- meta.upper
+
+"hzar.meta.tune<-" <- "meta.tune<-"
+"hzar.meta.fix<-" <- "meta.fix<-"
+"hzar.meta.init<-" <- "meta.init<-"
+"hzar.meta.lower<-" <- "meta.lower<-"
+"hzar.meta.upper<-" <- "meta.upper<-"
+
 print.clineMetaModel <- function(x,...){
   for(iter in names(x)){
     if(iter!="parameterTypes"){
