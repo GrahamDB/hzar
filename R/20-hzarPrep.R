@@ -223,17 +223,47 @@ meta.upper <- function(x) meta.param.m(x,param.upper)
 } 
 
 
-hzar.meta.tune <- meta.tune
-hzar.meta.fix <- meta.fix
-hzar.meta.init <- meta.init
-hzar.meta.lower <- meta.lower
-hzar.meta.upper <- meta.upper
 
-"hzar.meta.tune<-" <- "meta.tune<-"
-"hzar.meta.fix<-" <- "meta.fix<-"
-"hzar.meta.init<-" <- "meta.init<-"
-"hzar.meta.lower<-" <- "meta.lower<-"
-"hzar.meta.upper<-" <- "meta.upper<-"
+hzar.meta.init <- function(x) meta.param.m(x,param.init)
+"hzar.meta.init<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.init(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+hzar.meta.tune <- function(x) meta.param.m(x,param.tune)
+"hzar.meta.tune<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.tune(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+hzar.meta.fix <- function(x) meta.param.m(x,param.fix)
+"hzar.meta.fix<-" <- function(x,value) { 
+  value <- meta.fixValue(x,value,is.logical)
+  for(iter in meta.param.names(x))
+    param.fix(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+hzar.meta.lower <- function(x) meta.param.m(x,param.lower)
+"hzar.meta.lower<-" <- function(x,value) { 
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.lower(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
+hzar.meta.upper <- function(x) meta.param.m(x,param.upper)
+"hzar.meta.upper<-" <- function(x,value) {
+  value <- meta.fixValue(x,value)
+  for(iter in meta.param.names(x))
+    param.upper(x$parameterTypes[[iter]]) <- value[[iter]];
+  x
+} 
+
 
 print.clineMetaModel <- function(x,...){
   for(iter in names(x)){
