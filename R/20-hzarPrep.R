@@ -273,12 +273,12 @@ print.clineMetaModel <- function(x,...){
     }
   }
   cat("Cline Parameters:\n")
-  print(data.frame(row.names=hzar:::meta.param.names(x),
-                   init=as.numeric(hzar:::meta.init(x)),
-                   tune=as.numeric(hzar:::meta.tune(x)),
-                   fixed=as.logical(hzar:::meta.fix(x)),
-                   lower=as.numeric(hzar:::meta.lower(x)),
-                   upper=as.numeric(hzar:::meta.upper(x))),...);
+  print(data.frame(row.names=meta.param.names(x),
+                   init=as.numeric(meta.init(x)),
+                   tune=as.numeric(meta.tune(x)),
+                   fixed=as.logical(meta.fix(x)),
+                   lower=as.numeric(meta.lower(x)),
+                   upper=as.numeric(meta.upper(x))),...);
   invisible(x);
 }
 

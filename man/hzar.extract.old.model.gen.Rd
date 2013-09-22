@@ -51,7 +51,10 @@ Graham Derryberry \email{asterion@alum.mit.edu}
 \examples{
 
 data(manakinMolecular);
-ASdata<- hzar.doMolecularData1DPops(distance=manakinMolecular$distance,pObs=manakinMolecular$ak2.A,nEff=manakinMolecular$ak2.nSamples);
+ASdata <-
+  hzar.doMolecularData1DPops(distance=manakinMolecular$distance,
+                             pObs=manakinMolecular$ak2.A,
+                             nEff=manakinMolecular$ak2.nSamples);
 ASclineM <- hzar.makeCline1DFreq(data=ASdata,scaling="none", tails="none");
 ASclineM$func;
 ASclineM$req;

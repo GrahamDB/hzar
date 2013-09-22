@@ -51,6 +51,7 @@ hzar.plot.obsData<-function(x,type="p",pch="+",xlab="Distance",ylab=hzar.yLabel(
 
 
 hzar.plot.cline<-function(cline,add=FALSE,ylim=FALSE,...){
+  x=NULL;
   if(inherits(cline,"hzar.cline"))
     curve(cline$clineFunc(x),add=add,...);
   if(inherits(cline,c("hzar.dataGroup","hzar.fitRequest"))){

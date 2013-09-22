@@ -200,7 +200,7 @@ hzar.eval.clineLL <- function(data, llFunc,doPar=FALSE){
   ## print("A");
   slices<-fitter.wedgeSlice(dim(data)[[1]]);
   ## cat("Eval wedge size:",object.size(slices),"\n");
-  
+  tttIndex=NULL;
   useFunc=llFunc;
   useData=data;
   if(doPar){
@@ -221,6 +221,7 @@ hzar.eval.clineLL <- function(data, llFunc,doPar=FALSE){
 }
            
 fitter.gen.rParam.uniform<-function(param.lower,param.upper,count=1000){
+  low=NULL; high=NULL;
   raw<-foreach(low=param.lower,
                high=param.upper,
                .combine=cbind) %do% {runif(count,low,high)};

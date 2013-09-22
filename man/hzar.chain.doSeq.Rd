@@ -10,7 +10,10 @@
   matrix driving mcmc process, \code{\link{MCMCmetrop1R}}.
 }
 \usage{
-hzar.chain.doSeq(hzar.request, count = 3, collapse = FALSE, announce.complete = "Chain Complete")
+hzar.chain.doSeq(hzar.request,
+                 count = 3,
+                 collapse = FALSE,
+                 announce.complete = "Chain Complete")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -74,13 +77,15 @@ mknAdaA <-
                              manakinMolecular$ada.nSamples);
 mknAdaAmodel <-
   hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
+mknAdaAmodel <-
+  hzar.model.addBoxReq(mknAdaAmodel, -30, 600)
 mknAdaAmodelFit <-
-   hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
-                                mknAdaA,
-                                verbose=FALSE);
-mknAdaAmodelFit$mcmcParam$chainLength <- 2e3;
-mknAdaAmodelFit$mcmcParam$burnin <- 1e2;
-mknAdaAmodelFit$mcmcParam$thin <- 50;
+  hzar.first.fitRequest.old.ML(model=mknAdaAmodel ,
+                               mknAdaA,
+                               verbose=FALSE);
+mknAdaAmodelFit$mcmcParam$chainLength <- 1e3;
+mknAdaAmodelFit$mcmcParam$burnin <- 50;
+mknAdaAmodelFit$mcmcParam$thin <- 10;
 str(hzar.chain.doSeq(mknAdaAmodelFit, count=2));
 
 }

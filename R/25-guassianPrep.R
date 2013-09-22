@@ -214,7 +214,7 @@ hzar.makeCline1DNormal <- function(data,tails="none"){
     model$mu=mV$muExp
     model$var=mV$vExp
     model$args=gCA$left
-    model=hzar:::model.addReqClause(model,
+    model=model.addReqClause(model,
       quote((deltaL>0)&(tauL>=0)&(tauL<=1)))
     attr(model,"tails")<-"left";
   }else if(identical(tolower(tails),"right")){
@@ -224,7 +224,7 @@ hzar.makeCline1DNormal <- function(data,tails="none"){
     model$mu=mV$muExp
     model$var=mV$vExp
     model$args=gCA$right
-    model=hzar:::model.addReqClause(model,
+    model=model.addReqClause(model,
       quote((deltaR>0)&(tauR>=0)&(tauR<=1)))
     attr(model,"tails")<-"right";
 
@@ -239,9 +239,9 @@ mV <- step1VGExpF(quote(x < center  - deltaL),
     model$mu=mV$muExp
     model$var=mV$vExp
     model$args=gCA$both
-    model=hzar:::model.addReqClause(model,
+    model=model.addReqClause(model,
       quote((deltaL>0)&(tauL>=0)&(tauL<=1)))
-    model=hzar:::model.addReqClause(model,
+    model=model.addReqClause(model,
       quote((deltaR>0)&(tauR>=0)&(tauR<=1)))
     attr(model,"tails")<-"both";
 
@@ -257,7 +257,7 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
     model$var=mV$vExp
     model$args=gCA$mirror
     
-    model=hzar:::model.addReqClause(model,
+    model=model.addReqClause(model,
       quote((deltaM>0)&(tauM>=0)&(tauM<=1)))
     attr(model,"tails")<-"mirror";
 

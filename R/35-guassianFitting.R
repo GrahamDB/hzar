@@ -372,9 +372,9 @@ naiveHessian <- function(theta,zF,k=0.05){
 
 hzar.first.fitRequest.gC <- function(gModel,obsData,verbose=TRUE){
   if (verbose) {
-    mcmcParam <- hzar:::cfg.hzar.default.mcmc
+    mcmcParam <- cfg.hzar.default.mcmc
   } else {
-    mcmcParam <- hzar:::cfg.hzar.quiet.mcmc
+    mcmcParam <- cfg.hzar.quiet.mcmc
   }
   modelParam <- splitParameters(gModel$parameterTypes);
   

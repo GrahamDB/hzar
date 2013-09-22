@@ -106,20 +106,20 @@ profile.model <- function(parent.model, parameter,fixed.value){
   if(length(fixed.value)>1)
     return(lapply(fixed.value,profile.model,parent.model=parent.model,parameter=parameter))
   res=parent.model
-  hzar:::meta.init(res)[[parameter]] <- fixed.value
-  hzar:::meta.fix(res)[[parameter]] <- TRUE
-  hzar:::meta.tune(res) <- 1.1
+  meta.init(res)[[parameter]] <- fixed.value
+  meta.fix(res)[[parameter]] <- TRUE
+  meta.tune(res) <- 1.1
   res
 }
 
 
 profile.fitRequest <- function(model,obsData, old.mcmc, mcmcParam =hzar.make.mcmcParam(1e5,1e4,5e4,100) ){
  ##print(summary(old.mcmc)) 
-  mdlParam<-hzar:::splitParameters(model$parameterTypes);
+  mdlParam<-splitParameters(model$parameterTypes);
   if(inherits(obsData,"guassSampleData1D")){
-    clineLLfunc <- hzar:::g.LLfunc(obsData, model,modelParam=mdlParam)
+    clineLLfunc <- g.LLfunc(obsData, model,modelParam=mdlParam)
   }else if(inherits(obsData,"clineSampleData1D")){
-    clineLLfunc <- hzar:::freq.LLfunc(obsData,model,mdlParam$init,mdlParam$fixed)
+    clineLLfunc <- freq.LLfunc(obsData,model,mdlParam$init,mdlParam$fixed)
   } else {
     stop(paste("Failed to process obsData class: <",paste(class(obsData),collapse=", "),">"))
   }
@@ -173,8 +173,8 @@ profile.fitRequest <- function(model,obsData, old.mcmc, mcmcParam =hzar.make.mcm
       },silent=TRUE)
     }
     if(is.null(covMatrix)){
-      try({ junk <-  solve(-hzar:::naiveHessian(mdlParam$init,clineLLfunc));
-            junk <- hzar:::appHScale(junk,mdlParam$lower, mdlParam$upper);
+      try({ junk <-  solve(-naiveHessian(mdlParam$init,clineLLfunc));
+            junk <- appHScale(junk,mdlParam$lower, mdlParam$upper);
             if(all(diag(junk)>0)){
               chol(junk);
               covMatrix <- junk;}
@@ -182,7 +182,7 @@ profile.fitRequest <- function(model,obsData, old.mcmc, mcmcParam =hzar.make.mcm
     }
     if(is.null(covMatrix)){
       try({
-        junk <- hzar:::appThetaWalkerR(mdlParam$init,
+        junk <- appThetaWalkerR(mdlParam$init,
                                 clineLLfunc,
                                 mdlParam$lower, 
                                 mdlParam$upper, random = 1000,
@@ -230,7 +230,7 @@ hzar.profile.dataGroup <- function(dG, parameter,
   
   
   ##Get parent model
-  parent.model <- hzar:::cline.extract.modelPrep(dG)$model
+  parent.model <- cline.extract.modelPrep(dG)$model
   
   obsData <- hzar.extract.obsData(dG)
 
@@ -245,11 +245,11 @@ hzar.profile.dataGroup <- function(dG, parameter,
   exec <- expression({
     temp.model <- profile.model(parent.model,parameter,param.val)
     ##Get non-profile parameters
-    param.fixed <- as.logical(hzar:::meta.fix(temp.model))
+    param.fixed <- as.logical(meta.fix(temp.model))
     param.names <- names(param.fixed)[!param.fixed]
  
     param.init <- mcmc.subset[which.max(mcmc.subset$model.LL),param.names,drop=FALSE]
-    for(tk in param.names)hzar:::meta.init(temp.model)[[tk]] <- param.init[1,tk]
+    for(tk in param.names)meta.init(temp.model)[[tk]] <- param.init[1,tk]
 
     profile.fitRequest(temp.model,obsData,mcmc.subset)
   })

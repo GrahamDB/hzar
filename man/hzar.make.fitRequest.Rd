@@ -15,7 +15,13 @@
   generating hzar.fitRequest objects.
 }
 \usage{
-hzar.make.fitRequest(modelParameters, covMatrix, clineLLfunc, mcmcParameters, mcmcRaw = NULL, fit.run = FALSE, fit.success = FALSE)
+hzar.make.fitRequest(modelParameters,
+                     covMatrix,
+                     clineLLfunc,
+                     mcmcParameters,
+                     mcmcRaw = NULL,
+                     fit.run = FALSE,
+                     fit.success = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
