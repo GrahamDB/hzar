@@ -1,8 +1,8 @@
 Package: hzar
 Type: Package
 Title: Hybrid Zone Analysis using R
-Version: 0.2-5
-Date: 2013-09-02
+Version: 0.2-6
+Date: 2013-09-30
 Author: Graham Derryberry
 Maintainer: Graham Derryberry <asterion@alum.mit.edu>
 Description: A collection of tools for modeling the shape of 1 dimensional clines.
