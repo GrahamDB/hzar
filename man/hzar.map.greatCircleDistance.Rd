@@ -67,7 +67,7 @@ hzar.map.greatCircleDistance(lat1, long1, lat2, long2, units = "Km", degrees = T
   The great circle distance between points 1 and 2.
 }
 \references{
-  Lambert formula, published on the web somewhere.
+  Lambert, W. D. 1942. The distance between two widely separated points on the surface of the earth. J. Washington Academy of Sciences 32 (5): 125-130.
 }
 \author{
   Graham Derryberry \email{asterion@alum.mit.edu}
