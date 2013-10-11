@@ -97,11 +97,11 @@ hzar.doCLTData1DRaw<-function(distance,traitValue){
     group.var<-group.var+m.err*m.err;
   
   
-  }
-  return(data.frame(dist=dist.group,
-                    mu=group.mean,
-                    sigma2=group.var,
-                    nSamp=group.nSamp));
+  }                                     #(distance,muObs,varObs,nEff)
+  return(hzar.doCLTData1DPops(distance=dist.group,
+                    muObs=group.mean,
+                    varObs=group.var,
+                    nEff=group.nSamp));
 }
 
 cline.meta.CLTnA =

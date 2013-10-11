@@ -115,7 +115,11 @@ Szymura, J., and N. H. Barton. 1991. The genetic structure of the hybrid zone be
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{hzar.obsData}}
+  \code{\link{hzar.obsData}} Locality based observed data.
+  \code{\link{hzar.doNormalData1DRaw}} Individual observed data.
+  \code{\link{hzar.doMorphoSets}} Bernouilli transformed individual observed data.
+  
+  \code{\link{hzar.model.addBoxReq}} Adding model requirements.
   \code{\link{hzar.first.fitRequest.old.ML}}
   \code{\link{hzar.first.fitRequest.gC}}
 }
@@ -125,9 +129,73 @@ mknAdaA <-
   hzar.doMolecularData1DPops(manakinMolecular$distance,
                              manakinMolecular$ada.A,
                              manakinMolecular$ada.nSamples);
-mknAdaAmodel <-
+mknAdaAm <-
   hzar.makeCline1DFreq(mknAdaA, scaling="fixed",tails="none");
-str(mknAdaAmodel);
+str(mknAdaAm);
+## compile using this method:
+mknAdaAFR <-
+hzar.first.fitRequest.old.ML(model=mknAdaAm, obsData=mknAdaA)
+hzar.plot.cline(mknAdaAFR)
+
+data(manakinMorphological)
+data(manakinLocations)
+mknCCbt <-
+  hzar.doMorphoSets("collar.color",
+                    tDist=manakinLocations,
+                    tDLocCol="LocalityID",
+                    tDDistCol="distance",
+                    tValues=manakinMorphological,
+                    tVLocCol="Locality")$collar.color
+mknCCbtM <-
+  hzar.makeCline1DFreq(mknCCbt, scaling="fixed",tails="none");
+str(mknCCbt);
+## compile using this method:
+mknCCbtFR <-
+  hzar.first.fitRequest.old.ML(model=mknCCbtM, obsData=mknCCbt)
+hzar.plot.cline(mknCCbtFR)
+
+data(manakinMorphological);
+data(manakinLocations);
+mknBLg <-
+  hzar.doNormalData1DRaw(
+    hzar.mapSiteDist(siteID=manakinLocations$LocalityID,
+                     distance=manakinLocations$distance),
+    traitSite=manakinMorphological$Locality,
+    traitValue=manakinMorphological$beard.length)
+hzar.plot.obsData(mknBLg)
+mknBLgM <-
+  hzar.makeCline1DNormal(mknBLg, tails="none");
+
+## Emulate scaling="fixed"
+
+hzar.meta.fix(mknBLgM)$muL <- TRUE
+hzar.meta.fix(mknBLgM)$muR <- TRUE
+## Use variance of site at the left (site A) and right (site L). 
+hzar.meta.init(mknBLgM)$varL<-mknBLg$frame["A","var"]
+hzar.meta.init(mknBLgM)$varR<-mknBLg$frame["L","var"]
+hzar.meta.fix(mknBLgM)$varL <- TRUE
+hzar.meta.fix(mknBLgM)$varR <- TRUE
+
+## compile using this method:
+mknBLgFR <- hzar.first.fitRequest.gC(gModel=mknBLgM, obsData=mknBLg)
+hzar.plot.cline(mknBLgFR)
+
+data(manakinMorphological);
+data(manakinLocations);
+bcD=manakinLocations[manakinMorphological$Locality,
+                     "distance"]
+bcV=manakinMorphological$belly.color
+bcV=bcV[!is.na(bcD)];bcD=bcD[!is.na(bcD)];
+bcD=bcD[!is.na(bcV)];bcV=bcV[!is.na(bcV)];
+mknBCclt <-
+  hzar.doCLTData1DRaw( distance=bcD,traitValue=bcV)
+\dontrun{
+hzar.plot.obsData(mknBCclt)
+}
+mknBCcltM <-
+  hzar.makeCline1DCLT(mknBCclt, scaling="free", tails="none");
+
+
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
