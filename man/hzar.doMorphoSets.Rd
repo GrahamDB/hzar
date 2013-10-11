@@ -74,6 +74,22 @@ mkn <-
                     tVLocCol="Locality")
 print(str(mkn));
 hzar.plot.obsData(mkn$beard.length);
+mknBLModel <-
+  hzar.makeCline1DFreq(mkn$beard.length, scaling="fixed",tails="none");
+mknBLModel <-
+  hzar.model.addBoxReq(mknBLModel,-30,600);
+\dontrun{
+mknBLFitR <-
+   hzar.first.fitRequest.old.ML(model=mknBLModel ,
+                                mkn$beard.length,
+                                verbose=FALSE);
+mknBLFit <- hzar.doFit(mknBLFitR)
+plot(hzar.mcmc.bindLL(mknBLFit))
+mknBLData <-
+  hzar.dataGroup.add(mknBLFit);
+print(hzar.getLLCutParam(mknBLData,c("center","width")));
+
+}
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.
