@@ -2,6 +2,13 @@
 hzar.make.LLfunc.null <- function (obsData,
     model.LL=obsData$model.LL, LLrejectedModel = -1e+08) 
 {
+
+    if(!inherits(obsData,"clineSampleData1D"))
+        stop("Null model for normal data not yet implemented.")
+    if(inherits(obsData,"clineSampleData1DCLT"))
+        stop("Null model for CLT data not yet implemented.")
+    if(!inherits(obsData,"clineSampleData1D"))
+        stop("Observed data of unknown type.")
     model.req <- function(pVal) { return(all(pVal<1,pVal>0));}
     model.gen <- function(pVal) { res <- substitute(function(x) rep(p,length(x)), list(p=pVal));
                                   return(eval(res));}
