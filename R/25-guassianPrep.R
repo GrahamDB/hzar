@@ -38,10 +38,11 @@ hzar.doNormalData1DRaw <- function(site.dist,traitSite,traitValue){
   tV <- lapply(index,function(x) na.omit(traitValue[traitSite==x]))
   ## tmp <- (sapply(tV,length)>0)
   ## index <- index[tmp]; tV <- tV[tmp];site.dist <- site.dist[tmp]
+  myVar <- function(x) sum((x-mean(x))^2)/length(x)
   obs.g.summary(siteID=index,
               distance=site.dist,
               muObs=sapply(tV,mean),
-              varObs=sapply(tV,var),
+              varObs=sapply(tV,myVar),
               nEff=sapply(tV,length),
                 ylim=extendrange(c(min(na.omit(traitValue)),
                        max(na.omit(traitValue))))
