@@ -1,8 +1,8 @@
 Package: hzar
 Type: Package
 Title: Hybrid Zone Analysis using R
-Version: 0.2-8
-Date: 2019-03-11
+Version: 0.2-9
+Date: 2019-10-23
 Authors@R: person("Graham", "Derryberry", email = "asterion@alum.mit.edu",
                   role = c("aut", "cre"))
 URL: https://github.com/GrahamDB/hzar/
@@ -10,4 +10,4 @@ BugReports: https://github.com/GrahamDB/hzar/issues
 Description: A collection of tools for modeling the shape of 1 dimensional clines.
 License: GPL (>= 2)
 LazyLoad: yes
-Depends: R (>= 2.10.0), MCMCpack, foreach, coda
+Depends: R (>= 2.10.0), MCMCpack, foreach, coda, lattice

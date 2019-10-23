@@ -196,7 +196,7 @@ hzar.makeCline1DNormal <- function(data,tails="none"){
                 
                 args=alist(),
                 req=function(varL,varR,varH,width)
-                  return((width>0)&(varL>0)&(varR>0)&(varH>0)),
+                  return((width>0)&(varL>=0)&(varR>=0)&(varH>0)),
                 mFunc=function()0,
                 vFunc=function()0,
                 init=list())
@@ -296,11 +296,11 @@ mV <- step1VGExpF(quote(x < center  - deltaM),
 ##   attr(model$parameterTypes$muL,"limit.upper") <- data$ylim[[2]]#model$init$muL+sqrt(muVarL)
 ##   attr(model$parameterTypes$muR,"limit.lower") <- data$ylim[[1]]#model$init$muR-sqrt(muVarR)
 ##   attr(model$parameterTypes$muR,"limit.upper") <- data$ylim[[2]]#model$init$muR+sqrt(muVarR)
-  meta.lower(model)$varL<- min(model$init$varL/100,1e-8)
+  meta.lower(model)$varL<- min(model$init$varL/100,0)
   meta.upper(model)$varL<- max(model$init$varL*1e4,1e8)
   meta.lower(model)$varH<- min(model$init$varH/100,1e-8)# model$init$varH/100
   meta.upper(model)$varH<- max(model$init$varH*1e4,1e8)
-  meta.lower(model)$varR<-  min(model$init$varR/100,1e-8)#model$init$varR/100
+  meta.lower(model)$varR<-  min(model$init$varR/100,0)#model$init$varR/100
   meta.upper(model)$varR<- max(model$init$varR*1e4,1e8)
   model
 }

@@ -3,3 +3,12 @@ S3method(print,clineParameter)
 
 S3method(print,clineMetaModel)
 S3method(print,hzar.fitRequest)
+importFrom("grDevices", "extendrange")
+importFrom("graphics", "curve", "lines", "par", "plot", "points",
+           "polygon")
+importFrom("stats", "cov.wt", "dt", "median", "na.omit", "quantile",
+           "runif", "start", "var")
+importFrom("lattice", "equal.count")
+importFrom("foreach", "foreach", "%do%", "%dopar%")
+importFrom("MCMCpack", "MCMCmetrop1R")
+importFrom("coda", "as.mcmc", "mcmc", "thin")
