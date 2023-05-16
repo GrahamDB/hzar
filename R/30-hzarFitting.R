@@ -8,7 +8,7 @@ splitParameters<-function(paramList){
   param.free.lower =list();
   param.free.upper =list();
   for(iter in seq(along=paramList)){
-    if(class(paramList[[iter]])!="clineParameter")
+    if (!inherits(paramList[[iter]], "clineParameter"))
       stop(paste("Item",paramList[[iter]],"not a cline parameter!"));
     parName<-attr(paramList[[iter]],"param");
     parValue<-paramList[[iter]]$val;

@@ -11,4 +11,4 @@ importFrom("stats", "cov.wt", "dt", "median", "na.omit", "quantile",
 importFrom("lattice", "equal.count")
 importFrom("foreach", "foreach", "%do%", "%dopar%")
 importFrom("MCMCpack", "MCMCmetrop1R")
-importFrom("coda", "as.mcmc", "mcmc", "thin")
+importFrom("coda", "as.mcmc", "mcmc", "thin", "mcmc.list")
